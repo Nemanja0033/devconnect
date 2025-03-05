@@ -39,3 +39,25 @@ export async function POST(req: Request){
         return NextResponse.json({error: err}, {status: 500});
     }
 }
+
+// PUT method for users
+export async function PUT(req: Request) {
+    try{
+        const body = await req.json();
+        const { id, name, email } = body;
+
+        if(!id){ // checking if no ID
+            return NextResponse.json({error: "User id is required"}, {status: 400});
+        }
+
+        const user = await db.user.update({ // updating user via prisma methods
+            where: { id },
+            data: {email, name}
+        });
+        
+        return NextResponse.json(user, { status: 200});
+    }
+    catch(err){
+        return NextResponse.json({error: err}, { status: 500});
+    }
+}
