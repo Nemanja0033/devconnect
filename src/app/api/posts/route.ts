@@ -5,7 +5,10 @@ import { NextRequest } from "next/server";
 // GET method for posts
 export async function GET() {
     try{
-        const posts = await db.post.findMany();
+        const posts = await db.post.findMany({
+            include: { author: true},
+            orderBy: { createdAt: "desc"},
+        });
         return NextResponse.json(posts, { status: 200})
     }
     catch(err) {    
