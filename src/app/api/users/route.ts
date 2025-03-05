@@ -14,28 +14,27 @@ export async function GET(){ // get method for users
 };
 
 // POST method for users
-export async function POST(req: Request){
-    try{
+export async function POST(req: Request) {
+    try {
         const body = await req.json();
-        const { name, email, password } = body; // destructuring from request body
-        
-        const userExist = await db.user.findUnique({ where: { email }}); // store boolean if user exists or not
+        const { name, email, password } = body;
+
+        if (!name || !email || !password) {
+            return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+        }
+
+        const userExist = await db.user.findUnique({ where: { email } });
+
+        if (userExist) {
+            return NextResponse.json({ error: "User already exists!" }, { status: 409 });
+        }
 
         const user = await db.user.create({
-            data: {name, email, password}
+            data: { name, email, password }
         });
-        
-        if(!name || !email || !password){ // if uset not pass a params
-            return NextResponse.json({ error: 'All fields are requierd'}, { status: 400 });
-        }
 
-        if(userExist) { // check if user exists
-            return NextResponse.json({error: 'User already exists!'}, { status: 409});
-        }
-
-        return user; // returning user if everything is ok
-    }
-    catch(err) {
-        return NextResponse.json({error: err}, {status: 500});
+        return NextResponse.json(user, { status: 201 });
+    } catch (err) {
+        return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
 }
