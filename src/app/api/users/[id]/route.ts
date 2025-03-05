@@ -25,14 +25,15 @@ export async function PUT(req: Request, { params }: { params: {id: string}}) {
     try{
         const body = await req.json();
         const { name, email } = body;
-        const updatedUser = await db.user.update({
-            where: {id: params.id },
-            data: { name, email }
-        });
 
         if(!name || !email){
             return NextResponse.json({error: "All fields are required"}, { status: 500});
         }
+
+        const updatedUser = await db.user.update({
+            where: {id: params.id },
+            data: { name, email }
+        });
 
         return NextResponse.json({message: "User updated!"}, {status: 200});
     }
@@ -42,19 +43,18 @@ export async function PUT(req: Request, { params }: { params: {id: string}}) {
 }
 
 // DELETE single user
-export async function DELETE(req: Request, { params }: { params: { id: string}}){
-    try{
-        const id = params.id;
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+    try {
+        const user = await db.user.findUnique({ where: { id: params.id } });
 
-        if(!id){
-            return NextResponse.json({error: "User id is required"}, {status: 400});
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
-        await db.user.delete({where: {id}}) // delete user
-        
-        return NextResponse.json({message: "User deleted!"}, { status: 200});
-    }
-    catch(err){
-        return NextResponse.json({error: err}, { status: 500})
+        await db.user.delete({ where: { id: params.id } });
+
+        return NextResponse.json({ message: "User deleted!" }, { status: 200 });
+    } catch (err) {
+        return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
 }
