@@ -72,12 +72,9 @@ export async function DELETE(req: Request){
             return NextResponse.json({error: "User id is required"}, {status: 400});
         }
 
-        const user = await db.user.update({
-            where: { id },
-            data: {email, name}
-        });
+        await db.user.delete({where: {id}}) // delete user
         
-        return NextResponse.json(user, { status: 200});
+        return NextResponse.json({message: "User deleted!"}, { status: 200});
     }
     catch(err){
         return NextResponse.json({error: err}, { status: 500})
