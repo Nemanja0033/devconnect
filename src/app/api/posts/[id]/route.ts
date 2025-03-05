@@ -3,6 +3,7 @@
 import { db } from "@/db/db";
 import { NextResponse } from "next/server";
 
+// GET uniqe post
 export async function GET(req: Request, { params }: { params: { id: string}}){
     try{
         const post = await db.post.findUnique({
@@ -18,5 +19,22 @@ export async function GET(req: Request, { params }: { params: { id: string}}){
     }
     catch(err){
         return NextResponse.json({ error: err}, { status: 500});
+    }
+}
+
+// Update post endpoint
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+    try {
+        const body = await req.json();
+        const { title, content } = body;
+
+        const updatedPost = await db.post.update({
+            where: { id: params.id },
+            data: { title, content },
+        });
+
+        return NextResponse.json(updatedPost, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "Greška prilikom ažuriranja posta" }, { status: 500 });
     }
 }
