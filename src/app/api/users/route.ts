@@ -61,3 +61,25 @@ export async function PUT(req: Request) {
         return NextResponse.json({error: err}, { status: 500});
     }
 }
+
+// DELETE method for users
+export async function DELETE(req: Request){
+    try{
+        const body = await req.json();
+        const { id, name, email } = body;
+
+        if(!id){
+            return NextResponse.json({error: "User id is required"}, {status: 400});
+        }
+
+        const user = await db.user.update({
+            where: { id },
+            data: {email, name}
+        });
+        
+        return NextResponse.json(user, { status: 200});
+    }
+    catch(err){
+        return NextResponse.json({error: err}, { status: 500})
+    }
+}
