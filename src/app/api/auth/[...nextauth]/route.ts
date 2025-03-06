@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "@/db/db";
-import { compare } from "bcrypt"
+import { db } from "@/db/db"; 
+import { compare } from "bcrypt"; 
 
 export const authOptions: any = {
     providers: [
@@ -21,13 +21,13 @@ export const authOptions: any = {
                 });
 
                 if (!user) {
-                    throw new Error("Invalid credentials"); //if user not found
+                    throw new Error("Invalid credentials");
                 }
 
                 const isPasswordValid = await compare(credentials.password, user.password);
 
                 if (!isPasswordValid) {
-                    throw new Error("Invalid credentials"); // if password is not valid thorw this err
+                    throw new Error("Invalid credentials");
                 }
 
                 return { id: user.id, name: user.name, email: user.email };
@@ -37,9 +37,9 @@ export const authOptions: any = {
     session: {
         strategy: "jwt",
     },
-    secret: process.env.NEXTAUTH_SECRET, 
+    secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: "/login", // redirect to login page
+        signIn: "/login", 
     },
 };
 
