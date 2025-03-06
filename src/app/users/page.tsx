@@ -43,7 +43,7 @@ export default function UsersPage() {
 
   // DELETE - Delete user
   const deleteUser = async (id: string) => {
-    await fetch("/api/users", {
+    await fetch(`/api/users/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
