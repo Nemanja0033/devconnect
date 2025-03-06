@@ -1,7 +1,6 @@
 import { db } from "@/db/db";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 // GET method for posts
