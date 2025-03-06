@@ -1,6 +1,8 @@
 import { db } from "@/db/db";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 // GET method for posts
 export async function GET() {
@@ -18,6 +20,11 @@ export async function GET() {
 // POST method for posts
 export async function POST(req: Request){
     try{
+        const session = await getServerSession(authOptions);
+        if(!session){
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401});
+        }
+        
         const body = await req.json();
         const { title, content, authorId } = body;
         const newPost = await db.post.create({
