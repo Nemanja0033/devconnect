@@ -1,10 +1,13 @@
 "use client";
 
+import { db } from "@/db/db";
+import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
+  const { data: session} = useSession();
 
   // Fetch posts on page load
   useEffect(() => {
@@ -21,6 +24,7 @@ export default function PostsPage() {
     }
   };
 
+
   const createPost = async () => {
     try {
       const res = await fetch("/api/posts", {
@@ -29,7 +33,7 @@ export default function PostsPage() {
         body: JSON.stringify({
           title: newPost.title,
           content: newPost.content,
-          authorId: "test-user-id", // Ovde ide ID ulogovanog korisnika
+          authorId: "607c5fa6-1630-4f2b-af1f-d3c29e89b593"  // Ovde ide ID ulogovanog korisnika
         }),
       });
 

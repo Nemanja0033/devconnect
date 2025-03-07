@@ -16,6 +16,10 @@ model User {
   password  String
   posts     Post[]
   createdAt DateTime @default(now())
+
+  Comment Comment[]
+
+  Like Like[]
 }
 
 //model for posts
@@ -26,5 +30,32 @@ model Post {
   content   String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
+  createdAt DateTime @default(now())
+
+  Comment Comment[]
+
+  Like Like[]
+}
+
+// model for comments
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+// model for likes
+
+model Like {  
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
 }
