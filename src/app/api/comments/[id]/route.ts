@@ -41,7 +41,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string}})
             return NextResponse.json({error: "Comment not found"});
         }
 
-        if(comment.authorId !== session?.user.id){
+        if(comment.authorId !== session?.user.id){ // checking if user is author of comment
             return NextResponse.json({error: "Can only delete your own comments"}, { status: 403});
         }
 
