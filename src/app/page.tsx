@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-    const { data: session, status } = useSession();
+    const { data: session, status }: any = useSession();
     const router = useRouter();
 
     // useEffect(() => {
@@ -13,6 +13,17 @@ export default function Home() {
     //         router.push("/login");
     //     }
     // }, [status]);
+    
+
+    useEffect(() => {
+        async function testApi() {
+            const res = await fetch("http://localhost:3000/api/test");
+            const id = await res.json()
+            console.log(id)
+        }
+
+        testApi();
+    }, [])
 
     if (status === "loading") {
         return <p>Loading...</p>;

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "@/db/db"; 
-import { compare } from "bcrypt"; 
+import { db } from "@/db/db";
+import { compare } from "bcrypt";
 
 export const authOptions: any = {
     providers: [
@@ -30,7 +30,7 @@ export const authOptions: any = {
                     throw new Error("Invalid credentials");
                 }
 
-                return { id: user.id, name: user.name, email: user.email };
+                return { id: user.id, name: user.name, email: user.email }; // ID korisnika je sada uključen
             },
         }),
     ],
@@ -39,7 +39,21 @@ export const authOptions: any = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: "/login", 
+        signIn: "/login",
+    },
+    callbacks: {
+        async jwt({ token, user }: any) {
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+        async session({ session, token }: any) {
+            if (session.user) {
+                session.user.id = token.id; 
+            }
+            return session;
+        },
     },
 };
 
