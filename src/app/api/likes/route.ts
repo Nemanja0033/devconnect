@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
         }
 
-        // Proveravamo da li je korisnik već lajkovao post
         const existingLike = await db.like.findFirst({
             where: {
                 postId,
@@ -48,7 +47,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "You have already liked this post" }, { status: 400 });
         }
 
-        // Dodavanje lajka
         const like = await db.like.create({
             data: {
                 postId,

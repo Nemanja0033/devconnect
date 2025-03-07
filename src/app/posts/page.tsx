@@ -1,13 +1,14 @@
 "use client";
-
-import { db } from "@/db/db";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
-  const { data: session} = useSession();
+  const { data: session } = useSession();
+  const [comments, setComments] = useState<{ [key: string]: string }>({}); // Objekat za komentare
+  const [isLiked, setIsLiked] = useState(false);
 
   // Fetch posts on page load
   useEffect(() => {
@@ -24,7 +25,6 @@ export default function PostsPage() {
     }
   };
 
-
   const createPost = async () => {
     try {
       const res = await fetch("/api/posts", {
@@ -33,7 +33,7 @@ export default function PostsPage() {
         body: JSON.stringify({
           title: newPost.title,
           content: newPost.content,
-          authorId: "607c5fa6-1630-4f2b-af1f-d3c29e89b593"  // Ovde ide ID ulogovanog korisnika
+          authorId: "607c5fa6-1630-4f2b-af1f-d3c29e89b593", // ID ulogovanog korisnika
         }),
       });
 
@@ -53,6 +53,52 @@ export default function PostsPage() {
       console.error("Error deleting post:", error);
     }
   };
+
+  const handleCommentChange = (postId: string, value: string) => {
+    setComments((prev) => ({ ...prev, [postId]: value }));
+  };
+
+  const handleComment = async (postId: string) => {
+    if (!comments[postId]) return alert("Unesite komentar!");
+
+    try {
+      await fetch("api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          postId,
+          content: comments[postId],
+        }),
+      });
+
+      setComments((prev) => ({ ...prev, [postId]: "" })); // Resetuj input za taj post
+      alert("Komentar dodat!");
+    } catch (error) {
+      console.error("Greška pri dodavanju komentara:", error);
+    }
+  };
+
+  const handleLike = async (postId: string) => {
+    setIsLiked(true);
+    await fetch('/api/likes', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postId: postId,
+      })
+    })
+  }
+
+  const handleUnlike = async (postId: string) => {
+    setIsLiked(false);
+    await fetch('api/likes', {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        postId: postId
+      })
+    })
+  }
 
   return (
     <div className="p-6">
@@ -87,12 +133,29 @@ export default function PostsPage() {
             <div key={post.id} className="border p-4 my-2 rounded">
               <h2 className="text-xl font-semibold">{post.title}</h2>
               <p>{post.content}</p>
+              <Link href={`/post/${post.id}`}>Otvori</Link>
               <button
                 onClick={() => deletePost(post.id)}
                 className="bg-red-500 text-white px-3 py-1 rounded mt-2"
               >
                 Obriši
               </button>
+
+              {/* Input za komentar */}
+              <input
+                type="text"
+                placeholder="Dodaj komentar"
+                value={comments[post.id] || ""}
+                onChange={(e) => handleCommentChange(post.id, e.target.value)}
+                className="border p-2 w-full mt-2"
+              />
+              <button
+                onClick={() => handleComment(post.id)}
+                className="bg-green-500 text-white px-3 py-1 rounded mt-2"
+              >
+                Dodaj Komentar
+              </button>
+              <button onClick={!isLiked ? () => handleLike(post.id) : () => handleUnlike(post.id)}>{isLiked ? "Like" : "Unlike"}</button>
             </div>
           ))
         )}
