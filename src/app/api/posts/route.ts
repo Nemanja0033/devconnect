@@ -3,40 +3,28 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 
-// GET method for posts
-export async function GET() {
-    try{
-        const posts = await db.post.findMany({
-            include: { author: true},
-            orderBy: { createdAt: "desc"},
-        });
-        return NextResponse.json(posts, { status: 200})
-    }
-    catch(err) {    
-        return NextResponse.json(err, { status: 500});
-    }
-}
-// POST method for posts
-export async function POST(req: Request){
-    try{
-        const session = await getServerSession(authOptions);
-        if(!session){
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401});
+export async function POST(req: Request) {
+    try {
+        const session: any = await getServerSession(authOptions);
+
+        if (!session) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
-        
-        const body = await req.json();
-        const { title, content, authorId, img } = body;
+
+        const { title, content, img } = await req.json();
+        const authorId = session.user.id; // Postavljamo authorId iz sesije
+
+        // Prvo proveravamo da li su sva polja popunjena
+        if (!title || !content || !img) {
+            return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
+        }
+
         const newPost = await db.post.create({
             data: { title, content, authorId, img },
         });
 
-        if(!title || !content || !authorId || !img){
-            return NextResponse.json({error: "All fields are required!"}, {status: 400});
-        }
-
-        return NextResponse.json(newPost, {status: 201});
-    }
-    catch(err){
-        return NextResponse.json({error: err}, { status: 500});
+        return NextResponse.json(newPost, { status: 201 });
+    } catch (err) {
+        return NextResponse.json({ error: "Something went wrong!", details: err }, { status: 500 });
     }
 }
