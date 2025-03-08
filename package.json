@@ -22,7 +22,8 @@
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tinymce": "^7.7.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

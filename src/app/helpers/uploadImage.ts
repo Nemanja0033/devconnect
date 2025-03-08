@@ -4,7 +4,7 @@ import axios from "axios";
 export const uploadToCloud = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'car_ads_images');
+    formData.append('upload_preset', 'post_images');
     
     try {
         const response = await axios.post(
