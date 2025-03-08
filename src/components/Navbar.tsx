@@ -2,15 +2,14 @@
 import { useSession } from "next-auth/react"
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { Newspaper } from "lucide-react";
 
 const Navbar = () => {
     const { status } = useSession();
-    const router = useRouter();
 
     const handleSignOut = async () => {
         await signOut();
-        router.push('/login');
+        location.href = '/login';
     }
 
   return (
@@ -25,7 +24,7 @@ const Navbar = () => {
                 status === 'authenticated' ?
                 (
                     <div className="gap-2 flex">
-                    <button className="bg-pink-500 hover:bg-pink-600 transition-all rounded-2xl p-2 text-white font-semibold cursor-pointer">Create a post +</button>
+                    <button className="bg-slate-500 hover:bg-purple-800 transition-all rounded-2xl flex items-center gap-1 p-2 text-white font-semibold cursor-pointer">Create a post <Newspaper size={18} /></button>
                     <button onClick={handleSignOut} className="bg-purple-800 hover:bg-purple-900 transition-all rounded-2xl p-2 text-white font-semibold cursor-pointer">Sign Out</button>
                     </div>
                 )
