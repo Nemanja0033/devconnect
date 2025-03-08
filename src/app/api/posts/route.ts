@@ -25,9 +25,9 @@ export async function POST(req: Request){
         }
         
         const body = await req.json();
-        const { title, content, authorId } = body;
+        const { title, content, authorId, img } = body;
         const newPost = await db.post.create({
-            data: { title, content, authorId },
+            data: { title, content, authorId, img },
         });
 
         if(!title || !content || !authorId){
