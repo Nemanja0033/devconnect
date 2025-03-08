@@ -11,11 +11,9 @@ export default function FeedLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
       <body>
         <Navbar />
         {children}
       </body>
-    </html>
   )
 }

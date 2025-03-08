@@ -30,7 +30,7 @@ const CreatePostPage = () => {
     }
   return (
     <div className="w-full h-screen flex justify-center lg:px-40 px-5">
-        <section className="lg:w-1/2 w-full flex-row px-5 mt-12">
+        <section className="lg:w-1/2 w-full shadow-md border border-gray-300 py-5 h-auto rounded-md flex-row px-5 mt-12">
             <input name="title" onChange={handleChange} className="w-full px-5 h-10 border rounded-2xl border-gray-300" placeholder="Post Title. . ." type="text" />
             <div className="flex items-center">
                 <Image className="relative top-2 text-purple-900" size={30}/>
@@ -40,7 +40,8 @@ const CreatePostPage = () => {
                         onChange={handleFileUpload}
                         />
             </div>
-            <textarea name="content" onChange={handleChange} placeholder="Post Content. . ." className="w-full mt-3 px-5 min-h-64 max-h-96 rounded-2xl border border-gray-300"></textarea>
+            <textarea name="content" onChange={handleChange} placeholder="Post Content. . ." className="w-full mt-3 px-5 min-h-64 max-h-64 rounded-2xl border border-gray-300"></textarea>
+            <button className="bg-purple-800 w-full hover:bg-purple-900 transition-all rounded-2xl p-2 mt-3 text-white font-semibold cursor-pointer">Submit Post</button>
         </section>
     </div>
   )

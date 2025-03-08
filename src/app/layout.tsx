@@ -9,10 +9,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <SessionProvider>
-      <html lang="en">
-      <body>{children}</body>
+    <html lang="en">
+      <SessionProvider>
+        <body>{children}</body>
+      </SessionProvider>
     </html>
-    </SessionProvider>
   )
 }
