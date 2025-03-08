@@ -8,7 +8,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return <SessionProvider>
             <html>
                 <body>
-                    <Navbar />
                     {children}
                 </body>
             </html>
