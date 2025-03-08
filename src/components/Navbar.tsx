@@ -1,26 +1,29 @@
 "use client"
 import { useSession } from "next-auth/react"
+import Link from "next/link";
 
 const Navbar = () => {
     const { status } = useSession();
 
   return (
-    <header className="w-full h-[60px] shadow-md rounded-md flex justify-between items-center">
+    <header className="w-full h-[60px] shadow-md rounded-md flex lg:px-40 px-5 justify-between items-center">
         <div>
-            <img src="/logo.png" className="w-32 h-auto" alt="" />
+            <Link href={'/'}>
+                <img src="/logo.png" className="w-32 relative top-1 h-auto" alt="" />
+            </Link>
         </div>
         <nav className="flex items-center justify-around">
             {
                 status === 'authenticated' ?
                 (
                     <>
-                    <button>Create a post</button>
-                    <button>Sign Out</button>
+                    <button className="bg-orange-700 hover:bg-orange-800 transition-all rounded-2xl p-2 text-white font-semibold cursor-pointer">Create a post</button>
+                    <button className="bg-purple-800 hover:bg-purple-900 transition-all rounded-2xl p-2 text-white font-semibold cursor-pointer">Sign Out</button>
                     </>
                 )
                 :
                 (
-                    <button>Sign In</button>
+                    <Link href={'/login'} className="bg-purple-800 hover:bg-purple-900 transition-all rounded-2xl p-2 text-white font-semibold cursor-pointer">Log In</Link>
                 )
             }
         </nav>
