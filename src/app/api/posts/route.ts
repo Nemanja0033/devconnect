@@ -30,7 +30,7 @@ export async function POST(req: Request){
             data: { title, content, authorId, img },
         });
 
-        if(!title || !content || !authorId){
+        if(!title || !content || !authorId || !img){
             return NextResponse.json({error: "All fields are required!"}, {status: 400});
         }
 
