@@ -2,8 +2,6 @@
 import { Image } from "lucide-react"
 import { uploadToCloud } from "../helpers/uploadImage";
 import React, { useState } from "react";
-import axios from "axios";
-import { useSession } from "next-auth/react";
 
 const CreatePostPage = () => {
     const [img, setimg] = useState("");

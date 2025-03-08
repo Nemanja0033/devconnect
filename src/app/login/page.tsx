@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react"
 import { signIn } from "next-auth/react";
-import axios from "axios";
 
 const LoginPage = () => {
   const [isHaveAccaount, setIsHaveAccount] = useState(true);
