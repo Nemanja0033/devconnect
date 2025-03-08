@@ -7,6 +7,7 @@ const LoginPage = () => {
   const [isHaveAccaount, setIsHaveAccount] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleLogin = async () => {
     const response = await fetch('/api/login', {
@@ -26,6 +27,21 @@ const LoginPage = () => {
       alert('error')
     }
 };
+
+const handleRegister = async () => {
+  const response = await fetch('/api/register', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: username,
+      email: email,
+      password: password
+    })
+  });
+  location.href = '/login'
+}
 
 
   if(isHaveAccaount){
@@ -61,7 +77,7 @@ const LoginPage = () => {
 
         <div className="mt-12 flex-row px-10 relative bottom-20 text-purple-950">
           <label htmlFor="username" className="font-bold text-lg">Username</label>
-          <input type="text" name="username" placeholder="Enter your email" className="w-full px-5 border border-gray-300 h-10 rounded-2xl shadow-sm mt-2 mb-2" />
+          <input onChange={(e) => setUsername(e.target.value)} type="text" name="username" placeholder="Enter your email" className="w-full px-5 border border-gray-300 h-10 rounded-2xl shadow-sm mt-2 mb-2" />
           <label htmlFor="email" className="font-bold text-lg">Email</label>
           <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" placeholder="Enter your email" className="w-full px-5 border border-gray-300 h-10 rounded-2xl shadow-sm mt-2 mb-2" />
           <label htmlFor="pass" className="font-bold text-lg">Password</label>
@@ -70,7 +86,7 @@ const LoginPage = () => {
         </div>
 
         <div className="w-full flex justify-center px-10 relative lg:bottom-10 bottom-15">
-          <button className="text-white bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
+          <button onClick={handleRegister} className="text-white bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
         </div>
       </div>
     </div>
