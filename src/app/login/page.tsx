@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { signIn } from "next-auth/react";
+import axios from "axios";
 
 const LoginPage = () => {
   const [isHaveAccaount, setIsHaveAccount] = useState(true);
@@ -8,8 +9,24 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    await signIn("credentials", { email, password, callbackUrl: "/"});
-  };
+    const response = await fetch('/api/login', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+
+    if (response.ok) {
+        await signIn("credentials", { email, password, callbackUrl: '/'})
+    } else {
+      alert('error')
+    }
+};
+
 
   if(isHaveAccaount){
     return (
