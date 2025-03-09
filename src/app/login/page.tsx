@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState(false);
   const { isLoading, toggleLoading } = useLoadingStore();
+  
   useEffect(() => {
     status === 'authenticated' ? location.href = '/' : null
   }, [status]);
@@ -65,9 +66,10 @@ const handleRegister = async () => {
   if(isHaveAccaount){
     return (
       <div className='w-full h-screen flex justify-center items-center'>
-        <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md flex-row px-5 py-5'>
+        <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md rounded-md border border-gray-100 flex-row px-5 py-5'>
+          <img src="logo.png" className="w-20 fixed h-18" alt="" />
           <div className="flex justify-center h-40 w-full'">
-            <img src="/logo.png" className="w-45" alt="" />
+            <img src="/login.png" className="w-auto p-4a" alt="" />
           </div>
   
           <div className="mt-12 flex-row px-10 relative bottom-20 text-purple-950">
@@ -76,7 +78,7 @@ const handleRegister = async () => {
             {error ? <p className="text-red-500 text-sm">Invalid Email or Password!</p> : null}
             <label htmlFor="pass" className="font-bold text-lg">Password</label>
             <input onChange={(e) => setPassword(e.target.value)} type="password" name="pass" placeholder="Enter your password" className="w-full mb-2 border px-5 h-10 rounded-2xl border-gray-300 shadow-sm mt-2" />
-            <p className="text-gray-500">Dont have an account? <span onClick={() => setIsHaveAccount(!isHaveAccaount)} className="text-purple-900 cursor-pointer underline">Register</span></p>
+            <p className="text-gray-500">Dont have an account? <button onClick={() => setIsHaveAccount(!isHaveAccaount)} className="text-purple-900 cursor-pointer underline">Register</button></p>
           </div>
   
           <div className="w-full flex justify-center px-10 relative lg:bottom-15 bottom-15">
