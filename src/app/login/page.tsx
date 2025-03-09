@@ -1,15 +1,20 @@
 "use client"
-import { useState } from "react"
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react"
+import { signIn, useSession } from "next-auth/react";
 import { LoaderIcon } from "lucide-react";
 
 const LoginPage = () => {
+  const { status } = useSession();
   const [isHaveAccaount, setIsHaveAccount] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    status === 'authenticated' ? location.href = '/' : null
+  }, [status]);
 
   const handleLogin = async () => {
     setLoading(true);
