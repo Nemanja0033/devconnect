@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { signIn } from "next-auth/react";
+import { LoaderIcon } from "lucide-react";
 
 const LoginPage = () => {
   const [isHaveAccaount, setIsHaveAccount] = useState(true);
@@ -8,8 +9,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
     const response = await fetch('/api/login', {
         method: 'PUT',
         headers: {
@@ -22,13 +25,16 @@ const LoginPage = () => {
     });
 
     if (response.ok) {
-        await signIn("credentials", { email, password, callbackUrl: '/'})
+        await signIn("credentials", { email, password, callbackUrl: '/'});
+        setLoading(false);
     } else {
+      setLoading(false);
       setError(true);
     }
 };
 
 const handleRegister = async () => {
+  setLoading(true);
   const response = await fetch('/api/register', {
     method: "POST",
     headers: {
@@ -42,8 +48,10 @@ const handleRegister = async () => {
   });
   if(response.ok){
     location.href = '/login';
+    setLoading(false);
   }
   else{
+    setLoading(false);
     setError(true);
   }
 }
@@ -67,7 +75,7 @@ const handleRegister = async () => {
           </div>
   
           <div className="w-full flex justify-center px-10 relative lg:bottom-15 bottom-15">
-            <button onClick={handleLogin} className="text-white bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
+            <button onClick={handleLogin} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">{loading ? <LoaderIcon className="animate-spin text-gray-500" /> : "Submit"}</button>
           </div>
         </div>
       </div>
@@ -93,7 +101,7 @@ const handleRegister = async () => {
         </div>
 
         <div className="w-full flex justify-center px-10 relative lg:bottom-10 bottom-15">
-          <button onClick={handleRegister} className="text-white bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
+          <button onClick={handleRegister} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">{loading ? <LoaderIcon className="animate-spin text-gray-500" /> : "Submit"}</button>
         </div>
       </div>
     </div>
