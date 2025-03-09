@@ -1,5 +1,5 @@
 "use client"
-import { Image } from "lucide-react"
+import { CheckCircle2Icon, Image } from "lucide-react"
 import { uploadToCloud } from "../helpers/uploadImage";
 import React, { useState } from "react";
 
@@ -7,6 +7,7 @@ const CreatePostPage = () => {
     const [img, setimg] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [isImageLoaded, setIsImageLoaded] = useState(false); // state for displaying succes message if image is uploaded succesfully
 
     const createPost = async () => {
         try{
@@ -15,7 +16,6 @@ const CreatePostPage = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title, content, img, }),
               });
-            alert("Posted succesfully!");
         }
         catch(err){
             alert("Something went wrong!");
@@ -30,7 +30,7 @@ const CreatePostPage = () => {
         try {
             const url = await uploadToCloud(file);
             setimg(url);
-            alert("Image uploaded!")
+            setIsImageLoaded(true);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
@@ -47,6 +47,7 @@ const CreatePostPage = () => {
                         accept="image/*"  
                         onChange={handleFileUpload}
                         />
+                {isImageLoaded ? <span className="flex items-center relative top-1 ml-1 gap-1 text-green-700">Image Uploaded! <CheckCircle2Icon /></span> : null}
             </div>
             <textarea name="content" onChange={(e) => setContent(e.target.value)} placeholder="Post Content. . ." className="w-full mt-3 px-5 min-h-64 max-h-64 rounded-2xl border border-gray-300"></textarea>
             <button  onClick={createPost} className="bg-purple-800 w-full hover:bg-purple-900 transition-all rounded-2xl p-2 mt-3 text-white font-semibold cursor-pointer">Submit Post</button>
