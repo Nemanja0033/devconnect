@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
 import { signIn, useSession } from "next-auth/react";
-import { LoaderIcon } from "lucide-react";
 import Loader from "@/components/ui/Loader";
 import { useLoadingStore } from "@/store/useLoadingStore";
 
