@@ -30,23 +30,24 @@ const CreatePostPage = () => {
     }
 
     const createPost = async () => {
-       if(title.length < 1 || content.length < 1 || img.length < 1){
-        alert("All fields are required!")
-       }
-       try{
+        if(title.length < 1 || content.length < 1 || img.length < 1){
+            alert("All fields are required!")
+        }
+       
         toggleLoading();
-        await fetch("/api/posts", {
+        const res = await fetch("/api/posts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title, content, img, }),
           });
-          handleSuccesfullPost();
-    }
-    catch(err){
-        toggleLoading();
-        alert("Something went wrong!");
-        console.log(err)
-    }
+
+          if(res.ok){
+            handleSuccesfullPost();
+          }
+          else{
+            toggleLoading();
+            alert("Somethhing went wrong");
+          }
     }
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {

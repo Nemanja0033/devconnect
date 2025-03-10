@@ -3,6 +3,19 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 
+// geting all posts
+export async function GET(req: Request){
+    try{
+        const posts = await db.post.findMany();
+
+        return NextResponse.json(posts, { status: 200})
+    }
+    catch(err){
+        return NextResponse.json({error: err}, {status: 500})
+    }
+}
+
+// new post
 export async function POST(req: Request) {
     try {
         const session: any = await getServerSession(authOptions);
@@ -12,9 +25,9 @@ export async function POST(req: Request) {
         }
 
         const { title, content, img } = await req.json();
-        const authorId = session.user.id; // Postavljamo authorId iz sesije
+        const authorId = session.user.id;
 
-        // Prvo proveravamo da li su sva polja popunjena
+        
         if (!title || !content || !img) {
             return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
         }
@@ -28,3 +41,4 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Something went wrong!", details: err }, { status: 500 });
     }
 }
+
