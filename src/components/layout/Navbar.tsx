@@ -24,8 +24,8 @@ const Navbar = () => {
                 status === 'authenticated' ?
                 (
                     <div className="gap-2 flex">
-                    <Link href={'/createpost'} className="bg-slate-500 hover:bg-purple-800 transition-all rounded-2xl flex items-center gap-1 p-2 text-white font-semibold cursor-pointer">Create a post <Newspaper size={18} /></Link>
-                    <button onClick={handleSignOut} className="bg-purple-800 hover:bg-purple-900 transition-all rounded-2xl p-2 text-white font-semibold cursor-pointer">Sign Out</button>
+                    <Link href={'/createpost'} className="bg-slate-500 hover:bg-purple-800 transition-all rounded-2xl flex items-center gap-1 p-1 text-white font-semibold cursor-pointer">Create a post <Newspaper size={18} /></Link>
+                    <button onClick={handleSignOut} className="bg-purple-800 hover:bg-purple-900 transition-all rounded-2xl p-1 text-white font-semibold cursor-pointer">Sign Out</button>
                     </div>
                 )
                 :

@@ -41,7 +41,7 @@ const LoginPage = () => {
 
 const handleRegister = async () => {
   toggleLoading();
-  const response = await fetch('/api/register', {
+  const response = await fetch('/api/register', { // fetch instead of axios for better readability
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
