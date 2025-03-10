@@ -29,7 +29,7 @@ export default async function FeedPage() {
 
   return (
     <main className="w-full h-screen flex px-5 justify-center">
-      <section className="lg:w-[80%] w-full grid grid-cols-1 place-items-center items-start p-5 rounded-md border-x border-gray-50 mt-3 shadow-lg">
+      <section className="lg:w-[70%] grid grid-cols-1 place-items-center items-start p-5 rounded-md border-x border-gray-50 mt-3 shadow-lg">
         {posts.length > 0 ? (
           posts.map((post) => (
             <PostCard image={post.img} title={post.title} id={post.id} likes={post._count.Like} comments={post._count.Comment} />
