@@ -28,7 +28,7 @@ export default async function FeedPage() {
   const posts = await fetchPosts();
 
   return (
-    <main className="w-full h-screen flex px-5 justify-center">
+    <main className="w-full h-full flex px-5 justify-center">
       <section className="lg:w-[70%] grid grid-cols-1 place-items-center items-start p-5 rounded-md border-x border-gray-50 mt-3 shadow-lg">
         {posts.length > 0 ? (
           posts.map((post) => (
