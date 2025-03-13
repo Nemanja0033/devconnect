@@ -8,7 +8,7 @@ export async function GET(req: Request, { params }: { params: { id: string}}){
     try{
         const post = await db.post.findUnique({
             where: { id: params.id },
-            include: { author: true }
+            include: { author: true, Comment: true }
         });
 
         if(!post){
