@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useLoadingStore } from "@/store/useLoadingStore";
 import Loader from "@/components/ui/Loader";
 import { ArrowDownFromLineIcon } from "lucide-react";
+import Comment from "@/components/presentation/Comment";
 
 const PostPage = () => {
     const params = useParams();
@@ -60,8 +61,13 @@ const PostPage = () => {
           <div className="flex justify-start border-b border-gray-300 py-2 mb-3">
             <span className="text-2xl">Comments ({postData?.Comment.length})</span>
           </div>
-          <div>
-            
+          <div className="w-full">
+            {postData?.Comment.map((com: any) => (
+              <Comment key={com.postId} 
+                       date={com.createdAt} 
+                       content={com.content} 
+                       />
+            ))}
           </div>
         </section>
       </section>
