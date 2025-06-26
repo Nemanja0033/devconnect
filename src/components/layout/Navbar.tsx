@@ -13,7 +13,7 @@ const Navbar = () => {
     }
 
   return (
-    <header className="w-full h-[60px] shadow-md rounded-md flex lg:px-40 px-5 justify-between items-center">
+    <header className="w-full h-[80px] shadow-md rounded-md flex lg:px-40 px-5 justify-between items-center">
         <div>
             <Link href={'/'}>
                 <img src="/logo.png" className="w-32 relative top-1 h-auto" alt="" />

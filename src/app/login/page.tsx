@@ -67,7 +67,7 @@ const handleRegister = async () => {
     return (
       <div className='w-full h-screen flex justify-center items-center'>
         <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md rounded-md border border-gray-100 flex-row px-5 py-5'>
-          <img src="logo.png" className="w-20 fixed h-18" alt="" />
+          {/* <img src="logo.png" className="w-20 fixed h-18" alt="" /> */}
           <div className="flex justify-center h-40 w-full'">
             <img src="/login.png" className="w-auto p-4a" alt="" />
           </div>
@@ -90,11 +90,11 @@ const handleRegister = async () => {
   }
 
   return (
-    <div className='w-full h-auto flex justify-center items-center'>
-      <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md flex-row px-5 py-5'>
-        <div className="flex justify-center h-40 w-full'">
+    <div className='w-full h-auto flex justify-center items-center mt-32'>
+      <div  className='lg:w-1/3 w-[90%] h-[80%] shadow-md rounded-md border border-gray-100 flex-row px-5 py-12'>
+        {/* <div className="flex justify-center h-40 w-full'">
           <img src="/logo.png" className="w-45" alt="" />
-        </div>
+        </div> */}
 
         <div className="mt-12 flex-row px-10 relative bottom-20 text-purple-950">
           <label htmlFor="username" className="font-bold text-lg">Username</label>
