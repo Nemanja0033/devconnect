@@ -67,7 +67,6 @@ const handleRegister = async () => {
     return (
       <div className='w-full h-screen flex justify-center items-center'>
         <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md rounded-md border border-gray-100 flex-row px-5 py-5'>
-          <img src="logo.png" className="w-20 fixed h-18" alt="" />
           <div className="flex justify-center h-40 w-full'">
             <img src="/login.png" className="w-auto p-4a" alt="" />
           </div>
