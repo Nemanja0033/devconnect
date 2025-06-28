@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { signIn, useSession } from "next-auth/react";
-import Loader from "@/components/ui/Loader";
+import Loader from "@/components/screens/Loader";
 import { useLoadingStore } from "@/store/useLoadingStore";
 
 const LoginPage = () => {

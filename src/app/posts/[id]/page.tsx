@@ -5,9 +5,9 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link";
 import { useLoadingStore } from "@/store/useLoadingStore";
-import Loader from "@/components/ui/Loader";
+import Loader from "@/components/screens/Loader";
 import { ArrowDownFromLineIcon } from "lucide-react";
-import Comment from "@/components/presentation/Comment";
+import Comment from "@/components/reusables/Comment";
 
 const PostPage = () => {
     const params = useParams();
