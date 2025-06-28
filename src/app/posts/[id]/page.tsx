@@ -1,29 +1,27 @@
 "use client"
-import { formatDistanceToNow } from "date-fns"; // library for date manipulation
+import { formatDistanceToNow, set } from "date-fns"; // library for date manipulation
 import axios from "axios"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link";
-import { useLoadingStore } from "@/store/useLoadingStore";
 import Loader from "@/components/screens/Loader";
-import { ArrowDownFromLineIcon } from "lucide-react";
 import Comment from "@/components/reusables/Comment";
 
 const PostPage = () => {
     const params = useParams();
     const [postData, setPostData] = useState<any>();
-    const { isLoading, toggleLoading} = useLoadingStore();
-    console.log(postData)
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
       const fetchPosts = async () => {
-        toggleLoading();
+      setIsLoading(true);
         axios.get(`/api/posts/${params.id}`)
         .then(res => {
           setPostData(res.data);
-          toggleLoading();
+          setIsLoading(false);
         })
         .catch(err => console.log(err));
+        setIsLoading(false);
       }
 
       fetchPosts();

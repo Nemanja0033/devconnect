@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react"
 import { signIn, useSession } from "next-auth/react";
 import Loader from "@/components/screens/Loader";
-import { useLoadingStore } from "@/store/useLoadingStore";
 
 const LoginPage = () => {
   const { status } = useSession();
@@ -11,14 +10,12 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState(false);
-  const { isLoading, toggleLoading } = useLoadingStore();
   
   useEffect(() => {
     status === 'authenticated' ? location.href = '/' : null
   }, [status]);
 
   const handleLogin = async () => {
-    toggleLoading();
     const response = await fetch('/api/login', {
         method: 'PUT',
         headers: {
@@ -32,15 +29,12 @@ const LoginPage = () => {
 
     if (response.ok) {
         await signIn("credentials", { email, password, callbackUrl: '/'});
-        toggleLoading();
     } else {
-      toggleLoading();
       setError(true);
     }
 };
 
 const handleRegister = async () => {
-  toggleLoading();
   const response = await fetch('/api/register', { // fetch instead of axios for better readability
     method: "POST",
     headers: {
@@ -54,10 +48,8 @@ const handleRegister = async () => {
   });
   if(response.ok){
     location.href = '/login';
-    toggleLoading();
   }
   else{
-    toggleLoading();
     setError(true);
   }
 }
@@ -81,7 +73,7 @@ const handleRegister = async () => {
           </div>
   
           <div className="w-full flex justify-center px-10 relative lg:bottom-15 bottom-15">
-            <button onClick={handleLogin} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">{isLoading ? <Loader /> : "Submit"}</button>
+            <button onClick={handleLogin} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
           </div>
         </div>
       </div>
@@ -107,7 +99,7 @@ const handleRegister = async () => {
         </div>
 
         <div className="w-full flex justify-center px-10 relative lg:bottom-10 bottom-15">
-          <button onClick={handleRegister} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">{isLoading ? <Loader />: "Submit"}</button>
+          <button onClick={handleRegister} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
         </div>
       </div>
     </div>
