@@ -10,14 +10,14 @@ datasource db {
 // model for users
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  posts     Post[]
-  createdAt DateTime @default(now())
-  Comment Comment[]
-  Like Like[]
+  id            String   @id @default(uuid())
+  username      String
+  email         String   @unique
+  password      String
+  posts         Post[]
+  createdAt     DateTime @default(now())
+  Comment       Comment[]
+  Like          Like[]
 }
 
 //model for posts

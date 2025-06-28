@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password } = await req.json();
+        const { username, email, password } = await req.json();
 
-        if (!name || !email || !password) {
+        if (!username || !email || !password) {
             return NextResponse.json({ error: "All fields are required" }, { status: 400 });
         }
 
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
         const newUser = await db.user.create({
             data: {
-                name,
+                username,
                 email,
                 password: hashedPassword,
             },
