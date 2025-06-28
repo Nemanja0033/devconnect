@@ -1,5 +1,5 @@
 import PostCard from "@/components/reusables/PostCard";
-import { db } from "@/db/db"; 
+import { db } from "@/lib/prismaClient"; 
 
 // ISR for refreshing cached data every x seconds
 

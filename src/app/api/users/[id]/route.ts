@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/lib/prismaClient";
 import { NextResponse } from "next/server";
 
 // GET single user from db

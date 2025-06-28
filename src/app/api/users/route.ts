@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/lib/prismaClient";
 import { NextResponse } from "next/server";
 
 // GET method for users

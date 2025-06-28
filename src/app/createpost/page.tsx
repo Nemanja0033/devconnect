@@ -1,6 +1,6 @@
 "use client"
 import { Image } from "lucide-react"
-import { uploadToCloud } from "../../utils/uploadImage";
+import { uploadToCloud } from "../../lib/uploadImage";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useLoadingStore } from "@/store/useLoadingStore";

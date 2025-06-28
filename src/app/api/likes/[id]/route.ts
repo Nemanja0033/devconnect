@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/lib/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
