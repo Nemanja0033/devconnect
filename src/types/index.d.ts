@@ -48,3 +48,9 @@ export type UserStore = {
 export type AvatarForm = {
     avatarUrl: string
 }
+
+export type AvatarFormProps = {
+    onUpload: (event: React.ChangeEvent<HTMLInputElement> ) => void,
+    avatarPreviewUrl: string,
+    isUploading: boolean,
+}

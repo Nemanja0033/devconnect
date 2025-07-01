@@ -19,7 +19,7 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void}){
     return(
         <Card className="w-full max-w-md p-6">
                     <form onSubmit={handleSubmit(onSubmit)} className="grid place-items-start gap-3">
-                        <h1 className="text-2xl">Register</h1>
+                        <h1 className="text-2xl font-semibold">Register</h1>
                         <Label htmlFor="username">Username</Label>
                         <Input {...register("username", {
                             required: "*Username is required",

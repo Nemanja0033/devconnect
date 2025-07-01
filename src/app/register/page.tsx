@@ -3,13 +3,16 @@ import AvatarUploadForm from "@/components/forms/AvatarUploadForm";
 import RegisterForm from "@/components/forms/RegisterForm";
 import StepIndicator from "@/components/stepper/StepIndicator";
 import { STEPS } from "@/constants/constants";
+import { uploadToCloud } from "@/lib/uploadImage";
 import { AvatarForm, RegisterFormType, RegistrationSteps } from "@/types";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function RegisterPage(){
     const [step, setStep] = useState<RegistrationSteps>(1);
+    const [avatarUrl, setAvatarUrl] = useState<string>('');
+    const [isUploading, setIsUploading] = useState(false);
 
     const registerForm = useForm<RegisterFormType>({
         mode: "onChange"
@@ -50,6 +53,22 @@ export default function RegisterPage(){
         }
     }
 
+    const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        try{
+            setIsUploading(true);
+            const img = event.target.files?.[0];
+            if(!img) return;
+            const imgUrl: string = await uploadToCloud(img);
+            setAvatarUrl(imgUrl);
+            setIsUploading(false);
+        }
+        catch(err){
+            setIsUploading(false);
+            toast.error("Error while uploading avatar");
+            console.log(err);
+        }
+    }
+
     return(
         <>
             <div className="mt-22 mb-10">
@@ -62,7 +81,7 @@ export default function RegisterPage(){
             </FormProvider>
 
             <FormProvider  {...avatarForm}>
-                {step === 1 && <AvatarUploadForm onSubmit={handleCredentialsSubmit} />}
+                {step === 1 && <AvatarUploadForm isUploading={isUploading} avatarPreviewUrl={avatarUrl} onUpload={handleAvatarUpload} />}
             </FormProvider>
         </>
     )
