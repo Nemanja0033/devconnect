@@ -12,7 +12,8 @@ import { toast } from "sonner";
 
 export default function RegisterPage(){
     const { setUser } = useUserStore();
-    const [step, setStep] = useState<RegistrationSteps>(2);
+    const [step, setStep] = useState<RegistrationSteps>(0);
+    const [stepView, setStepView] = useState<RegistrationSteps>(step)
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const [isUploading, setIsUploading] = useState(false);
 
@@ -26,6 +27,7 @@ export default function RegisterPage(){
 
     const setNextStep = () => {
         setStep((pervStep) => pervStep + 1);
+        setStepView((pervStep) => pervStep + 1);
     };
 
     const handleCredentialsSubmit = async () => {
@@ -86,16 +88,17 @@ export default function RegisterPage(){
     return(
         <>
             <div className="mt-22 mb-10">
-                <h1 className="text-3xl font-bold text-center">DevConnect</h1>
-                <p className="text-center text-muted-foreground">Share coding experiance and stories.</p>
-                <StepIndicator steps={STEPS} step={step} />
+                {/* <h1 className="text-3xl font-bold text-center">DevConnect</h1>
+                <p className="text-center text-muted-foreground">Share coding experiance and stories.</p> */}
+                <StepIndicator viewStep={setStepView} steps={STEPS} step={step} />
             </div>
+            {/* <span>Step: {step} Step In View: {stepView}</span> Testing purpose */}
             <FormProvider {...registerForm}>
-                {step === 0 && <RegisterForm onSubmit={handleCredentialsSubmit} />}
+                {stepView === 0 && <RegisterForm onSubmit={handleCredentialsSubmit} />}
             </FormProvider>
 
             <FormProvider  {...avatarForm}>
-                {step === 1 && <AvatarUploadForm isUploading={isUploading} avatarPreviewUrl={avatarUrl} onSubmit={setNextStep} onUpload={handleAvatarUpload} />}
+                {stepView === 1 && <AvatarUploadForm isUploading={isUploading} avatarPreviewUrl={avatarUrl} onSubmit={setNextStep} onUpload={handleAvatarUpload} />}
             </FormProvider>
         </>
     )

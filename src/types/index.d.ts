@@ -58,6 +58,6 @@ export type AvatarFormProps = {
 
 export type StepIndicatorProps = {
     viewStep: (step: RegistrationSteps) => void,
-    step: RegistrationSteps, 
+    step: RegistrationSteps,
     steps: Steps[]
 }
