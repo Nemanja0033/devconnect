@@ -36,7 +36,7 @@ export type Steps = {
 
 export type User = {
     username: string,
-    avatar: string,
+    avatar: string | null,
     email: email
 }
 
@@ -51,6 +51,13 @@ export type AvatarForm = {
 
 export type AvatarFormProps = {
     onUpload: (event: React.ChangeEvent<HTMLInputElement> ) => void,
+    onSubmit: () => void;
     avatarPreviewUrl: string,
     isUploading: boolean,
+}
+
+export type StepIndicatorProps = {
+    viewStep: (step: RegistrationSteps) => void,
+    step: RegistrationSteps, 
+    steps: Steps[]
 }

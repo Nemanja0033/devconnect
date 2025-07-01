@@ -8,4 +8,6 @@ export const STEPS = [
     {
         step: "Enter Biography"
     }
-]
+];
+
+export const AVATAR_MAX_SIZE_MB = 1048576 * 25;

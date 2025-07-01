@@ -2,15 +2,17 @@
 import AvatarUploadForm from "@/components/forms/AvatarUploadForm";
 import RegisterForm from "@/components/forms/RegisterForm";
 import StepIndicator from "@/components/stepper/StepIndicator";
-import { STEPS } from "@/constants/constants";
+import { AVATAR_MAX_SIZE_MB, STEPS } from "@/constants/constants";
 import { uploadToCloud } from "@/lib/uploadImage";
+import { useUserStore } from "@/store/useUserStore";
 import { AvatarForm, RegisterFormType, RegistrationSteps } from "@/types";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function RegisterPage(){
-    const [step, setStep] = useState<RegistrationSteps>(1);
+    const { setUser } = useUserStore();
+    const [step, setStep] = useState<RegistrationSteps>(2);
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const [isUploading, setIsUploading] = useState(false);
 
@@ -44,6 +46,11 @@ export default function RegisterPage(){
             }
 
             if(res.ok){
+                setUser({
+                    username: credentialsData.username,
+                    avatar: null,
+                    email: credentialsData.email
+                })
                 toast.success("Success");
                 setNextStep();
             }
@@ -57,7 +64,14 @@ export default function RegisterPage(){
         try{
             setIsUploading(true);
             const img = event.target.files?.[0];
-            if(!img) return;
+            const imgSize = img?.size
+            
+            if(!img || !imgSize) return;
+
+            if(imgSize > AVATAR_MAX_SIZE_MB){
+                throw new Error('Max avatar size is 25MB');
+            };
+
             const imgUrl: string = await uploadToCloud(img);
             setAvatarUrl(imgUrl);
             setIsUploading(false);
@@ -81,7 +95,7 @@ export default function RegisterPage(){
             </FormProvider>
 
             <FormProvider  {...avatarForm}>
-                {step === 1 && <AvatarUploadForm isUploading={isUploading} avatarPreviewUrl={avatarUrl} onUpload={handleAvatarUpload} />}
+                {step === 1 && <AvatarUploadForm isUploading={isUploading} avatarPreviewUrl={avatarUrl} onSubmit={setNextStep} onUpload={handleAvatarUpload} />}
             </FormProvider>
         </>
     )
