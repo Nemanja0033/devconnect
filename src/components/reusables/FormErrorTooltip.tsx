@@ -1,5 +1,7 @@
-export default function ErrorTooltip({ message }: { message: string | undefined}){
+import React from "react";
+
+export default function ErrorTooltip({ children }: { children: React.ReactNode}){
     return(
-        <span className="text-sm text-red-500">{ message }</span>
+        <span className="text-sm text-red-500">{ children}</span>
     )
 }

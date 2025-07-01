@@ -23,3 +23,28 @@ export type RegisterFormType = {
     password: string,
     confirmPassword: string
 }
+
+export enum RegistrationSteps {
+    CREDENTIALS,
+    AVATAR,
+    BIOGRAPHY
+}
+
+export type Steps = {
+    step: string
+}
+
+export type User = {
+    username: string,
+    avatar: string,
+    email: email
+}
+
+export type UserStore = {
+    user: User | null,
+    setUser: (user: User) => void
+}
+
+export type AvatarForm = {
+    avatarUrl: string
+}

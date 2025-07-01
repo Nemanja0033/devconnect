@@ -3,7 +3,6 @@ import { Image } from "lucide-react"
 import { uploadToCloud } from "../../lib/uploadImage";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useLoadingStore } from "@/store/useLoadingStore";
 import Loader from "@/components/screens/Loader";
 import Link from "next/link";
 import SucessfulPost from "@/components/screens/SucessfulPost";
@@ -17,7 +16,6 @@ const CreatePostPage = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [isImageLoaded, setIsImageLoaded] = useState(false); // state for displaying succes message if image is uploaded succesfully
-    const { isLoading, toggleLoading } = useLoadingStore();
     const [isPosted, setIsPosted] = useState(false);
 
     useEffect(() => {
@@ -57,13 +55,10 @@ const CreatePostPage = () => {
         if (!file) return;
 
         try {
-            toggleLoading();
             const url = await uploadToCloud(file);
             setimg(url);
             setIsImageLoaded(true);
-            toggleLoading();
         } catch (error) {
-            toggleLoading();
             alert('Error uploading image:');
         }
     };
@@ -91,11 +86,11 @@ const CreatePostPage = () => {
                         onChange={handleFileUpload}
                         />
                 <div className="relative top-1 ml-1">
-                    {!isLoading && isImageLoaded ? <span className="text-green-400 text-md">Image Uploaded!</span> : isLoading && !isImageLoaded ? <Loader /> : null}
+                    isImageLoaded ? <span className="text-green-400 text-md">Image Uploaded!</span> !isImageLoaded ? <Loader /> : null}
                 </div>
             </div>
             <textarea name="content" onChange={(e) => setContent(e.target.value)} placeholder="Post Content. . ." className="w-full mt-3 px-5 min-h-64 max-h-64 rounded-2xl border border-gray-300"></textarea>
-            <button onClick={createPost} className="bg-purple-800 w-full hover:bg-purple-900 transition-all rounded-2xl p-2 mt-3 text-white font-semibold flex justify-center items-center cursor-pointer">{isLoading ? <Loader /> : 'Submit Post'}</button>
+            <button onClick={createPost} className="bg-purple-800 w-full hover:bg-purple-900 transition-all rounded-2xl p-2 mt-3 text-white font-semibold flex justify-center items-center cursor-pointer"Loader /> : 'Submit Post'}</button>
         </section>
     </div>
   )

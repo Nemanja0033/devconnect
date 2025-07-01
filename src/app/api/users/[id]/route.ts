@@ -24,15 +24,19 @@ export async function GET(req: Request, { params }: { params: {id: string}}) {
 export async function PUT(req: Request, { params }: { params: {id: string}}) {
     try{
         const body = await req.json();
-        const { name, email } = body;
+        const { username, avatar, bio } = body;
 
-        if(!name || !email){
+        if(!username ){
             return NextResponse.json({error: "All fields are required"}, { status: 500});
         }
 
         const updatedUser = await db.user.update({
             where: {id: params.id },
-            data: { name, email }
+            data: {
+                username: username,
+                avatar: avatar,
+                bio: bio
+            }
         });
 
         return NextResponse.json({message: "User updated!"}, {status: 200});

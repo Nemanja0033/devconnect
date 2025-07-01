@@ -2,6 +2,7 @@
 import { SessionProvider } from "next-auth/react"
 import "./globals.css"
 import Navbar from "@/components/shared/Navbar"
+import { Toaster } from "sonner"
 
 
 export default function RootLayout({
@@ -14,6 +15,7 @@ export default function RootLayout({
       <SessionProvider>
         <body>
           <Navbar />
+          <Toaster/>
           {children}
           </body>
       </SessionProvider>
