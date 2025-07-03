@@ -24,7 +24,7 @@ export async function GET(req: Request, { params }: { params: {id: string}}) {
 export async function PUT(req: Request, { params }: { params: {id: string}}) {
     try{
         const body = await req.json();
-        const { username, avatar, bio } = body;
+        const { username, avatar, bio, title } = body;
 
         if(!username ){
             return NextResponse.json({error: "All fields are required"}, { status: 500});
@@ -35,7 +35,8 @@ export async function PUT(req: Request, { params }: { params: {id: string}}) {
             data: {
                 username: username,
                 avatar: avatar,
-                bio: bio
+                bio: bio,
+                title: title
             }
         });
 

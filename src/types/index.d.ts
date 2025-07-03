@@ -61,3 +61,13 @@ export type StepIndicatorProps = {
     step: RegistrationSteps,
     steps: Steps[]
 }
+
+export type BiographyFormType = {
+    title: string,
+    bio: string
+}
+
+export type AvatarProps = {
+    avatarUrl: string,
+    size: "lg" | "sm"
+}

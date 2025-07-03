@@ -7,6 +7,7 @@ import { ImageUp, Loader2 } from "lucide-react";
 import ErrorTooltip from "../reusables/FormErrorTooltip";
 import { Button } from "../ui/button";
 import { useUserStore } from "@/store/useUserStore";
+import Avatar from "../user/Avatar";
 
 export default function AvatarUploadForm({ onUpload, onSubmit, avatarPreviewUrl, isUploading }: AvatarFormProps){
     const { user } = useUserStore();
@@ -23,7 +24,7 @@ export default function AvatarUploadForm({ onUpload, onSubmit, avatarPreviewUrl,
             <form onSubmit={handleSubmit(onSubmit)} className="w-full gird place-items-center">
                  <div className="grid h-52 place-items-center mb-3 gap-2 ">
                     <h2 className="text-xl font-semibold text-center">Hello {user?.username} upload your avatar</h2>
-                    {isUploading ? <Loader2 className="animate-spin" /> : <img className="rounded-full h-52 w-52 border-8 border-grey-400" src={avatarPreviewUrl !== '' ? avatarPreviewUrl : '/avatar-placeholder.png'} alt="" />}
+                    {isUploading ? <Loader2 className="animate-spin" /> : <Avatar size="lg" avatarUrl={avatarPreviewUrl} />}
                 </div>
 
                 <Label htmlFor="avatar-upload" className="mt-18 border-2 bg-gray-50 text-gray-400 py-10 w-full grid place-items-center shadow-md rounded-md">

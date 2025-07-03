@@ -17,6 +17,7 @@ model User {
   posts         Post[]
   avatar        String?
   bio           String?
+  title         String?
   createdAt     DateTime @default(now())
   Comment       Comment[]
   Like          Like[]
