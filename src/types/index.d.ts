@@ -71,3 +71,8 @@ export type AvatarProps = {
     avatarUrl: string,
     size: "lg" | "sm"
 }
+
+export type LoginFormType = {
+    email: string,
+    password: string
+}

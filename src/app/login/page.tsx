@@ -1,19 +1,21 @@
 "use client"
-import { useEffect, useState } from "react"
-import { signIn, useSession } from "next-auth/react";
-import Loader from "@/components/screens/Loader";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { LoginFormType } from "@/types";
+import { Label } from "@radix-ui/react-label";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
-  const { status } = useSession();
-  const [isHaveAccaount, setIsHaveAccount] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState(false);
-  
-  useEffect(() => {
-    status === 'authenticated' ? location.href = '/' : null
-  }, [status]);
+  const loginForm = useForm<LoginFormType>({
+    mode: 'onSubmit'
+  });
+
+  const {
+    handleSubmit,
+    formState: {errors, isSubmitting},
+    register,
+  } = loginForm;
 
   const handleLogin = async () => {
     const response = await fetch('/api/login', {
@@ -21,89 +23,47 @@ const LoginPage = () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            email: email,
-            password: password
-        })
+        // body: JSON.stringify({
+        //     email: email,
+        //     password: password
+        // })
     });
 
     if (response.ok) {
-        await signIn("credentials", { email, password, callbackUrl: '/'});
-    } else {
-      setError(true);
-    }
+      // await signIn("credentials", { email, password, callbackUrl: '/'});
+    } 
 };
 
-const handleRegister = async () => {
-  const response = await fetch('/api/register', { // fetch instead of axios for better readability
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: username,
-      email: email,
-      password: password
-    })
-  });
-  if(response.ok){
-    location.href = '/login';
-  }
-  else{
-    setError(true);
-  }
-}
-
-
-  if(isHaveAccaount){
-    return (
-      <div className='w-full h-screen flex justify-center items-center'>
-        <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md rounded-md border border-gray-100 flex-row px-5 py-5'>
-          <div className="flex justify-center h-40 w-full'">
-            <img src="/login.png" className="w-auto p-4a" alt="" />
-          </div>
-  
-          <div className="mt-12 flex-row px-10 relative bottom-20 text-purple-950">
-            <label htmlFor="email" className="font-bold text-lg">Email</label>
-            <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" placeholder="Enter your email" className="w-full px-5 border border-gray-300 h-10 rounded-2xl shadow-sm mt-2 mb-2" />
-            {error ? <p className="text-red-500 text-sm">Invalid Email or Password!</p> : null}
-            <label htmlFor="pass" className="font-bold text-lg">Password</label>
-            <input onChange={(e) => setPassword(e.target.value)} type="password" name="pass" placeholder="Enter your password" className="w-full mb-2 border px-5 h-10 rounded-2xl border-gray-300 shadow-sm mt-2" />
-            <p className="text-gray-500">Dont have an account? <button onClick={() => setIsHaveAccount(!isHaveAccaount)} className="text-purple-900 cursor-pointer underline">Register</button></p>
-          </div>
-  
-          <div className="w-full flex justify-center px-10 relative lg:bottom-15 bottom-15">
-            <button onClick={handleLogin} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
-          </div>
+return(
+  <main className="w-full h-screen grid place-items-center">
+    <Card className="w-full max-w-md p-6">
+      <form className="grid place-items-start gap-5">
+        <div>
+          <h1 className="text-2xl">Login</h1>
         </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className='w-full h-auto flex justify-center items-center'>
-      <div className='lg:w-1/3 w-[90%] h-[80%] shadow-md flex-row px-5 py-5'>
-        <div className="flex justify-center h-40 w-full'">
-          <img src="/logo.png" className="w-45" alt="" />
+        
+        <div className="w-full grid gap-3">
+          <Label htmlFor="email">Email</Label>
+          <Input {...register("email", {
+            required: "Please enter your email address",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "invalid email address"
+            }
+          })} id="email" type="email" placeholder="e.g jhondoe@example.com" />
         </div>
 
-        <div className="mt-12 flex-row px-10 relative bottom-20 text-purple-950">
-          <label htmlFor="username" className="font-bold text-lg">Username</label>
-          <input onChange={(e) => setUsername(e.target.value)} type="text" name="username" placeholder="Enter your email" className="w-full px-5 border border-gray-300 h-10 rounded-2xl shadow-sm mt-2 mb-2" />
-          <label htmlFor="email" className="font-bold text-lg">Email</label>
-          <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" placeholder="Enter your email" className="w-full px-5 border border-gray-300 h-10 rounded-2xl shadow-sm mt-2 mb-2" />
-          {error ? <p className="text-red-500">Invalid Email or Password!</p> : null}
-          <label htmlFor="pass" className="font-bold text-lg">Password</label>
-          <input onChange={(e) => setPassword(e.target.value)} type="password" name="pass" placeholder="Enter your password" className="w-full mb-2 border px-5 h-10 rounded-2xl border-gray-300 shadow-sm mt-2" />
-          <p className="text-gray-500">Arleady have account? <span onClick={() => setIsHaveAccount(!isHaveAccaount)} className="text-purple-900 cursor-pointer underline">Login</span></p>
+        <div className="w-full grid gap-3">
+          <Label htmlFor="password">Password</Label>
+          <Input {...register("password", {required: "Please enter your password"})} id="email" type="password" placeholder="*****" />
         </div>
 
-        <div className="w-full flex justify-center px-10 relative lg:bottom-10 bottom-15">
-          <button onClick={handleRegister} className="text-white flex justify-center bg-purple-950 p-2 w-full rounded-2xl cursor-pointer hover:bg-purple-900 transition-all">Submit</button>
-        </div>
-      </div>
-    </div>
-  )
+        <Button className="w-full cursor-pointer">Submit</Button>
+      </form>
+    </Card>
+  </main>
+)
+
 }
 
 export default LoginPage
