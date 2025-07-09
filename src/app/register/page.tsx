@@ -39,7 +39,7 @@ export default function RegisterPage(){
         setStepView((pervStep) => pervStep + 1);
     };
 
-    const handleCredentialsSubmit = async () => {
+    const registerUser = async () => {
         try{
             const res = await fetch('api/register', {
                 method: "POST",
@@ -138,7 +138,7 @@ export default function RegisterPage(){
             </div>
             <span>Step: {step + 1} Step In View: {stepView + 1}</span> Testing purpose
             <FormProvider {...registerForm}>
-                {stepView === 0 && <RegisterForm onSubmit={handleCredentialsSubmit} />}
+                {stepView === 0 && <RegisterForm onSubmit={registerUser} />}
             </FormProvider>
 
             <FormProvider  {...avatarForm}>
