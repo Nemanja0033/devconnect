@@ -120,7 +120,7 @@ export default function RegisterPage(){
                     email: credentialsData.email,
                     avatar: avatarUrl,
                 });
-                router.push('/');
+                router.push('/login');
             }
         }
         catch(err){
@@ -136,7 +136,7 @@ export default function RegisterPage(){
                 <p className="text-center text-muted-foreground">Share coding experiance and stories.</p> */}
                 <StepIndicator viewStep={setStepView} steps={STEPS} step={step} />
             </div>
-            <span>Step: {step + 1} Step In View: {stepView + 1}</span> Testing purpose
+            {/* <span>Step: {step + 1} Step In View: {stepView + 1}</span> Testing purpose */}
             <FormProvider {...registerForm}>
                 {stepView === 0 && <RegisterForm onSubmit={registerUser} />}
             </FormProvider>

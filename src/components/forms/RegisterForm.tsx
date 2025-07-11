@@ -5,6 +5,7 @@ import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { useFormContext } from "react-hook-form";
 import { RegisterFormType } from "@/types";
+import Link from "next/link";
 
 export default function RegisterForm({ onSubmit }: { onSubmit: () => void}){
     const {
@@ -68,6 +69,8 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void}){
                         })} id="confirmPassword" type="password" placeholder="********" />
 
                         {errors.confirmPassword && <ErrorTooltip>{errors.confirmPassword.message}</ErrorTooltip> }
+
+                        <Link className="text-xs hover:underline" href={'/login'}>Arleady have account?</Link>
 
                         <Button disabled={isSubmitting} className="w-full mt-5 cursor-pointer" type="submit">{isSubmitting ? "Submited. . ." : "Submit"}</Button>
                     </form>
