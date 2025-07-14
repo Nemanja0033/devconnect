@@ -8,6 +8,7 @@ export default function HowItWorks(){
     const { theme } = useTheme();
     return(
         <section className="grid place-items-start gap-12 items-center justify-center">
+            <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">How It Works?</h1>
             {devConnectSteps.map((step, index) => (
                 <motion.div  
                 initial={{ opacity: 0, y: 20 }}

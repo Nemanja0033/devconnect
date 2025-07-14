@@ -1,4 +1,5 @@
 "use client"
+import { Faq } from "@/components/landing/FAQ";
 import Feautures from "@/components/landing/Feautures";
 import Hero from "@/components/landing/Hero";
 import HowItWorks from "@/components/landing/HowItWorks";
@@ -31,7 +32,10 @@ export default function LandingPage(){
                 </div>   
                 <div className="mt-64">
                     <HowItWorks />
-                </div>            
+                </div>  
+                <div className="mt-64 bg-base-100">
+                    <Faq />
+                </div>          
             </section>
         </main>
     )
