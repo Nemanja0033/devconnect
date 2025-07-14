@@ -16,8 +16,8 @@ export default function LandingPage(){
                 <nav className="flex w-full justify-between">
                     <ModeToggle />
                     <div className="flex border-b items-center gap-5">
-                        <Link className="hover:font-bold transition-all" href={'/login'}>Login</Link>
-                        <Link className="hover:font-bold transition-all" href={'/register'}>Register</Link>
+                        <Link className="hover:font-bold transition-all" href={'/'}>Login</Link>
+                        <Link className="hover:font-bold transition-all" href={'/'}>Register</Link>
                     </div>
                 </nav>
                 <div className="mt-64">
