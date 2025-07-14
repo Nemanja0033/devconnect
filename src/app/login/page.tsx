@@ -5,8 +5,6 @@ import { Input } from "@/components/ui/input";
 import { login } from "@/lib/auth";
 import { LoginFormType } from "@/types";
 import { Label } from "@radix-ui/react-label";
-import email from "next-auth/providers/email";
-import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
@@ -20,29 +18,14 @@ const LoginPage = () => {
     register,
   } = loginForm;
 
-  const { email, password } = loginForm.getValues();    
-
   const handleLogin = async () => {
-    const response = await fetch('/api/login', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password
-        })
-    });
-
-    if (response.ok) {
-      await signIn("credentials", { email, password, callbackUrl: '/'});
-    } 
-};
-
+    const { email, password } = loginForm.getValues();
+    login(email, password);
+    };
 return(
   <main className="w-full h-screen grid place-items-center">
     <Card className="w-full max-w-md p-6">
-      <form onSubmit={handleSubmit(() => login(email, password))} className="grid place-items-start gap-5">
+      <form onSubmit={handleSubmit(handleLogin)} className="grid place-items-start gap-5">
         <div>
           <h1 className="text-2xl">Login</h1>
         </div>
@@ -68,7 +51,6 @@ return(
     </Card>
   </main>
 )
-
 }
 
 export default LoginPage

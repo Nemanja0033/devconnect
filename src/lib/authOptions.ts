@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Invalid credentials");
                 }
 
-                return { id: user.id, name: user.name, email: user.email };
+                return { id: user.id, name: user.username, email: user.email };
             },
         }),
     ],

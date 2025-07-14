@@ -6,11 +6,17 @@ export const logout = async () => {
 }
 
 export const login = async (email: string, password: string) => {
-    await signIn("credentials", {
-      email,
-      password,
-      callbackUrl: '/'
-    })
-    .then(() => toast.success("Succesfully logedd!"))
-    .catch((err) => toast.error(err))
+  const res = await signIn("credentials", {
+    callbackUrl: "/", // sprečava automatski redirect, pa ti možeš da kontrolišeš ponašanje
+    email,
+    password,
+  });
+
+  if (res?.ok) {
+    toast.success("Successfully logged in!");
+    // Preusmeri ručno ako želiš:
+  } else {
+    toast.error(res?.error || "Login failed");
+  }
 };
+
