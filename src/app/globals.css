@@ -110,6 +110,35 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+.hero{
+  background-image: url('/bg.jpg');
+  background-position: left;
+  filter:grayscale(100);
+  animation-name: bg-paralex;
+  animation-duration: 100s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+.hero-dark{
+  background-image: url('/dark-bg.jpg');
+  background-position: bottom;
+  filter:grayscale(100);
+  animation-name: bg-paralex;
+  animation-duration: 200s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes bg-paralex {
+  0%{
+    background-position: left;
+  }
+  100%{
+    background-position: right;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
