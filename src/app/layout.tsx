@@ -1,30 +1,34 @@
 "use client"
-import { SessionProvider } from "next-auth/react"
 import "./globals.css"
-import Navbar from "@/components/shared/Navbar"
+import { SessionProvider } from "next-auth/react"
 import { Toaster } from "sonner"
-import { usePathname } from "next/navigation"
+import Navbar from "@/components/shared/Navbar"
 import { ThemeProvider } from "@/components/theme/theme-provider"
+import { usePathname } from "next/navigation"
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const path = usePathname();
+  const path = usePathname()
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <body>
         <SessionProvider>
-          <body>
-           <ThemeProvider  
+          <ThemeProvider
             attribute="class"
-            disableTransitionOnChange>
-              {path === '/' ? null : <Navbar />}
-              <Toaster/>
-              {children}
-           </ThemeProvider>
-          </body>
+            defaultTheme="light"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            {path === "/" ? null : <Navbar />}
+            <Toaster />
+            {children}
+          </ThemeProvider>
         </SessionProvider>
+      </body>
     </html>
   )
 }

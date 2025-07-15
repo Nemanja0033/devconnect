@@ -1,5 +1,5 @@
 "use client"
-import { Faq } from "@/components/landing/FAQ";
+import { Faq } from "@/components/landing/Faq";
 import Feautures from "@/components/landing/Feautures";
 import Hero from "@/components/landing/Hero";
 import HowItWorks from "@/components/landing/HowItWorks";
@@ -17,20 +17,20 @@ export default function LandingPage(){
                 <nav className="flex w-full justify-between">
                     <ModeToggle />
                     <div className="flex border-b items-center gap-5">
-                        <Link className="hover:font-bold transition-all" href={'/'}>Login</Link>
-                        <Link className="hover:font-bold transition-all" href={'/'}>Register</Link>
+                        <Link href={'/login'}>Login</Link>
+                        <Link href={'/register'}>Register</Link>
                     </div>
                 </nav>
                 <div className="mt-64">
                     <Hero />
                 </div>
-                <div className="mt-64">
+                <div className="mt-84">
                     <Main />
                 </div> 
-                <div className="mt-64">
+                <div className="mt-96">
                     <Feautures />
                 </div>   
-                <div className="mt-64">
+                <div className="mt-84">
                     <HowItWorks />
                 </div>  
                 <div className="mt-64 bg-base-100">

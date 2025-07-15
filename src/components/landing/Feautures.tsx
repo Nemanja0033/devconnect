@@ -9,10 +9,10 @@ export default function Feautures() {
             <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">Key Feautures</h1>
             <div className="md:flex justify-center grid place-items-start gap-5">
                 {FEAUTURES.map((item, i) => (
-                    <motion.div initial={{ opacity: 0, y: 20 }}
+                    <motion.div key={i} initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: i * 0.4, duration: 0.5 }} >
+                                transition={{ delay: i * 0.3, duration: 0.5 }} >
                         <Card key={i} className="p-5 hover:scale-105 transition-all w-96 h-40 shadow-md rounded-md">
                             <div className="grid gap-5">
                                 <span className="text-xl font-semibold">{item.feauture}</span>

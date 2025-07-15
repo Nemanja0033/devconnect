@@ -12,7 +12,7 @@ export default function StepIndicator({ step, steps, viewStep }: StepIndicatorPr
                         <TooltipTrigger>
                             <span onClick={() => {step > i || step === i ? viewStep(i) : null}} className={`${step === i ? 'bg-black' : (step > i ? 'bg-green-500' : 'bg-gray-300')} rounded-full h-10 w-10 text-white flex justify-center items-center text-lg font-bold"`}>{step > i ? <Check /> : i + 1}</span>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-gray-50 p-3">
+                        <TooltipContent className="p-3">
                             <p className="text-sm">{s.step}</p>
                         </TooltipContent>
                     </Tooltip>

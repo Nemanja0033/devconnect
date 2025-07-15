@@ -7,6 +7,7 @@ import { AVATAR_MAX_SIZE_MB, STEPS } from "@/constants/constants";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { useUserStore } from "@/store/useUserStore";
 import { AvatarForm, BiographyFormType, RegisterFormType, RegistrationSteps } from "@/types";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -137,17 +138,55 @@ export default function RegisterPage(){
                 <StepIndicator viewStep={setStepView} steps={STEPS} step={step} />
             </div>
             {/* <span>Step: {step + 1} Step In View: {stepView + 1}</span> Testing purpose */}
-            <FormProvider {...registerForm}>
-                {stepView === 0 && <RegisterForm onSubmit={registerUser} />}
-            </FormProvider>
-
-            <FormProvider  {...avatarForm}>
-                {stepView === 1 && <AvatarUploadForm isUploading={isUploading} avatarPreviewUrl={avatarUrl} onSubmit={setNextStep} onUpload={handleAvatarUpload} />}
-            </FormProvider>
-
-            <FormProvider  {...biographyForm}>
-                {stepView === 2 && <BiographyForm onSubmit={updateUserBiography} />}
-            </FormProvider>
+            <AnimatePresence mode="wait">
+                {stepView === 0 && (
+                    <motion.div
+                    key="register"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 50, opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-full flex justify-center"
+                    >
+                    <FormProvider {...registerForm}>
+                        <RegisterForm onSubmit={registerUser} />
+                    </FormProvider>
+                    </motion.div>
+                )}
+                {stepView === 1 && (
+                    <motion.div
+                    key="avatar"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 50, opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-full flex justify-center"
+                    >
+                    <FormProvider {...avatarForm}>
+                        <AvatarUploadForm
+                        isUploading={isUploading}
+                        avatarPreviewUrl={avatarUrl}
+                        onSubmit={setNextStep}
+                        onUpload={handleAvatarUpload}
+                        />
+                    </FormProvider>
+                    </motion.div>
+                )}
+                {stepView === 2 && (
+                    <motion.div
+                    key="biography"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 50, opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-full flex justify-center"
+                    >
+                    <FormProvider {...biographyForm}>
+                        <BiographyForm onSubmit={updateUserBiography} />
+                    </FormProvider>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     )
 }

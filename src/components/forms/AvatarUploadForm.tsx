@@ -27,7 +27,7 @@ export default function AvatarUploadForm({ onUpload, onSubmit, avatarPreviewUrl,
                     {isUploading ? <Loader2 className="animate-spin" /> : <Avatar size="lg" avatarUrl={avatarPreviewUrl} />}
                 </div>
 
-                <Label htmlFor="avatar-upload" className="mt-18 border-2 bg-gray-50 text-gray-400 py-10 w-full grid place-items-center shadow-md rounded-md">
+                <Label htmlFor="avatar-upload" className="mt-18 border-2 bg-accent text-gray-400 py-10 w-full grid place-items-center shadow-md rounded-md">
                     <ImageUp size={32} />
                     <span>Click here to upload your avatar</span>
                     <span>400x400 max 25MB</span>
