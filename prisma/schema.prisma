@@ -21,6 +21,7 @@ model User {
   createdAt     DateTime @default(now())
   Comment       Comment[]
   Like          Like[]
+  PostDraft PostDraft[]
 }
 
 //model for posts
@@ -41,6 +42,18 @@ model Image {
   id  String @id @default(uuid())
   url String
   Post Post[]
+
+  PostDraft PostDraft[]
+}
+
+model PostDraft {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  images    Image[]
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime @default(now())
 }
 
 // model for comments
