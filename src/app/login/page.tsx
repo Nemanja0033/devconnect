@@ -22,7 +22,7 @@ const LoginPage = () => {
 
   const handleLogin = async (data: LoginFormType) => {
     const { email, password } = data;
-    await login(email, password).then(() => router.push('/feed'));
+    await login(email, password);
   };
 
   return (

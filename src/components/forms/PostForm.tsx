@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import UploadImageForm from "./UploadImage";
 
-export default function PostForm({onSubmit} : { onSubmit: () => void }){
+export default function PostForm({onSubmit, saveDraft} : { onSubmit: () => void, saveDraft: () => void}){
     const { register, handleSubmit, watch, formState: { isSubmitting, errors } } = useFormContext<CreatePostForm>();
     const isFormDisabled = isSubmitting || watch("title") === "" || watch("content") === "";
 
@@ -24,7 +24,7 @@ export default function PostForm({onSubmit} : { onSubmit: () => void }){
 
                 {errors.content && <span className="text-red-500 text-sm">{errors.content.message}</span>}
                 <div className="flex justify-end gap-3">
-                  <Button variant={'secondary'} disabled={isFormDisabled}>Save Draft</Button>
+                  <Button type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled}>Save Draft</Button>
                   <Button disabled={isFormDisabled} type="submit">{isSubmitting ? <Loader2 className="animate-spin"/> : "Submit"}</Button>
                 </div>
             </form>

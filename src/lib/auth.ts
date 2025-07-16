@@ -7,13 +7,14 @@ export const logout = async () => {
 
 export const login = async (email: string, password: string) => {
   const res = await signIn("credentials", {
-    redirect: false,
+    callbackUrl: '/',
     email,
     password,
   });
 
   if (res?.ok) {
     toast.success("Successfully logged in!");
+    window.location.href = '/feed'
   } else {
     toast.error(res?.error || "Login failed");
   }

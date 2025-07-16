@@ -38,14 +38,6 @@ model Post {
   Like Like[]
 }
 
-model Image {
-  id  String @id @default(uuid())
-  url String
-  Post Post[]
-
-  PostDraft PostDraft[]
-}
-
 model PostDraft {
   id        String   @id @default(uuid())
   title     String
@@ -54,6 +46,13 @@ model PostDraft {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   createdAt DateTime @default(now())
+}
+
+model Image {
+  id  String @id @default(uuid())
+  url String
+  Post Post[]
+  PostDraft PostDraft[]
 }
 
 // model for comments
