@@ -10,7 +10,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
-    // ✨ Očistimo email odmah
     const sanitizedEmail = email.trim().toLowerCase();
 
     const existingUser = await db.user.findUnique({
@@ -26,7 +25,7 @@ export async function POST(req: Request) {
     const newUser = await db.user.create({
       data: {
         username,
-        email: sanitizedEmail, // ✨ Sačuvaj čist email u bazi
+        email: sanitizedEmail,
         password: hashedPassword,
       },
     });

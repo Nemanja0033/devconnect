@@ -29,12 +29,18 @@ model Post {
   id        String   @id @default(uuid())
   title     String
   content   String
-  img       String?
+  images    Image[]
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   createdAt DateTime @default(now())
   Comment Comment[]
   Like Like[]
+}
+
+model Image {
+  id  String @id @default(uuid())
+  url String
+  Post Post[]
 }
 
 // model for comments

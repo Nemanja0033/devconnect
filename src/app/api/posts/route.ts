@@ -24,16 +24,18 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const { title, content, img } = await req.json();
+        const { title, content, images } = await req.json();
         const authorId = session.user.id;
 
         
-        if (!title || !content || !img) {
+        if (!title || !content || !images) {
             return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
         }
 
         const newPost = await db.post.create({
-            data: { title, content, authorId, img },
+            data: { title, content, authorId,  images: {
+                create: images.map((url: string) => ({ url })),
+              },},
         });
 
         return NextResponse.json(newPost, { status: 201 });

@@ -76,3 +76,8 @@ export type LoginFormType = {
     email: string,
     password: string
 }
+
+export type CreatePostForm = {
+    title: string,
+    content: string,
+}

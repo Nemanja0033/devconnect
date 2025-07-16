@@ -11,7 +11,7 @@ const Navbar = () => {
     const { theme } = useTheme();
 
   return (
-    <header className="w-full h-[80px] shadow-md rounded-md flex lg:px-40 px-5 justify-between items-center">
+    <header className="w-full h-[80px] border-b shadow-md rounded-md flex lg:px-40 px-5 justify-between items-center">
         <div>
             <Link href={'/'}>
                 <img src={`${theme === 'light' ? "/logo.png" : "/dark-logo.png"}`} className="w-32 relative top-1 h-auto" alt="" />
@@ -22,6 +22,7 @@ const Navbar = () => {
                 status === 'authenticated' ?
                 (
                     <div className="gap-2 flex">
+                    <ModeToggle />
                     <Link href={'/createpost'}>
                         <Button>+ Create</Button>
                     </Link>
