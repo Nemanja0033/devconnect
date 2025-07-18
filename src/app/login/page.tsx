@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { login } from "@/lib/auth";
 import { LoginFormType } from "@/types";
 import { Label } from "@radix-ui/react-label";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -17,8 +18,7 @@ const LoginPage = () => {
   } = useForm<LoginFormType>({
     mode: "onSubmit",
   });
-
-  const router = useRouter();
+  const { status } = useSession();
 
   const handleLogin = async (data: LoginFormType) => {
     const { email, password } = data;

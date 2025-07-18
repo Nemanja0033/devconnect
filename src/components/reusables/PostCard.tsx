@@ -1,5 +1,5 @@
 "use client"
-import { PostType } from "@/types/PostType"
+import { PostType } from "@/types"
 import { ArrowUpRightFromSquareIcon, CircleFadingArrowUp, MessageCircle } from "lucide-react"
 import Link from "next/link"
 

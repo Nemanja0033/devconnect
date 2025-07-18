@@ -81,3 +81,12 @@ export type CreatePostForm = {
     title: string,
     content: string,
 }
+
+export type CreateProjectForm = {
+    title: string,
+    description: string,
+    sourceCodeUrl: string,
+    liveDemoUrl: string,
+    issues: string,
+    techStack: string
+}

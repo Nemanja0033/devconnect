@@ -14,13 +14,22 @@ export async function POST(req: Request){
         }
 
         const userId = session.user.id;
+        console.log("User ID:", userId);
 
-        const _savedDraft = db.postDraft.create({
-            data:{
-                title: title ?? '',
-                images: images ?? [],
-                content: content ?? '',
-                author: userId
+        const _savedDraft = await db.postDraft.create({
+            data: {
+              title: title ?? '',
+              content: content ?? '',
+              author: {
+                connect: {
+                  id: userId
+                }
+              },
+              images: {
+                create: images?.map((img: { url: string }) => ({
+                  url: img.url
+                })) || []
+              }
             }
         })
 

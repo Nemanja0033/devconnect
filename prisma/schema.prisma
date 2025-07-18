@@ -22,6 +22,8 @@ model User {
   Comment       Comment[]
   Like          Like[]
   PostDraft PostDraft[]
+
+  ProjectDraft ProjectDraft[]
 }
 
 //model for posts
@@ -38,8 +40,19 @@ model Post {
   Like Like[]
 }
 
+model Project {
+  id            String  @id @default(uuid())
+  title         String
+  description   String
+  sourceUrl     String?
+  liveUrl       String?
+  issues        String?
+  images        Image[]
+}
+
 model PostDraft {
   id        String   @id @default(uuid())
+  type      PostType @default(CLASSIC)
   title     String
   content   String
   images    Image[]
@@ -48,11 +61,32 @@ model PostDraft {
   createdAt DateTime @default(now())
 }
 
+model ProjectDraft {
+  id            String  @id @default(uuid())
+  title         String
+  description   String
+  sourceUrl     String?
+  liveUrl       String?
+  issues        String?
+  images        Image[]
+  author        User    @relation(fields: [authorId], references: [id])
+  authorId      String
+  createdAt     DateTime @default(now())
+}
+
+enum PostType {
+  CLASSIC
+  PROJECT
+}
+
 model Image {
   id  String @id @default(uuid())
   url String
   Post Post[]
   PostDraft PostDraft[]
+  Project Project[]
+
+  ProjectDraft ProjectDraft[]
 }
 
 // model for comments
