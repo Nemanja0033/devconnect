@@ -40,3 +40,23 @@ export async function POST(req: Request){
         return NextResponse.json({ error: err});
     }
 }
+
+export async function GET(req: Request){
+    try{
+      const session: any = await getServerSession(authOptions);
+      const _postDrafts = await db.projectDraft.findMany({
+        where: {
+          authorId: session.user.id
+        }
+      });
+  
+      if(!_postDrafts){
+        return NextResponse.json({ error: "User has no saved drafts"}, { status: 404});
+      };
+  
+      return NextResponse.json(_postDrafts, { status: 202});
+    }
+    catch(err){
+      return NextResponse.json({ error: err}, { status: 500});
+    }
+  }

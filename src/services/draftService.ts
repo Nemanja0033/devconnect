@@ -32,6 +32,25 @@ export const saveProjectDraft = async (data: CreateProjectForm, images: string[]
   }
 }
 
-// export const getDrafts = async () => {
+export const getPostDrafts = async () => {
+  try{
+    const drafts = await axios.get('/api/draft/post');
+    
+    return drafts.data;
+  }
+  catch(err){
+    console.log(err);
+  }
+}
 
-// }
+
+export const getProjecftDrafts = async () => {
+  try{
+    const drafts = await axios.get('/api/draft/project');
+    
+    return drafts.data;
+  }
+  catch(err){
+    console.log(err);
+  }
+}

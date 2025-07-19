@@ -1,6 +1,5 @@
 import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
-import { error } from "console";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -38,4 +37,24 @@ export async function POST(req: Request){
     catch(err){
         return NextResponse.json({ error: err});
     }
+}
+
+export async function GET(req: Request){
+  try{
+    const session: any = await getServerSession(authOptions);
+    const _postDrafts = await db.postDraft.findMany({
+      where: {
+        authorId: session.user.id
+      }
+    });
+
+    if(!_postDrafts){
+      return NextResponse.json({ error: "User has no saved drafts"}, { status: 404});
+    };
+
+    return NextResponse.json(_postDrafts, { status: 202});
+  }
+  catch(err){
+    return NextResponse.json({ error: err}, { status: 500});
+  }
 }

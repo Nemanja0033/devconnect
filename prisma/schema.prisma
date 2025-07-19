@@ -52,7 +52,6 @@ model Project {
 
 model PostDraft {
   id        String   @id @default(uuid())
-  type      PostType @default(CLASSIC)
   title     String
   content   String
   images    Image[]
