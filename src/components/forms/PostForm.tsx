@@ -13,13 +13,13 @@ export default function PostForm({onSubmit, saveDraft, isSavingDraft } : { onSub
         <form className="grid mt-3 w-full gap-5" onSubmit={handleSubmit(onSubmit)}>
                 <Input {...register('title', {
                     required: "Title is required"
-                })} type="text" id="title" placeholder="Title*" />
+                })} type="text" id="title" placeholder="Title*" className="h-12 rounded-xl" />
 
                 {errors.title && <span className="text-red-500 text-sm">{errors.title.message}</span>}
 
                 <Input {...register('content', {
                     required: "Content is required"
-                })} type="text" id="title" placeholder="Content*" />
+                })} type="text" id="title" placeholder="Content*" className="h-20 rounded-xl" />
 
                 {errors.content && <span className="text-red-500 text-sm">{errors.content.message}</span>}
                 <div className="flex md:justify-end justify-center gap-3 w-full ">

@@ -2,15 +2,15 @@
 import PostForm from "@/components/forms/PostForm";
 import ProjectForm from "@/components/forms/ProjectForm";
 import UploadImageForm from "@/components/forms/UploadImage";
+import Draft from "@/components/reusables/Draft";
+import Loader from "@/components/screens/Loader";
 import { Card } from "@/components/ui/card";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
-import { CreatePostForm, CreateProjectForm } from "@/types"
-import { PostDraft, ProjectDraft } from "@prisma/client";
+import { CreatePostForm, CreateProjectForm, PostDraftType, ProjectDraftType } from "@/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import axios from "axios";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "sonner";
 
@@ -18,7 +18,7 @@ export default function CreatePost() {
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
-  const [drafts, setDrafts] = useState<PostDraft[] | ProjectDraft[]>([]);
+  const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
 
   const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
   const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
@@ -101,36 +101,38 @@ export default function CreatePost() {
       setIsSavingDraft(false);
     }
   };
+
   const handleGetDrafts = async () => {
     try {
+      setIsLoading(true);
       const postDrafts = await getPostDrafts();
       const projectDrafts = await getProjecftDrafts();
 
       setDrafts([...postDrafts, ...projectDrafts]);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
   
-  
   const handleTabChange = (value: string) => {
-    if(value === 'drafts'){
-      handleGetDrafts();
-    }
+    handleGetDrafts();
 
     return;
-  }
+  };
 
   return (
     <main className="flex w-full h-[80vh] p-5 justify-center items-center">
-      <Card className="p-5 md:w-fit w-full grid">
+      <div className="p-5 md:w-fit h-full w-full">
+        <span className="text-2xl font-semibold">Create Post</span>
         <Tabs defaultValue="post" onValueChange={handleTabChange}>
           <TabsList className="flex px-1 justify-between w-full gap-3">
            <div className="flex gap-3">
-            <TabsTrigger  className="data-[state=active]:border-b-2 border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="post">Post</TabsTrigger>
-            <TabsTrigger  className="data-[state=active]:border-b-2 border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="project">Project</TabsTrigger>
+            <TabsTrigger  className="data-[state=active]:border-b-2 hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="post">Post</TabsTrigger>
+            <TabsTrigger  className="data-[state=active]:border-b-2 hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="project">Project</TabsTrigger>
            </div>
-            <TabsTrigger onClick={handleGetDrafts} className="ml-6 data-[state=active]:border-b-2 border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
+            <TabsTrigger onClick={handleGetDrafts} className="ml-6 data-[state=active]:border-b-2 hover:bg-accent p-2 transition-all border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
           </TabsList>
 
           <TabsContent className="mt-3" value="post">
@@ -151,14 +153,16 @@ export default function CreatePost() {
           </TabsContent>
 
           <TabsContent className="mt-3" value="drafts">
-            <div className="gird gap-3">
-              {drafts.map((draft) => (
-                <span>{draft.title}</span>
-              ))}
+            <div className="gird gap-3 h-full place-items-center">
+              {isLoading ? <Loader /> : (
+                drafts.map((draft) => (
+                  <Draft title={draft.title} type=""  />
+                ))
+              )}
             </div>
           </TabsContent>
         </Tabs>
-      </Card>
+      </div>
     </main>
   );
 }

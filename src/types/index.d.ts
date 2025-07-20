@@ -90,3 +90,25 @@ export type CreateProjectForm = {
     issues: string,
     techStack: string
 }
+
+export type Images = {
+    id: string,
+    url: string
+}
+
+export type PostDraftType = {
+    title: string,
+    content: string,
+    images: Images[],
+    id: string
+}
+
+export type ProjectDraftType = {
+    title: string,
+    description: string,
+    images: Images[],
+    sourceUrl?: string,
+    liveUrl?: string,
+    issues?: string,
+    id: string
+}

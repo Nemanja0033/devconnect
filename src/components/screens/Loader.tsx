@@ -1,11 +1,11 @@
 "use client"
 
-import { LoaderIcon } from "lucide-react"
+import { Loader2, LoaderIcon } from "lucide-react"
 
 const Loader = () => {
   return (
     <>
-     <LoaderIcon className="animate-spin text-gray-500" />
+     <Loader2 className="animate-spin text-gray-500" />
     </>
   )
 }
