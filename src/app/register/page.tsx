@@ -59,7 +59,7 @@ export default function RegisterPage(){
             if(res.ok){
                 setUser({
                     username: credentialsData.username,
-                    avatar: null,
+                    avatar: '',
                     email: credentialsData.email
                 })
                 toast.success("Success");

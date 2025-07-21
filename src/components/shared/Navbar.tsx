@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { logout } from "@/lib/auth";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "../ui/theme-toggle";
+import AvatarToggle from "./AvatarToggle";
 
 const Navbar = () => {
     const { status } = useSession();
@@ -22,11 +23,10 @@ const Navbar = () => {
                 status === 'authenticated' ?
                 (
                     <div className="gap-2 flex">
-                    <ModeToggle />
                     <Link href={'/createpost'}>
                         <Button>+ Create</Button>
                     </Link>
-                    <Button variant={'outline'} onClick={() => logout()}>Logout</Button>
+                    <AvatarToggle />
                     </div>
                 )
                 :

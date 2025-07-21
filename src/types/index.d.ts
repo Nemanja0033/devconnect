@@ -36,7 +36,7 @@ export type Steps = {
 
 export type User = {
     username: string,
-    avatar: string | null,
+    avatar: string,
     email: email,
 }
 
