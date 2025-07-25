@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/prismaClient";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { getAuthOptions } from "@/lib/authOptions";
 
 export async function POST(req: Request) {
-  const session: any = await getServerSession(authOptions);
+  const session: any = await getServerSession(getAuthOptions());
 
   if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 

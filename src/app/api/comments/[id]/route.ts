@@ -1,7 +1,7 @@
 import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { getAuthOptions } from "@/lib/authOptions";
 
 
 export async function GET(req: Request, { params }: { params: { id: string}}){
@@ -27,7 +27,7 @@ export async function GET(req: Request, { params }: { params: { id: string}}){
 
 export async function DELETE(req: Request, { params }: { params: { id: string}}){
     try{ 
-        const session: any = await getServerSession(authOptions);
+        const session: any = await getServerSession(getAuthOptions());
 
         if(!session?.user){
             return NextResponse.json({error: "Unauthorized"}, { status: 401});
