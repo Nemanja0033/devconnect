@@ -13,7 +13,7 @@ export default function AvatarToggle(){
             <PopoverTrigger>
                 <img className="h-10 w-10 rounded-full" src={user.avatar} alt={user.username} />
             </PopoverTrigger>
-            <PopoverContent className="border-2 grid gap-5 mt-3 dark:bg-accent p-3 w-64 rounded-md">
+            <PopoverContent className="border-2 bg-white z-50 grid gap-5 mt-3 dark:bg-accent p-3 w-64 rounded-md">
                 <div className="py-2 hover:opacity-55 cursor-pointer transition-all">
                     <div className="flex justify-start items-center gap-2">
                         <img src={user.avatar} className="h-10 w-10 rounded-full" alt="" />

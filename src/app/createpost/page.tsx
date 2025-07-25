@@ -4,15 +4,34 @@ import ProjectForm from "@/components/forms/ProjectForm";
 import UploadImageForm from "@/components/forms/UploadImage";
 import Draft from "@/components/reusables/Draft";
 import Loader from "@/components/screens/Loader";
-import { Card } from "@/components/ui/card";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
-import { CreatePostForm, CreateProjectForm, PostDraftType, ProjectDraftType } from "@/types"
+import { CreatePostForm, CreateProjectForm, Images } from "@/types"
+import { PostType } from "@prisma/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "sonner";
+
+export type PostDraftType = {
+  title: string,
+  content: string,
+  images: Images[],
+  id: string
+  type: PostType | undefined;
+}
+
+export type ProjectDraftType = {
+  title: string,
+  description: string,
+  images: Images[],
+  sourceUrl?: string,
+  liveUrl?: string,
+  issues?: string,
+  id: string
+  type: PostType | undefined;
+}
 
 export default function CreatePost() {
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
@@ -117,9 +136,10 @@ export default function CreatePost() {
   };
   
   const handleTabChange = (value: string) => {
-    handleGetDrafts();
+    if(value === "drafts"){
+      handleGetDrafts();
+    }
 
-    return;
   };
 
   return (
@@ -129,10 +149,10 @@ export default function CreatePost() {
         <Tabs defaultValue="post" onValueChange={handleTabChange}>
           <TabsList className="flex px-1 justify-between w-full gap-3">
            <div className="flex gap-3">
-            <TabsTrigger  className="data-[state=active]:border-b-2 hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="post">Post</TabsTrigger>
-            <TabsTrigger  className="data-[state=active]:border-b-2 hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="project">Project</TabsTrigger>
+            <TabsTrigger  className="data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="post">Post</TabsTrigger>
+            <TabsTrigger  className="data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="project">Project</TabsTrigger>
            </div>
-            <TabsTrigger onClick={handleGetDrafts} className="ml-6 data-[state=active]:border-b-2 hover:bg-accent p-2 transition-all border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
+            <TabsTrigger onClick={handleGetDrafts} className="ml-6 data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
           </TabsList>
 
           <TabsContent className="mt-3" value="post">
@@ -152,11 +172,11 @@ export default function CreatePost() {
             </FormProvider>
           </TabsContent>
 
-          <TabsContent className="mt-3" value="drafts">
-            <div className="gird gap-3 h-full place-items-center">
+          <TabsContent className="mt-3 md:w-[530px]" value="drafts">
+            <div className="grid gap-3 w-full h-full place-items-center">
               {isLoading ? <Loader /> : (
                 drafts.map((draft) => (
-                  <Draft title={draft.title} type=""  />
+                  <Draft key={draft.id} title={draft.title} type={draft.type} />
                 ))
               )}
             </div>

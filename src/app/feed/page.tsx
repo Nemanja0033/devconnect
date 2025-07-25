@@ -30,7 +30,7 @@ export default async function FeedPage() {
       <section className="lg:w-[70%] grid grid-cols-1 place-items-center items-start p-5 rounded-md border-gray-50 mt-3">
         {posts.length > 0 ? (
           posts.map((post) => (
-            <PostCard key={post.id} image={post.images[0].url} title={post.title} id={post.id} likes={post._count.Like} comments={post._count.Comment} author={""} date={""} />
+            <PostCard key={post.id} image={post.images?.[0]?.url} title={post.title} id={post.id} likes={post._count.Like} comments={post._count.Comment} author={""} date={""} />
           ))
         ) : (
           <p>No posts found.</p>
