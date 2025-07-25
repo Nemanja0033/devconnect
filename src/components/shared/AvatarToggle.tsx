@@ -2,6 +2,7 @@ import { useUserStore } from "@/store/useUserStore"
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 import Link from "next/link";
 import { ModeToggle } from "../ui/theme-toggle";
+import { logout } from "@/lib/auth";
 
 export default function AvatarToggle(){
     const { user } = useUserStore();
@@ -26,7 +27,7 @@ export default function AvatarToggle(){
                 <Link className="hover:opacity-55" href={'/'}>My Profile</Link>
                 <Link className="hover:opacity-55" href={'/'}>Settings</Link>
                 <Link className="flex items-center hover:opacity-55 gap-2" href={'/'}><ModeToggle /></Link>
-                <Link className="hover:opacity-55" href={'/'}>Logout</Link>
+                <Link onClick={logout} className="hover:opacity-55" href={'/'}>Logout</Link>
             </PopoverContent>
         </Popover>
     )
