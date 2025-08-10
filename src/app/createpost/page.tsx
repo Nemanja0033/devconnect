@@ -4,12 +4,25 @@ import ProjectForm from "@/components/forms/ProjectForm";
 import UploadImageForm from "@/components/forms/UploadImage";
 import Draft from "@/components/reusables/Draft";
 import Loader from "@/components/screens/Loader";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
 import { CreatePostForm, CreateProjectForm, Images } from "@/types"
 import { PostType } from "@prisma/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { set } from "date-fns";
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "sonner";
@@ -38,6 +51,10 @@ export default function CreatePost() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
+
+  // Drafts modal state
+  const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
+  const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
 
   const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
   const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
@@ -140,6 +157,19 @@ export default function CreatePost() {
       handleGetDrafts();
     }
 
+    return;
+  };
+
+  // TODO draft delete functionality
+
+  const handleDeleteDraft = async (draftId: string) => {
+    try {
+      setIsDeleteDraftModalOpen(false);
+
+      toast.success("Draft deleted successfully!");
+    } catch (err) {
+      toast.error("Error while deleting draft");
+    }
   };
 
   return (
@@ -176,13 +206,31 @@ export default function CreatePost() {
             <div className="grid gap-3 w-full h-full place-items-center">
               {isLoading ? <Loader /> : (
                 drafts.map((draft) => (
-                  <Draft key={draft.id} title={draft.title} type={draft.type} />
+                  <div onClick={() => setIsDraftModalOpen(true)} className="w-full cursor-pointer" key={draft.id}>
+                    <Draft title={draft.title} type={draft.type} />
+                  </div>
                 ))
               )}
             </div>
           </TabsContent>
         </Tabs>
       </div>
+
+      <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle></AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </main>
   );
 }

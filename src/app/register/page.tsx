@@ -8,6 +8,8 @@ import { uploadToCloud } from "@/lib/uploadImage";
 import { useUserStore } from "@/store/useUserStore";
 import { AvatarForm, BiographyFormType, RegisterFormType, RegistrationSteps } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
+import { stat } from "fs";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -34,6 +36,7 @@ export default function RegisterPage(){
     const biographyData = biographyForm.getValues();
 
     const router = useRouter();
+    const { status } = useSession();
 
     const setNextStep = () => {
         setStep((pervStep) => pervStep + 1);
@@ -128,6 +131,10 @@ export default function RegisterPage(){
             toast.error("Error while updating user");
             console.log(err);
         }
+    }
+
+    if(status === "authenticated") {
+        router.push('/feed');
     }
 
     return(

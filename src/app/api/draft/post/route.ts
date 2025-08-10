@@ -1,11 +1,11 @@
-import { authOptions } from "@/lib/authOptions";
+import { getAuthOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request){
     try{
-        const session: any = await getServerSession(authOptions);
+        const session: any = await getServerSession(getAuthOptions());
         const { title, content, images } = await req.json();
 
         if (!session || !session.user) {
@@ -41,7 +41,7 @@ export async function POST(req: Request){
 
 export async function GET(req: Request){
   try{
-    const session: any = await getServerSession(authOptions);
+    const session: any = await getServerSession(getAuthOptions());
     const _postDrafts = await db.postDraft.findMany({
       where: {
         authorId: session.user.id

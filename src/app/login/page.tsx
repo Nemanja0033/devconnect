@@ -19,11 +19,16 @@ const LoginPage = () => {
     mode: "onSubmit",
   });
   const { status } = useSession();
+  const router = useRouter();
 
   const handleLogin = async (data: LoginFormType) => {
     const { email, password } = data;
     await login(email, password);
   };
+
+  if(status === "authenticated") {
+    router.push('/feed');
+  }
 
   return (
     <main className="w-full h-screen grid place-items-center">
