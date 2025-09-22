@@ -5,9 +5,15 @@ import { ModeToggle } from "../ui/theme-toggle";
 import { logout } from "@/lib/auth";
 
 export default function AvatarToggle(){
-    const { user } = useUserStore();
+    const user  = {
+        avatar: '',
+        username: 'Nemanja',
+        email: ''
+    }
 
-    if(!user) return;
+    // TODO cannot use user store here, it empty if user in not first time registered
+    // need to fetch user data from server
+    
 
     return(
         <Popover>

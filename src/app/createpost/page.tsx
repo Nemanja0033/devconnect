@@ -15,44 +15,23 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
-import { CreatePostForm, CreateProjectForm, Images } from "@/types"
-import { PostType } from "@prisma/client";
+import { CreatePostForm, CreateProjectForm, DraftType, Images, PostDraftType, ProjectDraftType } from "@/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { set } from "date-fns";
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "sonner";
 
-export type PostDraftType = {
-  title: string,
-  content: string,
-  images: Images[],
-  id: string
-  type: PostType | undefined;
-}
-
-export type ProjectDraftType = {
-  title: string,
-  description: string,
-  images: Images[],
-  sourceUrl?: string,
-  liveUrl?: string,
-  issues?: string,
-  id: string
-  type: PostType | undefined;
-}
-
 export default function CreatePost() {
-  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
-
+  
   // Drafts modal state
+  const [draftEditType, setDraftEditType] = useState<DraftType>();
   const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
 
@@ -95,7 +74,14 @@ export default function CreatePost() {
   const handleSubmitProjectPost = async () => {
     const { title, description, sourceCodeUrl, liveDemoUrl, issues } = createProjectForm.getValues();
     try {
-      await createProject({ title, description, sourceUrl: sourceCodeUrl, liveUrl: liveDemoUrl, issues, images: imagesUrl });
+      await createProject({ 
+        title, 
+        description, 
+        sourceUrl: sourceCodeUrl, 
+        liveUrl: liveDemoUrl, 
+        issues, 
+        images: imagesUrl });
+        
       toast.success("Posted successfully!");
       createPostForm.reset();
       setImagesUrl([]);
@@ -125,7 +111,15 @@ export default function CreatePost() {
 
   const handleSaveProjectDraft = async () => {
     setIsSavingDraft(true);
-    const { title, description, sourceCodeUrl, techStack, liveDemoUrl, issues } = createProjectForm.getValues();
+    const { 
+      title, 
+      description, 
+      sourceCodeUrl, 
+      techStack, 
+      liveDemoUrl, 
+      issues 
+    } = createProjectForm.getValues();
+      
     try {
       await saveProjectDraft({ title, description, sourceCodeUrl, techStack, liveDemoUrl, issues }, imagesUrl);
       toast.success("Draft saved successfully!");
@@ -144,14 +138,19 @@ export default function CreatePost() {
       const postDrafts = await getPostDrafts();
       const projectDrafts = await getProjecftDrafts();
 
+      // merge drafts 
       setDrafts([...postDrafts, ...projectDrafts]);
       setIsLoading(false);
     } catch (err) {
       console.log(err);
       setIsLoading(false);
     }
+    finally{
+      setIsLoading(false);
+    }
   };
   
+  // split fetch of drafts only when drafts is clicked
   const handleTabChange = (value: string) => {
     if(value === "drafts"){
       handleGetDrafts();
@@ -172,11 +171,24 @@ export default function CreatePost() {
     }
   };
 
+  // function to handle opening modal and displaying current data of saved draft.
+    // TODO: use state to store reactive filtered draft.
+  const openEditDraftModal = (draftType: DraftType | undefined, draftId: string) => {
+    const draft = drafts.filter((x) => x.id === draftId);
+
+    if(!draft) return;
+
+    setDraftEditType(draftType);
+    setIsDraftModalOpen(true);
+
+    return draft;
+  }
+
   return (
     <main className="flex w-full h-[80vh] p-5 justify-center items-center">
       <div className="p-5 md:w-fit h-full w-full">
         <span className="text-2xl font-semibold">Create Post</span>
-        <Tabs defaultValue="post" onValueChange={handleTabChange}>
+        <Tabs defaultValue="post"  onValueChange={handleTabChange}>
           <TabsList className="flex px-1 justify-between w-full gap-3">
            <div className="flex gap-3">
             <TabsTrigger  className="data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="post">Post</TabsTrigger>
@@ -204,10 +216,10 @@ export default function CreatePost() {
 
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
             <div className="grid gap-3 w-full h-full place-items-center">
-              {isLoading ? <Loader /> : (
+              {isLoading && drafts.length < 1 ? <Loader /> : (
                 drafts.map((draft) => (
-                  <div onClick={() => setIsDraftModalOpen(true)} className="w-full cursor-pointer" key={draft.id}>
-                    <Draft title={draft.title} type={draft.type} />
+                  <div className="w-full cursor-pointer" key={draft.id}>
+                    <Draft onEditClick={() => openEditDraftModal(draft.type, draft.id)} title={draft.title} type={draft.type} />
                   </div>
                 ))
               )}
@@ -215,6 +227,22 @@ export default function CreatePost() {
           </TabsContent>
         </Tabs>
       </div>
+
+      <AlertDialog open={isDraftModalOpen} onOpenChange={setIsDraftModalOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle></AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
 
       <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
       <AlertDialogContent>

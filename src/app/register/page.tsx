@@ -8,7 +8,6 @@ import { uploadToCloud } from "@/lib/uploadImage";
 import { useUserStore } from "@/store/useUserStore";
 import { AvatarForm, BiographyFormType, RegisterFormType, RegistrationSteps } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
-import { stat } from "fs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";

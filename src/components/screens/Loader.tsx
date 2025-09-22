@@ -5,7 +5,7 @@ import { Loader2, LoaderIcon } from "lucide-react"
 const Loader = () => {
   return (
     <>
-     <Loader2 className="animate-spin text-gray-500" />
+     <Loader2 className="animate-spin text-primary" />
     </>
   )
 }
