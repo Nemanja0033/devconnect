@@ -6,8 +6,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useEffect } from "react";
 
-
-
 export default function PostForm({
     onSubmit, 
     saveDraft, 

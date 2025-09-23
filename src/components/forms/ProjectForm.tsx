@@ -1,21 +1,34 @@
-import { CreateProjectForm } from "@/types";
+import { CreateProjectForm, ProjectDraftType } from "@/types";
 import { useFormContext } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import ErrorTooltip from "../reusables/FormErrorTooltip";
+import { useEffect } from "react";
 
-export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft }: { isSavingDraft?: boolean, saveDraft?: () => void, onSubmit: () => void}){
+export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedFromDraft }: { isSavingDraft?: boolean, saveDraft?: () => void, onSubmit: () => void, savedFromDraft?: ProjectDraftType}){
     const {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { isSubmitting, errors }
     } = useFormContext<CreateProjectForm>();
 
     const isFormDisabled = isSubmitting || watch("title") === "" || watch("description") === "";
 
+    useEffect(() => {
+        if(savedFromDraft){
+            reset({
+                title: savedFromDraft.title,
+                description: savedFromDraft.description,
+                liveDemoUrl: savedFromDraft.liveUrl,
+                sourceCodeUrl: savedFromDraft.sourceUrl,
+                issues: savedFromDraft.issues,
+            });
+        };
+    }, [savedFromDraft, reset]);
 
     return(
         <form className="grid mt-3 w-full gap-5" onSubmit={handleSubmit(onSubmit)}>
@@ -55,7 +68,9 @@ export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft }: { is
             <Textarea placeholder="Issues* (optional)" {...register("issues")} />
 
             <div className="flex md:justify-end justify-center gap-3 w-full ">
-                <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
+                {savedFromDraft === null ? (
+                    <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
+                ) : null}
                 <Button className="md:w-32 w-1/2" disabled={isFormDisabled} type="submit">{isSubmitting ? <Loader2 className="animate-spin"/> : "Submit"}</Button>
             </div>
         </form>

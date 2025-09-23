@@ -3,7 +3,6 @@ import PostForm from "@/components/forms/PostForm";
 import ProjectForm from "@/components/forms/ProjectForm";
 import UploadImageForm from "@/components/forms/UploadImage";
 import Draft from "@/components/reusables/Draft";
-import Loader from "@/components/screens/Loader";
 import { DraftSkeleton } from "@/components/skeletons/DraftSkeleton";
 import {
   AlertDialog,
@@ -14,7 +13,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { uploadToCloud } from "@/lib/uploadImage";
 import { deleteDraft, getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
@@ -30,8 +28,6 @@ export default function CreatePost() {
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
-  
-  // Drafts modal state
   const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
   const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
@@ -261,7 +257,7 @@ export default function CreatePost() {
 
           {currentDraft?.type === 'PROJECT' && (
             <FormProvider {...createProjectForm}>
-              <ProjectForm onSubmit={handleSubmitProjectPost} />
+              <ProjectForm savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
             </FormProvider>
           )}
 
