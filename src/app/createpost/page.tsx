@@ -18,7 +18,7 @@ import {
 import { uploadToCloud } from "@/lib/uploadImage";
 import { getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
-import { CreatePostForm, CreateProjectForm, DraftType, Images, PostDraftType, ProjectDraftType } from "@/types"
+import { CreatePostForm, CreateProjectForm, DraftType, PostDraftType, ProjectDraftType } from "@/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -31,7 +31,8 @@ export default function CreatePost() {
   const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
   
   // Drafts modal state
-  const [draftEditType, setDraftEditType] = useState<DraftType>();
+  const [draftEditType, setDraftEditType] = useState<DraftType | string>();
+  const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
   const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
 
@@ -172,16 +173,14 @@ export default function CreatePost() {
   };
 
   // function to handle opening modal and displaying current data of saved draft.
-    // TODO: use state to store reactive filtered draft.
   const openEditDraftModal = (draftType: DraftType | undefined, draftId: string) => {
-    const draft = drafts.filter((x) => x.id === draftId);
-
+    const rawDraft = drafts.filter((x) => x.id === draftId);
+    const draft = rawDraft[0];
+    console.log(rawDraft)
     if(!draft) return;
-
     setDraftEditType(draftType);
+    setCurrentDraft(draft)
     setIsDraftModalOpen(true);
-
-    return draft;
   }
 
   return (
@@ -197,6 +196,7 @@ export default function CreatePost() {
             <TabsTrigger onClick={handleGetDrafts} className="ml-6 data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
           </TabsList>
 
+          {/* Posts tab */}
           <TabsContent className="mt-3" value="post">
             <UploadImageForm isLoading={isLoading} removeImage={handleRemoveUploadedImage} imagesUrl={imagesUrl} onUpload={uploadImages} /> 
             
@@ -205,6 +205,7 @@ export default function CreatePost() {
             </FormProvider>
           </TabsContent>
 
+          {/* Project tab */}
           <TabsContent className="mt-3" value="project">
             <UploadImageForm isLoading={isLoading} removeImage={handleRemoveUploadedImage} imagesUrl={imagesUrl} onUpload={uploadImages} /> 
 
@@ -214,6 +215,7 @@ export default function CreatePost() {
             </FormProvider>
           </TabsContent>
 
+          {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
             <div className="grid gap-3 w-full h-full place-items-center">
               {isLoading && drafts.length < 1 ? <Loader /> : (
@@ -228,23 +230,33 @@ export default function CreatePost() {
         </Tabs>
       </div>
 
+      {/* Edit draft modal */}
       <AlertDialog open={isDraftModalOpen} onOpenChange={setIsDraftModalOpen}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle></AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Edit {currentDraft?.title}</AlertDialogTitle>
+          </AlertDialogHeader>
 
-      <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
+          {draftEditType === "CLASSIC" && (
+            <FormProvider {...createPostForm}>
+              <PostForm
+                isSavingDraft={isSavingDraft}
+                saveDraft={handleSavePostDraft}
+                savedFromDraft={currentDraft}
+                onSubmit={handleSubmitPost}
+              />
+            </FormProvider>
+          )}
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Close</AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+
+    {/* Delete Draft Modal */}
+    <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle></AlertDialogTitle>

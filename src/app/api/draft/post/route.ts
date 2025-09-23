@@ -58,3 +58,24 @@ export async function GET(req: Request){
     return NextResponse.json({ error: err}, { status: 500});
   }
 }
+
+export async function DELETE(req: Request){
+  try{
+    const body = await req.json();
+
+    const { draftId } = body;
+
+    if(!draftId){
+      return NextResponse.json({ error: "Draft ID is required!"}, { status: 400 });
+    }
+
+    const _deleteDraft = await db.postDraft.delete({
+      where: { id: draftId}
+    });
+
+    return NextResponse.json({ succes: true}, { status: 200})
+  }
+  catch(err){
+
+  }
+}

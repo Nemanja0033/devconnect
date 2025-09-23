@@ -97,9 +97,9 @@ export type Images = {
 }
 
 export enum DraftType {
-    "PROJECT",
-    "CLASSIC"
-} 
+    PROJECT = "PROJECT",
+    CLASSIC = "CLASSIC"
+}
 
 export type PostDraftType = {
     title: string,
