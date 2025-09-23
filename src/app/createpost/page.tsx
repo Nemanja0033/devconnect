@@ -3,6 +3,7 @@ import PostForm from "@/components/forms/PostForm";
 import ProjectForm from "@/components/forms/ProjectForm";
 import UploadImageForm from "@/components/forms/UploadImage";
 import Draft from "@/components/reusables/Draft";
+import UploadedImagesMap from "@/components/reusables/UploadedImagesMap";
 import { DraftSkeleton } from "@/components/skeletons/DraftSkeleton";
 import {
   AlertDialog,
@@ -19,6 +20,7 @@ import { deleteDraft, getPostDrafts, getProjecftDrafts, savePostDraft, saveProje
 import { createPost, createProject } from "@/services/postService";
 import { CreatePostForm, CreateProjectForm, DraftType, PostDraftType, ProjectDraftType } from "@/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { Loader2 } from "lucide-react";
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "sonner";
@@ -31,6 +33,8 @@ export default function CreatePost() {
   const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
   const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [imageToPreview, setImageToPreview] = useState('');
 
   const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
   const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
@@ -198,7 +202,8 @@ export default function CreatePost() {
 
           {/* Posts tab */}
           <TabsContent className="mt-3" value="post">
-            <UploadImageForm isLoading={isLoading} removeImage={handleRemoveUploadedImage} imagesUrl={imagesUrl} onUpload={uploadImages} /> 
+            <UploadImageForm onUpload={uploadImages} /> 
+            <UploadedImagesMap isLoading={isLoading} imagesUrl={imagesUrl} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
             
             <FormProvider {...createPostForm}>
               <PostForm isSavingDraft={isSavingDraft} saveDraft={handleSavePostDraft} onSubmit={handleSubmitPost} />
@@ -207,7 +212,8 @@ export default function CreatePost() {
 
           {/* Project tab */}
           <TabsContent className="mt-3" value="project">
-            <UploadImageForm isLoading={isLoading} removeImage={handleRemoveUploadedImage} imagesUrl={imagesUrl} onUpload={uploadImages} /> 
+            <UploadImageForm onUpload={uploadImages} /> 
+            <UploadedImagesMap isLoading={isLoading} imagesUrl={imagesUrl} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
 
             <FormProvider {...createProjectForm}>
               <ProjectForm isSavingDraft={isSavingDraft} saveDraft={handleSaveProjectDraft} onSubmit={handleSubmitProjectPost} />
@@ -252,6 +258,8 @@ export default function CreatePost() {
                 savedFromDraft={currentDraft}
                 onSubmit={handleSubmitPost}
               />
+              {/* <UploadedImagesMap isLoading={isLoading} imagesUrl={currentDraft} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} /> */}
+
             </FormProvider>
           )}
 
@@ -284,6 +292,14 @@ export default function CreatePost() {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+
+    {/* Uploaded image preview */}
+    {isPreviewOpen && (
+      <div className="w-full p-10 bg-black/90 z-[9999] flex justify-center items-center h-[870px] absolute">
+        <button onClick={() => setIsPreviewOpen(false)} className="absolute text-2xl text-gray-200 hover:text-gray-400 cursor-pointer left-20 top-20">X</button>
+        <img className="mt-10" src={imageToPreview} alt="" />
+      </div>
+    )}
     </main>
   );
 }

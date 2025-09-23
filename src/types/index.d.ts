@@ -119,3 +119,11 @@ export type PostDraftType = {
     id: string
     type: DraftType.PROJECT | undefined;
 }
+
+export interface UploadedImagesMapProps {
+    isLoading: boolean;
+    imagesUrl: string[];
+    removeImage: (url: string) => void;
+    setImageToPreview: (url: string) => void;
+    setIsPreviewOpen: (open: boolean) => void;
+}
