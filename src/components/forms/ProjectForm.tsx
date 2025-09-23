@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import ErrorTooltip from "../reusables/FormErrorTooltip";
 
-export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft }: { isSavingDraft: boolean, saveDraft: () => void, onSubmit: () => void}){
+export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft }: { isSavingDraft?: boolean, saveDraft?: () => void, onSubmit: () => void}){
     const {
         register,
         handleSubmit,

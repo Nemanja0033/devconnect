@@ -1,5 +1,6 @@
 import { CreatePostForm, CreateProjectForm } from "@/types";
 import axios from "axios";
+import { toast } from "sonner";
 
 export const savePostDraft = async (data: CreatePostForm, images: string[]) => {
   try {
@@ -57,4 +58,11 @@ export const getProjecftDrafts = async () => {
 
 // TODO - implement delete draft
 
-// export const deleteDraft
+export const deleteDraft = async (draftType: "post" | "project", draftId: any) => {
+  try{
+      await axios.delete(`/api/draft/${draftType}`, { data: { draftId: draftId } })
+  }
+  catch(err){
+    console.log(err)
+  }
+}

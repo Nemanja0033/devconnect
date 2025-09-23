@@ -4,6 +4,7 @@ import ProjectForm from "@/components/forms/ProjectForm";
 import UploadImageForm from "@/components/forms/UploadImage";
 import Draft from "@/components/reusables/Draft";
 import Loader from "@/components/screens/Loader";
+import { DraftSkeleton } from "@/components/skeletons/DraftSkeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { uploadToCloud } from "@/lib/uploadImage";
-import { getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
+import { deleteDraft, getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
 import { CreatePostForm, CreateProjectForm, DraftType, PostDraftType, ProjectDraftType } from "@/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
@@ -31,7 +32,6 @@ export default function CreatePost() {
   const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
   
   // Drafts modal state
-  const [draftEditType, setDraftEditType] = useState<DraftType | string>();
   const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
   const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
@@ -63,8 +63,13 @@ export default function CreatePost() {
     const { title, content } = createPostForm.getValues();
     try {
       await createPost({ title, content, images: imagesUrl });
-      console.log(imagesUrl)
       toast.success("Posted successfully!");
+
+      // check if posted from saved post draft, and then run this code to delete current draft and close modal.
+      if(currentDraft){
+        handleDeleteDraft('post', currentDraft.id);
+      }
+
       createPostForm.reset();
       setImagesUrl([]);
     } catch (err) {
@@ -160,14 +165,14 @@ export default function CreatePost() {
     return;
   };
 
-  // TODO draft delete functionality
-
-  const handleDeleteDraft = async (draftId: string) => {
+  const handleDeleteDraft = async (draftType: 'post' | 'project', draftId: string | undefined) => {
     try {
-      setIsDeleteDraftModalOpen(false);
-
-      toast.success("Draft deleted successfully!");
+      await deleteDraft(draftType, draftId);
+      setDrafts((prevDrafts: any[]) => (prevDrafts as any[]).filter((d: any) => d.id !== draftId));
+      setCurrentDraft(undefined);
+      setIsDraftModalOpen(false);
     } catch (err) {
+      console.error(err);
       toast.error("Error while deleting draft");
     }
   };
@@ -178,7 +183,6 @@ export default function CreatePost() {
     const draft = rawDraft[0];
     console.log(rawDraft)
     if(!draft) return;
-    setDraftEditType(draftType);
     setCurrentDraft(draft)
     setIsDraftModalOpen(true);
   }
@@ -217,11 +221,18 @@ export default function CreatePost() {
 
           {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
-            <div className="grid gap-3 w-full h-full place-items-center">
-              {isLoading && drafts.length < 1 ? <Loader /> : (
+            <div className="w-full h-96 overflow-auto">
+              {isLoading && drafts.length < 1 ? <DraftSkeleton /> : (
                 drafts.map((draft) => (
-                  <div className="w-full cursor-pointer" key={draft.id}>
-                    <Draft onEditClick={() => openEditDraftModal(draft.type, draft.id)} title={draft.title} type={draft.type} />
+                  <div className="w-full mt-3" key={draft.id}>
+                    <Draft onEditClick={() => openEditDraftModal(draft.type, draft.id)} 
+                           onDeleteClick={() => {
+                            setIsDeleteDraftModalOpen(true);
+                            setCurrentDraft(draft);
+                           }}
+                           title={draft.title} 
+                           type={draft.type} 
+                    />
                   </div>
                 ))
               )}
@@ -237,7 +248,7 @@ export default function CreatePost() {
             <AlertDialogTitle>Edit {currentDraft?.title}</AlertDialogTitle>
           </AlertDialogHeader>
 
-          {draftEditType === "CLASSIC" && (
+          {currentDraft?.type === "CLASSIC" && (
             <FormProvider {...createPostForm}>
               <PostForm
                 isSavingDraft={isSavingDraft}
@@ -245,6 +256,12 @@ export default function CreatePost() {
                 savedFromDraft={currentDraft}
                 onSubmit={handleSubmitPost}
               />
+            </FormProvider>
+          )}
+
+          {currentDraft?.type === 'PROJECT' && (
+            <FormProvider {...createProjectForm}>
+              <ProjectForm onSubmit={handleSubmitProjectPost} />
             </FormProvider>
           )}
 
@@ -262,12 +279,12 @@ export default function CreatePost() {
           <AlertDialogTitle></AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            {currentDraft?.title} draft.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={() => handleDeleteDraft(currentDraft?.type === "CLASSIC" ? 'post' : 'project', currentDraft?.id)}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
