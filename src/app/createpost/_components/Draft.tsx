@@ -14,7 +14,7 @@ export default function Draft({ title, type, onDeleteClick, onEditClick}: { titl
             </div>
             <div className="flex gap-2 items-center">
                 <button onClick={onEditClick} className="cursor-pointer bg-accent h-8 w-8 flex items-center justify-center rounded-full">
-                    <Edit className="text-green-500 hover:text-green-700" />
+                    <Edit className="text-primary hover:text-green-700" />
                 </button>
                 <button onClick={onDeleteClick} className="cursor-pointer bg-accent h-8 w-8 flex items-center justify-center rounded-full">
                     <Trash2 className="text-red-500 hover:text-red-700 cursor-pointer transition-all" size={20} />
