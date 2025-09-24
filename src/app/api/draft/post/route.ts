@@ -45,6 +45,9 @@ export async function GET(req: Request){
     const _postDrafts = await db.postDraft.findMany({
       where: {
         authorId: session.user.id
+      },
+      include: {
+        images: true
       }
     });
 

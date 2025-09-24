@@ -68,9 +68,9 @@ export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedF
             <Textarea placeholder="Issues* (optional)" {...register("issues")} />
 
             <div className="flex md:justify-end justify-center gap-3 w-full ">
-                {savedFromDraft === null ? (
+                {/* {savedFromDraft === null || undefined ? ( */}
                     <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
-                ) : null}
+                {/* ) : null} */}
                 <Button className="md:w-32 w-1/2" disabled={isFormDisabled} type="submit">{isSubmitting ? <Loader2 className="animate-spin"/> : "Submit"}</Button>
             </div>
         </form>

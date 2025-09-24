@@ -15,12 +15,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { mapImagesObjectToRawArray, mapImagesToObject } from "@/helpers/helper";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { deleteDraft, getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
 import { createPost, createProject } from "@/services/postService";
 import { CreatePostForm, CreateProjectForm, DraftType, PostDraftType, ProjectDraftType } from "@/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { Loader2 } from "lucide-react";
 import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "sonner";
@@ -78,7 +78,13 @@ export default function CreatePost() {
   };
 
   const handleSubmitProjectPost = async () => {
-    const { title, description, sourceCodeUrl, liveDemoUrl, issues } = createProjectForm.getValues();
+    const { 
+            title, 
+            description, 
+            sourceCodeUrl, 
+            liveDemoUrl, 
+            issues 
+          } = createProjectForm.getValues();
     try {
       await createProject({ 
         title, 
@@ -103,8 +109,9 @@ export default function CreatePost() {
   const handleSavePostDraft = async () => {
     setIsSavingDraft(true);
     const { title, content } = createPostForm.getValues();
+    const imagesObj = mapImagesToObject(imagesUrl);
     try {
-      await savePostDraft({ title, content }, imagesUrl);
+      await savePostDraft({ title, content }, imagesObj);
       toast.success("Draft saved successfully!");
       createPostForm.reset();
       setImagesUrl([]); 
@@ -125,9 +132,12 @@ export default function CreatePost() {
       liveDemoUrl, 
       issues 
     } = createProjectForm.getValues();
+
+    // assing images url into obj as backend expects
+    const imagesObj = mapImagesToObject(imagesUrl);
       
     try {
-      await saveProjectDraft({ title, description, sourceCodeUrl, techStack, liveDemoUrl, issues }, imagesUrl);
+      await saveProjectDraft({ title, description, sourceCodeUrl, techStack, liveDemoUrl, issues }, imagesObj);
       toast.success("Draft saved successfully!");
       createProjectForm.reset();
       setImagesUrl([]);
@@ -178,12 +188,12 @@ export default function CreatePost() {
   };
 
   // function to handle opening modal and displaying current data of saved draft.
-  const openEditDraftModal = (draftType: DraftType | undefined, draftId: string) => {
+  const openEditDraftModal = (draftId: string) => {
     const rawDraft = drafts.filter((x) => x.id === draftId);
     const draft = rawDraft[0];
-    console.log(rawDraft)
     if(!draft) return;
     setCurrentDraft(draft)
+    console.log(currentDraft)
     setIsDraftModalOpen(true);
   }
 
@@ -227,7 +237,7 @@ export default function CreatePost() {
               {isLoading && drafts.length < 1 ? <DraftSkeleton /> : (
                 drafts.map((draft) => (
                   <div className="w-full mt-3" key={draft.id}>
-                    <Draft onEditClick={() => openEditDraftModal(draft.type, draft.id)} 
+                    <Draft onEditClick={() => openEditDraftModal(draft.id)} 
                            onDeleteClick={() => {
                             setIsDeleteDraftModalOpen(true);
                             setCurrentDraft(draft);
@@ -258,8 +268,9 @@ export default function CreatePost() {
                 savedFromDraft={currentDraft}
                 onSubmit={handleSubmitPost}
               />
-              {/* <UploadedImagesMap isLoading={isLoading} imagesUrl={currentDraft} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} /> */}
+              <UploadedImagesMap isLoading={isLoading} imagesUrl={mapImagesObjectToRawArray(currentDraft.images)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
 
+              
             </FormProvider>
           )}
 
