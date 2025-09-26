@@ -34,7 +34,7 @@ export async function POST(req: Request){
             }
         })
 
-        return NextResponse.json({ message: "Post draft succesfully saved!"}, {status: 200});
+        return NextResponse.json({ message: "Project draft succesfully saved!"}, {status: 200});
     }
     catch(err){
         return NextResponse.json({ error: err});
@@ -44,17 +44,21 @@ export async function POST(req: Request){
 export async function GET(req: Request){
     try{
       const session: any = await getServerSession(getAuthOptions());
-      const _postDrafts = await db.projectDraft.findMany({
+      const _projectDrafts = await db.projectDraft.findMany({
         where: {
           authorId: session.user.id
+        },
+        include: {
+          images: true
         }
       });
+      
   
-      if(!_postDrafts){
+      if(!_projectDrafts){
         return NextResponse.json({ error: "User has no saved drafts"}, { status: 404});
       };
   
-      return NextResponse.json(_postDrafts, { status: 202});
+      return NextResponse.json(_projectDrafts, { status: 202});
     }
     catch(err){
       return NextResponse.json({ error: err}, { status: 500});

@@ -1,4 +1,3 @@
-
 export function getPostTypeDetails(type: any | undefined){
     let post_type = '';
     let badge_color = '';
@@ -19,3 +18,4 @@ export function getPostTypeDetails(type: any | undefined){
         badge_color
     }
 }
+

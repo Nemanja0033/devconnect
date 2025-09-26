@@ -1,158 +1,54 @@
 "use client"
-import PostForm from "@/components/forms/PostForm";
-import ProjectForm from "@/components/forms/ProjectForm";
-import UploadImageForm from "@/components/forms/UploadImage";
-import Draft from "@/components/reusables/Draft";
-import { DraftSkeleton } from "@/components/skeletons/DraftSkeleton";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { uploadToCloud } from "@/lib/uploadImage";
-import { deleteDraft, getPostDrafts, getProjecftDrafts, savePostDraft, saveProjectDraft } from "@/services/draftService";
-import { createPost, createProject } from "@/services/postService";
-import { CreatePostForm, CreateProjectForm, DraftType, PostDraftType, ProjectDraftType } from "@/types"
+import ProjectForm from "@/app/createpost/_components/ProjectForm";
+import UploadImageForm from "@/app/createpost/_components/UploadImage";
+import UploadedImagesMap from "@/app/createpost/_components/UploadedImagesMap";
+import { DraftSkeleton } from "@/app/createpost/_components/DraftSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React, { useState } from "react"
-import { FormProvider, useForm } from "react-hook-form"
-import { toast } from "sonner";
+import { FormProvider } from "react-hook-form"
+import Draft from "./_components/Draft";
+import PostForm from "./_components/PostForm";
+import { useUploadImages } from "./_hooks/useUploadImages";
+import { useDraft } from "./_hooks/useDraft";
+import { useSubmitPost } from "./_hooks/useSubmitPost";
+import DraftEditModal from "./_components/DraftEditModal";
+import DraftDeleteModal from "./_components/DraftDeleteModal";
+import ImagePreveiw from "./_components/ImagePreveiw";
 
 export default function CreatePost() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
-  const [isSavingDraft, setIsSavingDraft] = useState(false);
-  const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
-  const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
-  const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
-  const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
+  const { 
+    imagesUrl, 
+    isLoading, 
+    uploadImages, 
+    handleRemoveUploadedImage, 
+    resetImages 
+  } = useUploadImages();
+  const {
+    drafts,
+    currentDraft,
+    isSavingDraft,
+    isDeleteDraftModalOpen,
+    isDraftModalOpen,
+    isLoading : isDraftsLoading,
+    setIsDraftModalOpen,
+    handleGetDrafts,
+    setIsDeleteDraftModalOpen,
+    setCurrentDraft,
+    handleDeleteDraft,
+    openEditDraftModal,
+    handleSavePostDraft,
+    handleSaveProjectDraft,
+  } = useDraft(imagesUrl, resetImages);
 
-  const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
-  const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
+  const {
+    createPostForm,
+    createProjectForm,
+    handleSubmitPost,
+    handleSubmitProjectPost,
+  } = useSubmitPost(imagesUrl, currentDraft, resetImages, handleDeleteDraft);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [imageToPreview, setImageToPreview] = useState('');
 
-  const uploadImages = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newFiles = event.target.files;
-    if (!newFiles || newFiles.length === 0) return;
-
-    const newFileArray = Array.from(newFiles);
-    setIsLoading(true);
-
-    try {
-      const uploadedUrls = await Promise.all(
-        newFileArray.map((img) => uploadToCloud(img))
-      );
-
-      setImagesUrl((prev) => [...prev, ...uploadedUrls]);
-    } catch (error) {
-      console.error("Image upload failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSubmitPost = async () => {
-    const { title, content } = createPostForm.getValues();
-    try {
-      await createPost({ title, content, images: imagesUrl });
-      toast.success("Posted successfully!");
-
-      // check if posted from saved post draft, and then run this code to delete current draft and close modal.
-      if(currentDraft){
-        handleDeleteDraft('post', currentDraft.id);
-      }
-
-      createPostForm.reset();
-      setImagesUrl([]);
-    } catch (err) {
-      toast.error("Error while posting");
-    }
-  };
-
-  const handleSubmitProjectPost = async () => {
-    const { title, description, sourceCodeUrl, liveDemoUrl, issues } = createProjectForm.getValues();
-    try {
-      await createProject({ 
-        title, 
-        description, 
-        sourceUrl: sourceCodeUrl, 
-        liveUrl: liveDemoUrl, 
-        issues, 
-        images: imagesUrl });
-        
-      toast.success("Posted successfully!");
-      createPostForm.reset();
-      setImagesUrl([]);
-    } catch (err) {
-      toast.error("Error while posting");
-    }
-  };
-
-  const handleRemoveUploadedImage = (url: string) => {
-    setImagesUrl(imagesUrl.filter((img) => img !== url));
-  }
-
-  const handleSavePostDraft = async () => {
-    setIsSavingDraft(true);
-    const { title, content } = createPostForm.getValues();
-    try {
-      await savePostDraft({ title, content }, imagesUrl);
-      toast.success("Draft saved successfully!");
-      createPostForm.reset();
-      setImagesUrl([]); 
-    } catch (err) {
-      toast.error("Error while saving draft");
-    } finally {
-      setIsSavingDraft(false);
-    }
-  };
-
-  const handleSaveProjectDraft = async () => {
-    setIsSavingDraft(true);
-    const { 
-      title, 
-      description, 
-      sourceCodeUrl, 
-      techStack, 
-      liveDemoUrl, 
-      issues 
-    } = createProjectForm.getValues();
-      
-    try {
-      await saveProjectDraft({ title, description, sourceCodeUrl, techStack, liveDemoUrl, issues }, imagesUrl);
-      toast.success("Draft saved successfully!");
-      createProjectForm.reset();
-      setImagesUrl([]);
-    } catch (err) {
-      toast.error("Error while saving draft");
-    } finally {
-      setIsSavingDraft(false);
-    }
-  };
-
-  const handleGetDrafts = async () => {
-    try {
-      setIsLoading(true);
-      const postDrafts = await getPostDrafts();
-      const projectDrafts = await getProjecftDrafts();
-
-      // merge drafts 
-      setDrafts([...postDrafts, ...projectDrafts]);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
-    finally{
-      setIsLoading(false);
-    }
-  };
-  
-  // split fetch of drafts only when drafts is clicked
   const handleTabChange = (value: string) => {
     if(value === "drafts"){
       handleGetDrafts();
@@ -161,31 +57,9 @@ export default function CreatePost() {
     return;
   };
 
-  const handleDeleteDraft = async (draftType: 'post' | 'project', draftId: string | undefined) => {
-    try {
-      await deleteDraft(draftType, draftId);
-      setDrafts((prevDrafts: any[]) => (prevDrafts as any[]).filter((d: any) => d.id !== draftId));
-      setCurrentDraft(undefined);
-      setIsDraftModalOpen(false);
-    } catch (err) {
-      console.error(err);
-      toast.error("Error while deleting draft");
-    }
-  };
-
-  // function to handle opening modal and displaying current data of saved draft.
-  const openEditDraftModal = (draftType: DraftType | undefined, draftId: string) => {
-    const rawDraft = drafts.filter((x) => x.id === draftId);
-    const draft = rawDraft[0];
-    console.log(rawDraft)
-    if(!draft) return;
-    setCurrentDraft(draft)
-    setIsDraftModalOpen(true);
-  }
-
   return (
     <main className="flex w-full h-[80vh] p-5 justify-center items-center">
-      <div className="p-5 md:w-fit h-full w-full">
+      <div className="p-5 md:w-fit h-full border-2 shadow-md rounded-md w-full">
         <span className="text-2xl font-semibold">Create Post</span>
         <Tabs defaultValue="post"  onValueChange={handleTabChange}>
           <TabsList className="flex px-1 justify-between w-full gap-3">
@@ -198,19 +72,21 @@ export default function CreatePost() {
 
           {/* Posts tab */}
           <TabsContent className="mt-3" value="post">
-            <UploadImageForm isLoading={isLoading} removeImage={handleRemoveUploadedImage} imagesUrl={imagesUrl} onUpload={uploadImages} /> 
+            <UploadImageForm onUpload={uploadImages} /> 
+            <UploadedImagesMap isLoading={isLoading} imagesUrl={imagesUrl} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
             
             <FormProvider {...createPostForm}>
-              <PostForm isSavingDraft={isSavingDraft} saveDraft={handleSavePostDraft} onSubmit={handleSubmitPost} />
+              <PostForm onSubmit={handleSubmitPost} saveDraft={() => handleSavePostDraft(createPostForm)} isSavingDraft={isSavingDraft} />
             </FormProvider>
           </TabsContent>
 
           {/* Project tab */}
           <TabsContent className="mt-3" value="project">
-            <UploadImageForm isLoading={isLoading} removeImage={handleRemoveUploadedImage} imagesUrl={imagesUrl} onUpload={uploadImages} /> 
+            <UploadImageForm onUpload={uploadImages} /> 
+            <UploadedImagesMap isLoading={isLoading} imagesUrl={imagesUrl} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
 
             <FormProvider {...createProjectForm}>
-              <ProjectForm isSavingDraft={isSavingDraft} saveDraft={handleSaveProjectDraft} onSubmit={handleSubmitProjectPost} />
+              <ProjectForm isSavingDraft={isSavingDraft} saveDraft={() => handleSaveProjectDraft(createProjectForm)} onSubmit={handleSubmitProjectPost} />
                 
             </FormProvider>
           </TabsContent>
@@ -218,10 +94,10 @@ export default function CreatePost() {
           {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
             <div className="w-full h-96 overflow-auto">
-              {isLoading && drafts.length < 1 ? <DraftSkeleton /> : (
+              {isDraftsLoading && drafts.length < 1 ? <DraftSkeleton /> : (
                 drafts.map((draft) => (
                   <div className="w-full mt-3" key={draft.id}>
-                    <Draft onEditClick={() => openEditDraftModal(draft.type, draft.id)} 
+                    <Draft onEditClick={() => openEditDraftModal(draft.id)} 
                            onDeleteClick={() => {
                             setIsDeleteDraftModalOpen(true);
                             setCurrentDraft(draft);
@@ -237,53 +113,29 @@ export default function CreatePost() {
         </Tabs>
       </div>
 
-      {/* Edit draft modal */}
-      <AlertDialog open={isDraftModalOpen} onOpenChange={setIsDraftModalOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Edit {currentDraft?.title}</AlertDialogTitle>
-          </AlertDialogHeader>
+      {/* Draft Edit Modal */}
+      <DraftEditModal 
+        isDraftModalOpen={isDraftModalOpen} 
+        currentDraft={currentDraft} 
+        createPostForm={createPostForm} 
+        createProjectForm={createProjectForm} 
+        isSavingDraft={isSavingDraft} 
+        setIsDraftModalOpen={setIsDraftModalOpen} 
+        handleSubmitProjectPost={handleSubmitProjectPost} 
+        handleSavePostDraft={handleSavePostDraft} 
+        handleSubmitPost={handleSubmitPost} 
+      />
 
-          {currentDraft?.type === "CLASSIC" && (
-            <FormProvider {...createPostForm}>
-              <PostForm
-                isSavingDraft={isSavingDraft}
-                saveDraft={handleSavePostDraft}
-                savedFromDraft={currentDraft}
-                onSubmit={handleSubmitPost}
-              />
-            </FormProvider>
-          )}
+      {/* Delete Draft Modal */}
+      <DraftDeleteModal 
+        isDeleteDraftModalOpen={isDeleteDraftModalOpen} 
+        currentDraft={currentDraft} 
+        setIsDeleteDraftModalOpen={setIsDeleteDraftModalOpen} 
+        handleDeleteDraft={handleDeleteDraft} 
+      />
 
-          {currentDraft?.type === 'PROJECT' && (
-            <FormProvider {...createProjectForm}>
-              <ProjectForm savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
-            </FormProvider>
-          )}
-
-          <AlertDialogFooter>
-            <AlertDialogCancel>Close</AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-
-    {/* Delete Draft Modal */}
-    <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle></AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            {currentDraft?.title} draft.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDeleteDraft(currentDraft?.type === "CLASSIC" ? 'post' : 'project', currentDraft?.id)}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      {/* Uploaded image preview */}
+      <ImagePreveiw isPreviewOpen={isPreviewOpen} setIsPreviewOpen={setIsPreviewOpen} imageToPreview={imageToPreview} />
     </main>
   );
 }
