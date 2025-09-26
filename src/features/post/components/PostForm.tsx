@@ -1,11 +1,12 @@
 "use client"
-import { CreatePostForm, PostDraftType, ProjectDraftType } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useFormContext } from "react-hook-form"
 import { useEffect } from "react";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
+import { CreatePostForm } from "../types";
 
 export default function PostForm({
     onSubmit, 
@@ -33,7 +34,7 @@ export default function PostForm({
     }, [savedFromDraft, reset]);
 
     return(
-        <form className="grid mt-3 w-full gap-3 px-3" onSubmit={handleSubmit(onSubmit)}>
+        <form className="grid mt-3 w-full gap-3" onSubmit={handleSubmit(onSubmit)}>
                 <Label className="text-primary text-sm" htmlFor="title">*Title</Label>
                 <Input defaultValue={savedFromDraft?.title} {...register('title', {
                     required: "Title is required"

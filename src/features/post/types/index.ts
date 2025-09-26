@@ -19,7 +19,7 @@ export type Images = {
 
 export interface UploadedImagesMapProps {
     isLoading: boolean;
-    imagesUrl: string[];
+    imagesUrl: { url: string }[];
     removeImage: (url: string) => void;
     setImageToPreview: (url: string) => void;
     setIsPreviewOpen: (open: boolean) => void;

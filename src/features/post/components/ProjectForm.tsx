@@ -1,4 +1,3 @@
-import { CreateProjectForm, ProjectDraftType } from "@/types";
 import { useFormContext } from "react-hook-form";
 import { Input } from "../../../components/ui/input";
 import { Textarea } from "../../../components/ui/textarea";
@@ -7,6 +6,8 @@ import { Button } from "../../../components/ui/button";
 import ErrorTooltip from "../../../components/reusables/FormErrorTooltip";
 import { useEffect } from "react";
 import { Label } from "@radix-ui/react-label";
+import { ProjectDraftType } from "@/features/post-drafts/types";
+import { CreateProjectForm } from "../types";
 
 export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedFromDraft }: { isSavingDraft?: boolean, saveDraft?: (projectForm: any) => void, onSubmit: () => void, savedFromDraft?: ProjectDraftType}){
     const {
@@ -32,7 +33,7 @@ export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedF
     }, [savedFromDraft, reset]);
 
     return(
-        <form className="grid px-3 mt-3 w-full h-96 overflow-auto gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <form className="grid mt-3 w-full h-96 gap-2" onSubmit={handleSubmit(onSubmit)}>
             <Label className="text-primary text-sm" htmlFor="title">*Title</Label>
             <Input id="title" placeholder="Title*" {...register("title", {
                 required: "Title is required",
