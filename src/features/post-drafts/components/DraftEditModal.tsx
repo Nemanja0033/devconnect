@@ -1,9 +1,7 @@
 import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogCancel, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { FormProvider } from "react-hook-form"
-import PostForm from "./PostForm"
-import ProjectForm from "./ProjectForm"
-import { mapImagesObjectToRawArray } from "../_lib/lib"
-import UploadedImagesMap from "./UploadedImagesMap"
+import PostForm from "../../../features/post/components/PostForm"
+import ProjectForm from "../../../features/post/components/ProjectForm"
 
 const DraftEditModal = ({
     isDraftModalOpen, 

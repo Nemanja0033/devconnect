@@ -1,19 +1,20 @@
 "use client"
-import ProjectForm from "@/app/createpost/_components/ProjectForm";
-import UploadImageForm from "@/app/createpost/_components/UploadImage";
-import UploadedImagesMap from "@/app/createpost/_components/UploadedImagesMap";
-import { DraftSkeleton } from "@/app/createpost/_components/DraftSkeleton";
+import ProjectForm from "@/features/post/components/ProjectForm";
+import UploadImageForm from "@/features/post/components/UploadImage";
+import UploadedImagesMap from "@/features/post/components/UploadedImagesMap";
+import { DraftSkeleton } from "@/features/post-drafts/components/DraftSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React, { useState } from "react"
 import { FormProvider } from "react-hook-form"
-import Draft from "./_components/Draft";
-import PostForm from "./_components/PostForm";
-import { useUploadImages } from "./_hooks/useUploadImages";
-import { useDraft } from "./_hooks/useDraft";
-import { useSubmitPost } from "./_hooks/useSubmitPost";
-import DraftEditModal from "./_components/DraftEditModal";
-import DraftDeleteModal from "./_components/DraftDeleteModal";
-import ImagePreveiw from "./_components/ImagePreveiw";
+import Draft from "../../features/post-drafts/components/Draft";
+import PostForm from "../../features/post/components/PostForm";
+import { useDraft } from "@/features/post-drafts/hooks/useDraft";
+import { useUploadImages } from "../../features/post/hooks/useUploadImages";
+import { useSubmitPost } from "../../features/post/hooks/useSubmitPost";
+import DraftDeleteModal from "../../features/post-drafts/components/DraftDeleteModal";
+import ImagePreveiw from "../../features/post/components/ImagePreveiw";
+import DraftEditModal from "@/features/post-drafts/components/DraftEditModal";
+import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
 
 export default function CreatePost() {
   const { 
@@ -95,7 +96,7 @@ export default function CreatePost() {
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
             <div className="w-full h-96 overflow-auto">
               {isDraftsLoading && drafts.length < 1 ? <DraftSkeleton /> : (
-                drafts.map((draft) => (
+                drafts.map((draft: PostDraftType | ProjectDraftType) => (
                   <div className="w-full mt-3" key={draft.id}>
                     <Draft onEditClick={() => openEditDraftModal(draft.id)} 
                            onDeleteClick={() => {

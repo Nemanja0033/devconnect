@@ -77,53 +77,7 @@ export type LoginFormType = {
     password: string
 }
 
-export type CreatePostForm = {
-    title: string,
-    content: string,
-}
-
-export type CreateProjectForm = {
-    title: string,
-    description: string,
-    sourceCodeUrl: string,
-    liveDemoUrl: string,
-    issues: string,
-    techStack: string
-}
-
 export type Images = {
     id: string,
     url: string
-}
-
-export enum DraftType {
-    PROJECT = "PROJECT",
-    CLASSIC = "CLASSIC"
-}
-
-export type PostDraftType = {
-    title: string,
-    content: string,
-    images: Images[],
-    id: string
-    type: DraftType.CLASSIC | undefined;
-}
-  
-  export type ProjectDraftType = {
-    title: string,
-    description: string,
-    images: Images[],
-    sourceUrl?: string,
-    liveUrl?: string,
-    issues?: string,
-    id: string
-    type: DraftType.PROJECT | undefined;
-}
-
-export interface UploadedImagesMapProps {
-    isLoading: boolean;
-    imagesUrl: string[];
-    removeImage: (url: string) => void;
-    setImageToPreview: (url: string) => void;
-    setIsPreviewOpen: (open: boolean) => void;
 }

@@ -1,9 +1,10 @@
 'use client';
 
-import { createPost, createProject } from "@/services/postService";
-import { CreatePostForm, CreateProjectForm, PostDraftType, ProjectDraftType } from "@/types";
+import { createPost, createProject } from "@/services/post/postService";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { CreatePostForm, CreateProjectForm } from "../types";
+import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
 
 export function useSubmitPost(
   imagesUrl: string[],

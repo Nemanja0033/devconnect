@@ -1,10 +1,10 @@
 'use client'
-import { PostDraftType, ProjectDraftType } from "@/types";
 import { useState } from "react";
-import { useUploadImages } from "./useUploadImages";
-import { savePostDraft, saveProjectDraft, getPostDrafts, getProjecftDrafts, deleteDraft } from "@/services/draftService";
+import { useUploadImages } from "../../../features/post/hooks/useUploadImages";
+import { savePostDraft, saveProjectDraft, getPostDrafts, getProjecftDrafts, deleteDraft } from "@/services/post-draft/draftService";
 import { toast } from "sonner";
-import { mapImagesToObject } from "../_lib/lib";
+import { mapImagesToObject } from "@/features/post/lib/lib";
+import { PostDraftType, ProjectDraftType } from "../types";
 
 export function useDraft( imagesUrl: string[], resetImages: () => void){
     const [isSavingDraft, setIsSavingDraft] = useState(false);
