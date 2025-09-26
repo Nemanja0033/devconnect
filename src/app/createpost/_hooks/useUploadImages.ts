@@ -6,12 +6,20 @@ export function useUploadImages(){
     const [imagesUrl, setImagesUrl] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const clearLoading = () => {
+      setIsLoading(false);
+    }
+
+    const startLoading = () => {
+      setIsLoading(true);
+    }
+
     const uploadImages = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const newFiles = event.target.files;
         if (!newFiles || newFiles.length === 0) return;
     
         const newFileArray = Array.from(newFiles);
-        setIsLoading(true);
+        startLoading();
     
         try {
           const uploadedUrls = await Promise.all(
@@ -22,7 +30,7 @@ export function useUploadImages(){
         } catch (error) {
           console.error("Image upload failed:", error);
         } finally {
-          setIsLoading(false);
+          clearLoading();
         }
     };
 

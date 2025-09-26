@@ -1,7 +1,7 @@
 import { getPostTypeDetails } from "@/helpers/helper"
-import { Badge } from "../ui/badge";
 import { Edit, Trash2 } from "lucide-react";
 import { DraftType } from "@/types";
+import { Badge } from "@/components/ui/badge";
 
 export default function Draft({ title, type, onDeleteClick, onEditClick}: { title: string, type: DraftType | undefined, onDeleteClick?: () => void, onEditClick: () => void }){
     const postType = getPostTypeDetails(type);

@@ -1,29 +1,22 @@
-import { AlertDialogHeader, AlertDialogFooter } from "@/components/ui/alert-dialog"
-import { AlertDialog, AlertDialogContent, AlertDialogTitle, AlertDialogCancel } from "@radix-ui/react-alert-dialog"
+import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogCancel, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { FormProvider } from "react-hook-form"
-import { mapImagesObjectToRawArray } from "../_lib/lib"
 import PostForm from "./PostForm"
 import ProjectForm from "./ProjectForm"
+import { mapImagesObjectToRawArray } from "../_lib/lib"
 import UploadedImagesMap from "./UploadedImagesMap"
-import { useDraft } from "../_hooks/useDraft"
-import { useSubmitPost } from "../_hooks/useSubmitPost"
-import { useUploadImages } from "../_hooks/useUploadImages"
 
-const DraftEditModal = () => {
-    const {
-        currentDraft,
-        isDraftModalOpen,
-        setIsDraftModalOpen,
-        isSavingDraft,
-        handleSavePostDraft,
-    } = useDraft();
-    const { 
-        createPostForm,
-        createProjectForm, 
-        handleSubmitPost, 
-        handleSubmitProjectPost
-        } = useSubmitPost();
-    const { isLoading, handleRemoveUploadedImage } = useUploadImages();
+const DraftEditModal = ({
+    isDraftModalOpen, 
+    isUploadedPhotosLoading,
+    setIsDraftModalOpen, 
+    currentDraft, 
+    createPostForm, 
+    createProjectForm, 
+    handleSubmitProjectPost, 
+    isSavingDraft, 
+    handleSavePostDraft, 
+    handleSubmitPost} : any) => {
+    
     return (
          <AlertDialog open={isDraftModalOpen} onOpenChange={setIsDraftModalOpen}>
             <AlertDialogContent>
@@ -33,7 +26,7 @@ const DraftEditModal = () => {
 
             {currentDraft?.type === "CLASSIC" && (
                 <FormProvider {...createPostForm}>
-                {/* <UploadedImagesMap isLoading={isLoading} imagesUrl={mapImagesObjectToRawArray(currentDraft.images)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} /> */}
+                {/* <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={mapImagesObjectToRawArray(currentDraft.images)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} /> */}
                 <PostForm
                     isSavingDraft={isSavingDraft}
                     saveDraft={handleSavePostDraft}

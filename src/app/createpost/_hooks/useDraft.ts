@@ -6,13 +6,13 @@ import { savePostDraft, saveProjectDraft, getPostDrafts, getProjecftDrafts, dele
 import { toast } from "sonner";
 import { mapImagesToObject } from "../_lib/lib";
 
-export function useDraft(){
-    const { imagesUrl, resetImages, setIsLoading } = useUploadImages();
+export function useDraft( imagesUrl: string[], resetImages: () => void){
     const [isSavingDraft, setIsSavingDraft] = useState(false);
     const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
     const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
     const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
     const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSavePostDraft = async (postForm: any) => {
         setIsSavingDraft(true);
@@ -96,6 +96,7 @@ export function useDraft(){
     }
 
     return {
+        isLoading,
         isSavingDraft,
         drafts,
         currentDraft,

@@ -3,16 +3,6 @@ import ProjectForm from "@/app/createpost/_components/ProjectForm";
 import UploadImageForm from "@/app/createpost/_components/UploadImage";
 import UploadedImagesMap from "@/app/createpost/_components/UploadedImagesMap";
 import { DraftSkeleton } from "@/app/createpost/_components/DraftSkeleton";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React, { useState } from "react"
 import { FormProvider } from "react-hook-form"
@@ -22,30 +12,40 @@ import { useUploadImages } from "./_hooks/useUploadImages";
 import { useDraft } from "./_hooks/useDraft";
 import { useSubmitPost } from "./_hooks/useSubmitPost";
 import DraftEditModal from "./_components/DraftEditModal";
+import DraftDeleteModal from "./_components/DraftDeleteModal";
+import ImagePreveiw from "./_components/ImagePreveiw";
 
 export default function CreatePost() {
-  const { imagesUrl, isLoading, uploadImages, handleRemoveUploadedImage } = useUploadImages();
   const { 
-          drafts, 
-          currentDraft,
-          isSavingDraft, 
-          handleGetDrafts,
-          isDeleteDraftModalOpen,
-          setIsDeleteDraftModalOpen,
-          setCurrentDraft,
-          handleDeleteDraft,
-          openEditDraftModal, 
-          handleSavePostDraft, 
-          handleSaveProjectDraft 
-        } = useDraft();
+    imagesUrl, 
+    isLoading, 
+    uploadImages, 
+    handleRemoveUploadedImage, 
+    resetImages 
+  } = useUploadImages();
+  const {
+    drafts,
+    currentDraft,
+    isSavingDraft,
+    isDeleteDraftModalOpen,
+    isDraftModalOpen,
+    isLoading : isDraftsLoading,
+    setIsDraftModalOpen,
+    handleGetDrafts,
+    setIsDeleteDraftModalOpen,
+    setCurrentDraft,
+    handleDeleteDraft,
+    openEditDraftModal,
+    handleSavePostDraft,
+    handleSaveProjectDraft,
+  } = useDraft(imagesUrl, resetImages);
 
-  const { 
-          createPostForm, 
-          createProjectForm, 
-          handleSubmitPost, 
-          handleSubmitProjectPost 
-        } = useSubmitPost();
-
+  const {
+    createPostForm,
+    createProjectForm,
+    handleSubmitPost,
+    handleSubmitProjectPost,
+  } = useSubmitPost(imagesUrl, currentDraft, resetImages, handleDeleteDraft);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [imageToPreview, setImageToPreview] = useState('');
 
@@ -94,7 +94,7 @@ export default function CreatePost() {
           {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
             <div className="w-full h-96 overflow-auto">
-              {isLoading && drafts.length < 1 ? <DraftSkeleton /> : (
+              {isDraftsLoading && drafts.length < 1 ? <DraftSkeleton /> : (
                 drafts.map((draft) => (
                   <div className="w-full mt-3" key={draft.id}>
                     <Draft onEditClick={() => openEditDraftModal(draft.id)} 
@@ -113,33 +113,29 @@ export default function CreatePost() {
         </Tabs>
       </div>
 
-      <DraftEditModal />
+      {/* Draft Edit Modal */}
+      <DraftEditModal 
+        isDraftModalOpen={isDraftModalOpen} 
+        currentDraft={currentDraft} 
+        createPostForm={createPostForm} 
+        createProjectForm={createProjectForm} 
+        isSavingDraft={isSavingDraft} 
+        setIsDraftModalOpen={setIsDraftModalOpen} 
+        handleSubmitProjectPost={handleSubmitProjectPost} 
+        handleSavePostDraft={handleSavePostDraft} 
+        handleSubmitPost={handleSubmitPost} 
+      />
 
+      {/* Delete Draft Modal */}
+      <DraftDeleteModal 
+        isDeleteDraftModalOpen={isDeleteDraftModalOpen} 
+        currentDraft={currentDraft} 
+        setIsDeleteDraftModalOpen={setIsDeleteDraftModalOpen} 
+        handleDeleteDraft={handleDeleteDraft} 
+      />
 
-    {/* Delete Draft Modal */}
-    <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle></AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            {currentDraft?.title} draft.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDeleteDraft(currentDraft?.type === "CLASSIC" ? 'post' : 'project', currentDraft?.id)}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-
-    {/* Uploaded image preview */}
-    {isPreviewOpen && (
-      <div className="w-full p-10 bg-black/90 z-[9999] flex justify-center items-center h-[870px] absolute">
-        <button onClick={() => setIsPreviewOpen(false)} className="absolute text-2xl text-gray-200 hover:text-gray-400 cursor-pointer left-20 top-20">X</button>
-        <img className="mt-10" src={imageToPreview} alt="" />
-      </div>
-    )}
+      {/* Uploaded image preview */}
+      <ImagePreveiw isPreviewOpen={isPreviewOpen} setIsPreviewOpen={setIsPreviewOpen} imageToPreview={imageToPreview} />
     </main>
   );
 }
