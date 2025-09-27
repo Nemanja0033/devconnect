@@ -1,9 +1,8 @@
 import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogCancel, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { FormProvider } from "react-hook-form"
-import PostForm from "./PostForm"
-import ProjectForm from "./ProjectForm"
-import { mapImagesObjectToRawArray } from "../_lib/lib"
-import UploadedImagesMap from "./UploadedImagesMap"
+import PostForm from "../../../features/post/components/PostForm"
+import ProjectForm from "../../../features/post/components/ProjectForm"
+import UploadedImagesMap from "@/features/post/components/UploadedImagesMap"
 
 const DraftEditModal = ({
     isDraftModalOpen, 
@@ -15,7 +14,10 @@ const DraftEditModal = ({
     handleSubmitProjectPost, 
     isSavingDraft, 
     handleSavePostDraft, 
-    handleSubmitPost} : any) => {
+    handleSubmitPost,
+    handleRemoveUploadedImage,
+    setImageToPreview,
+    setIsPreviewOpen} : any) => {
     
     return (
          <AlertDialog open={isDraftModalOpen} onOpenChange={setIsDraftModalOpen}>
@@ -26,7 +28,7 @@ const DraftEditModal = ({
 
             {currentDraft?.type === "CLASSIC" && (
                 <FormProvider {...createPostForm}>
-                {/* <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={mapImagesObjectToRawArray(currentDraft.images)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} /> */}
+                <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={currentDraft.images} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
                 <PostForm
                     isSavingDraft={isSavingDraft}
                     saveDraft={handleSavePostDraft}
@@ -36,12 +38,14 @@ const DraftEditModal = ({
                 </FormProvider>
             )}
 
-            {currentDraft?.type === 'PROJECT' && (
-                <FormProvider {...createProjectForm}>
-                {/* <UploadedImagesMap isLoading={isLoading} imagesUrl={mapImagesObjectToRawArray(currentDraft.images)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} /> */}
-                <ProjectForm savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
-                </FormProvider>
-            )}
+            <div className="overflow-auto">
+                {currentDraft?.type === 'PROJECT' && (
+                    <FormProvider {...createProjectForm}>
+                    <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={currentDraft.images} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
+                    <ProjectForm savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
+                    </FormProvider>
+                )}
+            </div>
 
             <AlertDialogFooter>
                 <AlertDialogCancel>Close</AlertDialogCancel>

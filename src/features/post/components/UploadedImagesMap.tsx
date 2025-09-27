@@ -1,6 +1,6 @@
-import { UploadedImagesMapProps } from '@/types';
 import { Loader2 } from 'lucide-react';
 import React from 'react';
+import { UploadedImagesMapProps } from '../types';
 
 const UploadedImagesMap: React.FC<UploadedImagesMapProps> = ({
   isLoading,
@@ -16,11 +16,11 @@ const UploadedImagesMap: React.FC<UploadedImagesMapProps> = ({
           <Loader2 className="animate-spin" />
         </span>
       ) : (
-        <div className="flex overflow-auto gap-4 mt-4">
-          {imagesUrl.map((url, index) => (
+        <div className="md:flex grid grid-cols-3 gap-2 overflow-auto md:gap-4 mt-4">
+          {imagesUrl.map((img, index) => (
             <div key={index} className="relative">
               <button
-                onClick={() => removeImage(url)}
+                onClick={() => removeImage(img.url)}
                 aria-label="remove uploaded image"
                 className="absolute ml-2 hover:scale-110 text-red-500 transition-all z-20 cursor-pointer"
               >
@@ -28,10 +28,10 @@ const UploadedImagesMap: React.FC<UploadedImagesMapProps> = ({
               </button>
               <img
                 onClick={() => {
-                  setImageToPreview(url);
+                  setImageToPreview(img.url);
                   setIsPreviewOpen(true);
                 }}
-                src={url}
+                src={img.url}
                 alt={`Uploaded ${index}`}
                 className="w-32 h-32 object-cover rounded-md border-2 cursor-pointer hover:opacity-90 z-10"
               />
