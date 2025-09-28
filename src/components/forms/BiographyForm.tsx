@@ -8,7 +8,7 @@ import { use, useState } from "react";
 import { Input } from "../ui/input";
 import ErrorTooltip from "../reusables/FormErrorTooltip";
 import { Label } from "@radix-ui/react-label";
-import Avatar from "../user/Avatar";
+import { Avatar } from "./AvatarUploadForm";
 
 export default function BiographyForm({ onSubmit }: { onSubmit: () => void}){
     const BIO_MAX_LENGTH = 100;

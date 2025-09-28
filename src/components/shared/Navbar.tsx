@@ -2,14 +2,20 @@
 import { useSession } from "next-auth/react"
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { logout } from "@/lib/auth";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "../ui/theme-toggle";
-import AvatarToggle from "./AvatarToggle";
+import AvatarToggle from "../../features/user/components/AvatarToggle";
+import { useMeQuery } from "@/hooks/useMeQuery";
+import { useEffect } from "react";
 
 const Navbar = () => {
     const { status } = useSession();
     const { theme } = useTheme();
+    const { data, isLoading } = useMeQuery();
+
+    useEffect(() => {
+        console.log(data?.user);
+    }, [data]);
 
   return (
     <header className="w-full h-[80px] border-b shadow-md rounded-md flex lg:px-40 px-5 justify-between items-center">
@@ -26,7 +32,7 @@ const Navbar = () => {
                     <Link href={'/createpost'}>
                         <Button>+ Create</Button>
                     </Link>
-                    <AvatarToggle />
+                    <AvatarToggle isLoading={isLoading} avatar={data?.user.avatar} username={data?.user.username} email={data?.user.email}/>
                     </div>
                 )
                 :

@@ -7,7 +7,12 @@ import { ImageUp, Loader2 } from "lucide-react";
 import ErrorTooltip from "../reusables/FormErrorTooltip";
 import { Button } from "../ui/button";
 import { useUserStore } from "@/store/useUserStore";
-import Avatar from "../user/Avatar";
+
+export function Avatar({ size, avatarUrl }: { size: "lg" | "sm", avatarUrl?: string }){
+    return (
+        <img src={avatarUrl ?? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'} className={`${size === 'lg' ? 'w-48 h-48' : 'w-14 h-14'} rounded-full`} />
+    )
+}
 
 export default function AvatarUploadForm({ onUpload, onSubmit, avatarPreviewUrl, isUploading }: AvatarFormProps){
     const { user } = useUserStore();
