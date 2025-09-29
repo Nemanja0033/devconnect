@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "../ui/theme-toggle";
 import AvatarToggle from "../../features/user/components/AvatarToggle";
-import { useMeQuery } from "@/hooks/useMeQuery";
+import { useMeQuery } from "@/features/user/hooks/useMeQuery";
 import { useEffect } from "react";
 
 const Navbar = () => {

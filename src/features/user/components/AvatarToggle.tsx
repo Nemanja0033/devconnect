@@ -44,7 +44,7 @@ export default function AvatarToggle({ isLoading, avatar, username, email }: { i
                     </div>
                 </div>
                 <Button>
-                    <Link href={'/'}>My Profile</Link>
+                    <Link href={'/profile'}>My Profile</Link>
                 </Button>
                 <Link className="hover:text-primary gap-1 flex items-center text-sm text-gray-400" href={'/'}><Settings size={12} />Settings</Link>
                 <Link className="flex items-center hover:text-primary gap-1 text-sm text-gray-400" href={'/'}><SunMoon size={12} /><ModeToggle /></Link>
