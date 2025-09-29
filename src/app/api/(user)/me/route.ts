@@ -34,3 +34,37 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: err}, { status: 500 });
     }
 }
+
+export async function PATCH(req: Request) {
+    try{
+        const session = await getServerSession(getAuthOptions());
+        const user: any = session?.user;
+
+        if(!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+        const body = await req.json();
+        const updateData: Record<string, any> = {};
+
+        const allowedFields = ["username", "avatar", "bio", "title"];
+
+        for(const key of allowedFields){
+            if(body[key] !== undefined){
+                updateData[key] = body[key];
+            }
+        };
+
+        if(Object.keys(updateData).length === 0){
+            return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+        };
+
+        const updatedUser = await db.user.update({
+            where: { id: user.id },
+            updateData
+        });
+        
+        return NextResponse.json(updatedUser); 
+    }
+    catch(err){
+
+    }
+}

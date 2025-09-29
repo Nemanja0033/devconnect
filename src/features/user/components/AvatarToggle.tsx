@@ -38,7 +38,7 @@ export default function AvatarToggle({ isLoading, avatar, username, email }: { i
                     <div className="flex justify-start items-center gap-2">
                         <img src={avatar} className="h-10 w-10 rounded-full" alt="" />
                         <div className="grid place-items-start">
-                            <span>{username}</span>
+                            <Link href={'/profile'}>{username}</Link>
                             <span className="text-xs text-gray-400">{email}</span>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 "use client"
+import { Button } from "@/components/ui/button";
 import { coverPlaceholder } from "@/constants/constants"
 import { useMePostsQuery } from "@/features/user/hooks/useMePostsQuery";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery"
@@ -29,7 +30,25 @@ const page = () => {
         </section>
 
         <section className="md:w-[1000px] h-auto mt-3 border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
-            <span className="text-lg font-bold">Activity</span>
+            <div className="flex justify-between">
+                <span className="text-lg font-bold">Activity</span>
+                <Button className="text-primary" variant={'outline'}>Create a post</Button>
+            </div>
+            <div className="grid grid-cols-2 gap-3 overflow-auto w-full mt-3">
+                {posts?.currentUserPosts.posts.map((post: any) => (
+                    <div className="w-96 h-auto p-3 border-2 rounded-md shadow-md">
+                        <div className="flex gap-2 items-center">
+                            <img src={data?.user.avatar} className="w-12 h-12 rounded-full" />
+                            <span>{data?.user.username}</span>
+                        </div>
+
+                        <div className="mt-3 font-semibold">
+                            <span>{post.title}</span>
+                            <p className="line-clamp-3">{post.content}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </section>
     </main>
   )
