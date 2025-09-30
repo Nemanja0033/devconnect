@@ -23,6 +23,7 @@ const LoginPage = () => {
   const router = useRouter();
   
   const queryClient = useQueryClient();
+  
   const { mutateAsync } = useMutation({
     mutationFn: fetchCurrentUser,
     onSuccess: () => {

@@ -26,7 +26,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {path === "/" ? null : <Navbar />}
-              <Toaster />
+              <Toaster position="top-center" />
               {children}
             </ThemeProvider>
           </SessionProvider>

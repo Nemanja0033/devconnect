@@ -6,17 +6,17 @@ import { DraftSkeleton } from "@/features/post-drafts/components/DraftSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React, { useState } from "react"
 import { FormProvider } from "react-hook-form"
-import Draft from "../../features/post-drafts/components/Draft";
-import PostForm from "../../features/post/components/PostForm";
 import { useDraft } from "@/features/post-drafts/hooks/useDraft";
-import { useUploadImages } from "../../features/post/hooks/useUploadImages";
-import { useSubmitPost } from "../../features/post/hooks/useSubmitPost";
-import DraftDeleteModal from "../../features/post-drafts/components/DraftDeleteModal";
-import ImagePreveiw from "../../features/post/components/ImagePreveiw";
 import DraftEditModal from "@/features/post-drafts/components/DraftEditModal";
 import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
 import { mapImagesToObject } from "@/features/post/lib/lib";
 import { mapDraftsToNumberArray } from "@/features/post-drafts/lib/lib";
+import Draft from "@/features/post-drafts/components/Draft";
+import DraftDeleteModal from "@/features/post-drafts/components/DraftDeleteModal";
+import ImagePreveiw from "@/features/post/components/ImagePreveiw";
+import PostForm from "@/features/post/components/PostForm";
+import { useSubmitPost } from "@/features/post/hooks/useSubmitPost";
+import { useUploadImages } from "@/features/post/hooks/useUploadImages";
 
 export default function CreatePost() {
   const { 

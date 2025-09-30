@@ -57,6 +57,17 @@ export async function PATCH(req: Request) {
             return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
         };
 
+        // Check if username is already taken
+        if(body["username"] !== undefined){
+            const usernameAvailable = await db.user.findUnique({
+                where: { username: body.username}
+            });
+
+            if(!usernameAvailable){
+                return NextResponse.json({ message: `${body.username} is already taken.`}, { status: 400 });
+            }
+        }
+
         const updatedUser = await db.user.update({
             where: { id: user.id },
             updateData
