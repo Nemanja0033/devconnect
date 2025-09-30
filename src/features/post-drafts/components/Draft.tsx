@@ -2,6 +2,7 @@ import { getPostTypeDetails } from "@/helpers/helper"
 import { Edit, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DraftType } from "../types";
+import { DeleteIcon, EditIcon } from "@/components/shared/Icons";
 
 export default function Draft({ title, type, onDeleteClick, onEditClick}: { title: string, type: DraftType | undefined, onDeleteClick?: () => void, onEditClick: () => void }){
     const postType = getPostTypeDetails(type);
@@ -14,10 +15,10 @@ export default function Draft({ title, type, onDeleteClick, onEditClick}: { titl
             </div>
             <div className="flex gap-2 items-center">
                 <button onClick={onEditClick} className="cursor-pointer bg-accent h-8 w-8 flex items-center justify-center rounded-full">
-                    <Edit className="text-primary hover:text-green-700" />
+                    <EditIcon />
                 </button>
                 <button onClick={onDeleteClick} className="cursor-pointer bg-accent h-8 w-8 flex items-center justify-center rounded-full">
-                    <Trash2 className="text-red-500 hover:text-red-700 cursor-pointer transition-all" size={20} />
+                    <DeleteIcon />
                 </button>
             </div>
         </div>
