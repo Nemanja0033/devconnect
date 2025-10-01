@@ -59,23 +59,24 @@ export async function PATCH(req: Request) {
 
         // Check if username is already taken
         if(body["username"] !== undefined){
-            const usernameAvailable = await db.user.findUnique({
+            const isUsernameTaken = await db.user.findUnique({
                 where: { username: body.username}
             });
 
-            if(!usernameAvailable){
+            if(isUsernameTaken){
                 return NextResponse.json({ message: `${body.username} is already taken.`}, { status: 400 });
             }
         }
 
         const updatedUser = await db.user.update({
             where: { id: user.id },
-            updateData
+            data: updateData
         });
         
         return NextResponse.json(updatedUser); 
     }
-    catch(err){
-
+    catch (err) {
+        console.error("@PATCH /api/me error:", err);
+        return NextResponse.json({ error: (err as Error).message }, { status: 500 });
     }
 }

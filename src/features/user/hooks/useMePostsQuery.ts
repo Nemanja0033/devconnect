@@ -6,6 +6,5 @@ export function useMePostsQuery (enabled: boolean = true) {
         queryKey: ["currentUserPosts"],
         queryFn: fetchCurrentUserPosts,
         enabled,
-        staleTime: 0
     })
 }

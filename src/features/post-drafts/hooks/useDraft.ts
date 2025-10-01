@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { useUploadImages } from "../../../features/post/hooks/useUploadImages";
+import { useUploadImages } from "../../../hooks/useUploadImages";
 import { savePostDraft, saveProjectDraft, getPostDrafts, getProjecftDrafts, deleteDraft } from "@/services/post-draft/draftService";
 import { toast } from "sonner";
 import { mapImagesToObject } from "@/features/post/lib/lib";

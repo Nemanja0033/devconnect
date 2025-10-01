@@ -16,7 +16,7 @@ import DraftDeleteModal from "@/features/post-drafts/components/DraftDeleteModal
 import ImagePreveiw from "@/features/post/components/ImagePreveiw";
 import PostForm from "@/features/post/components/PostForm";
 import { useSubmitPost } from "@/features/post/hooks/useSubmitPost";
-import { useUploadImages } from "@/features/post/hooks/useUploadImages";
+import { useUploadImages } from "@/hooks/useUploadImages";
 
 export default function CreatePost() {
   const { 

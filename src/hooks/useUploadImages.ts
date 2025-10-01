@@ -2,7 +2,7 @@
 import { uploadToCloud } from "@/lib/uploadImage";
 import { useState } from "react";
 
-export function useUploadImages(){
+export function useUploadImages(singleImage?: boolean){
     const [imagesUrl, setImagesUrl] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -25,8 +25,12 @@ export function useUploadImages(){
           const uploadedUrls = await Promise.all(
             newFileArray.map((img) => uploadToCloud(img))
           );
-    
-          setImagesUrl((prev) => [...prev, ...uploadedUrls]);
+
+          if(singleImage){
+            setImagesUrl(() => [...uploadedUrls])
+          } else{
+            setImagesUrl((prev) => [...prev, ...uploadedUrls]);
+          }    
         } catch (error) {
           console.error("Image upload failed:", error);
         } finally {
