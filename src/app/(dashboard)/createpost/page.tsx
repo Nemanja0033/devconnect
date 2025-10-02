@@ -17,6 +17,7 @@ import ImagePreveiw from "@/features/post/components/ImagePreveiw";
 import PostForm from "@/features/post/components/PostForm";
 import { useSubmitPost } from "@/features/post/hooks/useSubmitPost";
 import { useUploadImages } from "@/hooks/useUploadImages";
+import DraftSection from "@/features/post/components/DraftSection";
 
 export default function CreatePost() {
   const { 
@@ -42,13 +43,13 @@ export default function CreatePost() {
     handleSavePostDraft,
     handleSaveProjectDraft,
   } = useDraft(imagesUrl, resetImages);
-
   const {
     createPostForm,
     createProjectForm,
     handleSubmitPost,
     handleSubmitProjectPost,
   } = useSubmitPost(imagesUrl, currentDraft, resetImages, handleDeleteDraft);
+
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [imageToPreview, setImageToPreview] = useState('');
 
@@ -56,7 +57,6 @@ export default function CreatePost() {
     if(value === "drafts"){
       handleGetDrafts();
     }
-
     return;
   };
 
@@ -96,28 +96,7 @@ export default function CreatePost() {
 
           {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
-            <div className="w-full h-full overflow-auto">
-              {isDraftsLoading ? <DraftSkeleton exsistingDrafts={mapDraftsToNumberArray(drafts)} /> : (
-                drafts.map((draft: PostDraftType | ProjectDraftType) => (
-                  <div className="w-full mt-3" key={draft.id}>
-                    <Draft onEditClick={() => openEditDraftModal(draft.id)} 
-                           onDeleteClick={() => {
-                            setIsDeleteDraftModalOpen(true);
-                            setCurrentDraft(draft);
-                           }}
-                           title={draft.title} 
-                           type={draft.type} 
-                    />
-                  </div>
-                ))
-              )}
-
-              {!isDraftsLoading && drafts.length === 0 && (
-                <div className="w-full h-96 flex justify-center items-center">
-                  <span className="text-md text-primary">No drafts to show</span>
-                </div>
-              )}
-            </div>
+            <DraftSection isDraftsLoading={isDraftsLoading} drafts={drafts} openEditDraftModal={openEditDraftModal} setIsDeleteDraftModalOpen={setIsDeleteDraftModalOpen} setCurrentDraft={setCurrentDraft} />
           </TabsContent>
         </Tabs>
       </div>
