@@ -10,14 +10,12 @@ import { useMePostsQuery } from "@/features/user/hooks/useMePostsQuery";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery"
 import { useUpdateUser } from "@/features/user/hooks/useUpdateUser";
 import { useUploadImages } from "@/hooks/useUploadImages";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
  
-const page = () => {
-  const queryClient = useQueryClient();
-  const { data: user, isLoading } = useMeQuery();
-  const { data: posts, isLoading: isPostsLoading } = useMePostsQuery();
+const ProfilePage = () => {
+  const { data: user, isLoading, isError: isErrroWithUserData } = useMeQuery();
+  const { data: posts, isLoading: isPostsLoading, isError: isErrorWithUserPost } = useMePostsQuery();
   const { editAboutForm, editHeadingForm } = useEditForms();
   const { uploadImages, imagesUrl, isLoading: isUploading } = useUploadImages(true);
   const { handleUpdateUser } = useUpdateUser(imagesUrl, user?.user);
@@ -45,4 +43,4 @@ const page = () => {
   )
 }
 
-export default page
+export default ProfilePage
