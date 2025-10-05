@@ -1,17 +1,9 @@
+import { useImagePreviewStore } from '@/store/useImagePreviewStore';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useState } from 'react';
 
-interface ImagePreviewProps {
-  isPreviewOpen: boolean;
-  setIsPreviewOpen: (open: boolean) => void;
-  imageToPreview: string;
-}
-
-const ImagePreview: React.FC<ImagePreviewProps> = ({
-  isPreviewOpen,
-  setIsPreviewOpen,
-  imageToPreview,
-}) => {
+const ImagePreview = () => {
+  const { isPreviewOpen, setIsPreviewOpen, imageToPreview } = useImagePreviewStore();
   return (
     <>
       {isPreviewOpen && (

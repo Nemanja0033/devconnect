@@ -1,6 +1,10 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { useDeleteDraftStore } from "@/store/useDraftStore";
+import { useState } from "react";
 
-const DraftDeleteModal = ({isDeleteDraftModalOpen, setIsDeleteDraftModalOpen, currentDraft, handleDeleteDraft} : any) => {
+const DraftDeleteModal = ({ currentDraft, handleDeleteDraft} : any) => {
+  const { isDeleteDraftModalOpen, setIsDeleteDraftModalOpen } = useDeleteDraftStore();
+  
   return (
     <AlertDialog open={isDeleteDraftModalOpen} onOpenChange={setIsDeleteDraftModalOpen}>
       <AlertDialogContent>

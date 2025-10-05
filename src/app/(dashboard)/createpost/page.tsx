@@ -2,56 +2,39 @@
 import ProjectForm from "@/features/post/components/ProjectForm";
 import UploadImageForm from "@/features/post/components/UploadImage";
 import UploadedImagesMap from "@/features/post/components/UploadedImagesMap";
-import { DraftSkeleton } from "@/features/post-drafts/components/DraftSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React, { useState } from "react"
-import { FormProvider } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 import { useDraft } from "@/features/post-drafts/hooks/useDraft";
 import DraftEditModal from "@/features/post-drafts/components/DraftEditModal";
-import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
 import { mapImagesToObject } from "@/features/post/lib/lib";
-import { mapDraftsToNumberArray } from "@/features/post-drafts/lib/lib";
-import Draft from "@/features/post-drafts/components/Draft";
 import DraftDeleteModal from "@/features/post-drafts/components/DraftDeleteModal";
 import ImagePreveiw from "@/features/post/components/ImagePreveiw";
 import PostForm from "@/features/post/components/PostForm";
 import { useSubmitPost } from "@/features/post/hooks/useSubmitPost";
 import { useUploadImages } from "@/hooks/useUploadImages";
 import DraftSection from "@/features/post/components/DraftSection";
+import { CreatePostForm, CreateProjectForm } from "@/features/post/types";
+import { useImagePreviewStore } from "@/store/useImagePreviewStore";
 
 export default function CreatePost() {
-  const { 
-    imagesUrl, 
-    isLoading, 
-    uploadImages, 
-    handleRemoveUploadedImage, 
-    resetImages 
-  } = useUploadImages();
+  const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
+  const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
+  const { imagesUrl, isLoading, uploadImages, handleRemoveUploadedImage, resetImages } = useUploadImages();
   const {
     drafts,
     currentDraft,
     isSavingDraft,
-    isDeleteDraftModalOpen,
-    isDraftModalOpen,
     isLoading : isDraftsLoading,
-    setIsDraftModalOpen,
     handleGetDrafts,
-    setIsDeleteDraftModalOpen,
-    setCurrentDraft,
     handleDeleteDraft,
     openEditDraftModal,
     handleSavePostDraft,
     handleSaveProjectDraft,
   } = useDraft(imagesUrl, resetImages);
-  const {
-    createPostForm,
-    createProjectForm,
-    handleSubmitPost,
-    handleSubmitProjectPost,
-  } = useSubmitPost(imagesUrl, currentDraft, resetImages, handleDeleteDraft);
 
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [imageToPreview, setImageToPreview] = useState('');
+  const { handleSubmitPost,handleSubmitProjectPost,} = useSubmitPost(imagesUrl, resetImages, handleDeleteDraft, createPostForm, createProjectForm);
+  const { isPreviewOpen, imageToPreview, setIsPreviewOpen, setImageToPreview } = useImagePreviewStore();
 
   const handleTabChange = (value: string) => {
     if(value === "drafts"){
@@ -76,7 +59,7 @@ export default function CreatePost() {
           {/* Posts tab */}
           <TabsContent className="mt-3" value="post">
             <UploadImageForm onUpload={uploadImages} /> 
-            <UploadedImagesMap isLoading={isLoading} imagesUrl={mapImagesToObject(imagesUrl)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
+            <UploadedImagesMap setIsPreviewOpen={setIsPreviewOpen} setImageToPreview={setImageToPreview} isLoading={isLoading} imagesUrl={mapImagesToObject(imagesUrl)} removeImage={handleRemoveUploadedImage} />
             
             <FormProvider {...createPostForm}>
               <PostForm onSubmit={handleSubmitPost} saveDraft={() => handleSavePostDraft(createPostForm)} isSavingDraft={isSavingDraft} />
@@ -86,7 +69,7 @@ export default function CreatePost() {
           {/* Project tab */}
           <TabsContent className="mt-3" value="project">
             <UploadImageForm onUpload={uploadImages} /> 
-            <UploadedImagesMap isLoading={isLoading} imagesUrl={mapImagesToObject(imagesUrl)} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
+            <UploadedImagesMap setIsPreviewOpen={setIsPreviewOpen} setImageToPreview={setImageToPreview} isLoading={isLoading} imagesUrl={mapImagesToObject(imagesUrl)} removeImage={handleRemoveUploadedImage} />
 
             <FormProvider {...createProjectForm}>
               <ProjectForm isSavingDraft={isSavingDraft} saveDraft={() => handleSaveProjectDraft(createProjectForm)} onSubmit={handleSubmitProjectPost} />
@@ -96,37 +79,29 @@ export default function CreatePost() {
 
           {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
-            <DraftSection isDraftsLoading={isDraftsLoading} drafts={drafts} openEditDraftModal={openEditDraftModal} setIsDeleteDraftModalOpen={setIsDeleteDraftModalOpen} setCurrentDraft={setCurrentDraft} />
+            <DraftSection isDraftsLoading={isDraftsLoading} drafts={drafts} openEditDraftModal={openEditDraftModal} />
           </TabsContent>
         </Tabs>
       </div>
 
       {/* Draft Edit Modal */}
       <DraftEditModal 
-        isDraftModalOpen={isDraftModalOpen} 
         currentDraft={currentDraft} 
         createPostForm={createPostForm} 
         createProjectForm={createProjectForm} 
         isSavingDraft={isSavingDraft} 
         handleRemoveUploadedImage={handleRemoveUploadedImage}
-        setImageToPreview={setImageToPreview}
-        setIsPreviewOpen={setIsPreviewOpen}
-        setIsDraftModalOpen={setIsDraftModalOpen}
         handleSubmitProjectPost={handleSubmitProjectPost} 
         handleSavePostDraft={handleSavePostDraft} 
         handleSubmitPost={handleSubmitPost} 
       />
 
       {/* Delete Draft Modal */}
-      <DraftDeleteModal setIsPreviewOpen
-        isDeleteDraftModalOpen={isDeleteDraftModalOpen} 
-        currentDraft={currentDraft} 
-        setIsDeleteDraftModalOpen={setIsDeleteDraftModalOpen} 
-        handleDeleteDraft={handleDeleteDraft} 
+      <DraftDeleteModal currentDraft={currentDraft} handleDeleteDraft={handleDeleteDraft} 
       />
 
       {/* Uploaded image preview */}
-      <ImagePreveiw isPreviewOpen={isPreviewOpen} setIsPreviewOpen={setIsPreviewOpen} imageToPreview={imageToPreview} />
+      <ImagePreveiw />
     </main>
   );
 }

@@ -5,15 +5,16 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CreatePostForm, CreateProjectForm } from "../types";
 import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
+import { useEditDraftStore } from "@/store/useDraftStore";
 
 export function useSubmitPost(
   imagesUrl: string[],
-  currentDraft: PostDraftType | ProjectDraftType | undefined,
   resetImages: () => void,
-  handleDeleteDraft: (draftType: 'post' | 'project', draftId: string) => void
+  handleDeleteDraft: (draftType: 'post' | 'project', draftId: string) => void,
+  createPostForm: any,
+  createProjectForm: any
 ) {
-  const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
-  const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
+  const { currentDraft } = useEditDraftStore();
 
   const handleSubmitPost = async () => {
     const { title, content } = createPostForm.getValues();

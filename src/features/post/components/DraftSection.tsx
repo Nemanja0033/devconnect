@@ -2,9 +2,12 @@ import Draft from '@/features/post-drafts/components/Draft';
 import { DraftSkeleton } from '@/features/post-drafts/components/DraftSkeleton';
 import { mapDraftsToNumberArray } from '@/features/post-drafts/lib/lib';
 import { PostDraftType, ProjectDraftType } from '@/features/post-drafts/types';
+import { useDeleteDraftStore, useEditDraftStore } from '@/store/useDraftStore';
 import React from 'react'
 
-const DraftSection = ({ isDraftsLoading, drafts, openEditDraftModal, setIsDeleteDraftModalOpen, setCurrentDraft }: any) => {
+const DraftSection = ({ isDraftsLoading, drafts, openEditDraftModal }: any) => {
+  const { setIsDeleteDraftModalOpen} = useDeleteDraftStore();
+  const { setCurrentDraft } = useEditDraftStore();
   return (
     <div className="w-full h-full overflow-auto">
               {isDraftsLoading ? <DraftSkeleton exsistingDrafts={mapDraftsToNumberArray(drafts)} /> : (

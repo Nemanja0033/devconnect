@@ -5,14 +5,13 @@ import { savePostDraft, saveProjectDraft, getPostDrafts, getProjecftDrafts, dele
 import { toast } from "sonner";
 import { mapImagesToObject } from "@/features/post/lib/lib";
 import { PostDraftType, ProjectDraftType } from "../types";
+import { useDeleteDraftStore, useEditDraftStore } from "@/store/useDraftStore";
 
 export function useDraft( imagesUrl: string[], resetImages: () => void){
     const [isSavingDraft, setIsSavingDraft] = useState(false);
     const [drafts, setDrafts] = useState<PostDraftType[] | ProjectDraftType[]>([]);
-    const [currentDraft, setCurrentDraft] = useState<PostDraftType | ProjectDraftType>();
-    const [isDeleteDraftModalOpen, setIsDeleteDraftModalOpen] = useState(false);
-    const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const { currentDraft, setCurrentDraft, setIsEditDraftModalOpen } = useEditDraftStore();
 
     const handleSavePostDraft = async (postForm: any) => {
         setIsSavingDraft(true);
@@ -78,8 +77,6 @@ export function useDraft( imagesUrl: string[], resetImages: () => void){
       try {
         await deleteDraft(draftType, draftId);
         setDrafts((prevDrafts: any[]) => (prevDrafts as any[]).filter((d: any) => d.id !== draftId));
-        setCurrentDraft(undefined);
-        setIsDraftModalOpen(false);
       } catch (err) {
         console.error(err);
         toast.error("Error while deleting draft");
@@ -90,9 +87,9 @@ export function useDraft( imagesUrl: string[], resetImages: () => void){
       const rawDraft = drafts.filter((x) => x.id === draftId);
       const draft = rawDraft[0];
       if(!draft) return;
-      setCurrentDraft(draft)
+      setCurrentDraft(draft);
+      setIsEditDraftModalOpen(true);
       console.log(currentDraft)
-      setIsDraftModalOpen(true);
     }
 
     return {
@@ -100,11 +97,6 @@ export function useDraft( imagesUrl: string[], resetImages: () => void){
         isSavingDraft,
         drafts,
         currentDraft,
-        isDeleteDraftModalOpen,
-        isDraftModalOpen,
-        setIsDeleteDraftModalOpen,
-        setIsDraftModalOpen,
-        setCurrentDraft,
         openEditDraftModal,
         handleGetDrafts,
         handleDeleteDraft,
