@@ -3,7 +3,7 @@ import ProjectForm from "@/features/post/components/ProjectForm";
 import UploadImageForm from "@/features/post/components/UploadImage";
 import UploadedImagesMap from "@/features/post/components/UploadedImagesMap";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import React, { useState } from "react"
+import React from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { useDraft } from "@/features/post-drafts/hooks/useDraft";
 import DraftEditModal from "@/features/post-drafts/components/DraftEditModal";
@@ -26,7 +26,6 @@ export default function CreatePost() {
     currentDraft,
     isSavingDraft,
     isLoading : isDraftsLoading,
-    handleGetDrafts,
     handleDeleteDraft,
     openEditDraftModal,
     handleSavePostDraft,
@@ -34,26 +33,19 @@ export default function CreatePost() {
   } = useDraft(imagesUrl, resetImages);
 
   const { handleSubmitPost,handleSubmitProjectPost,} = useSubmitPost(imagesUrl, resetImages, handleDeleteDraft, createPostForm, createProjectForm);
-  const { isPreviewOpen, imageToPreview, setIsPreviewOpen, setImageToPreview } = useImagePreviewStore();
-
-  const handleTabChange = (value: string) => {
-    if(value === "drafts"){
-      handleGetDrafts();
-    }
-    return;
-  };
+  const { setIsPreviewOpen, setImageToPreview } = useImagePreviewStore();
 
   return (
     <main className="flex w-full h-[80vh] p-5 justify-center items-center">
       <div className="p-5 md:w-fit h-full border-2 overflow-auto shadow-md rounded-md w-full">
         <span className="text-2xl font-semibold">Create Post</span>
-        <Tabs defaultValue="post"  onValueChange={handleTabChange}>
+        <Tabs defaultValue="post">
           <TabsList className="flex px-1 justify-between w-full gap-3">
            <div className="flex gap-3">
             <TabsTrigger  className="data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="post">Post</TabsTrigger>
             <TabsTrigger  className="data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all rounded-xs border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="project">Project</TabsTrigger>
            </div>
-            <TabsTrigger onClick={handleGetDrafts} className="ml-6 data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
+            <TabsTrigger className="ml-6 data-[state=active]:border-b-2 data-[state=active]:bg-accent hover:bg-accent p-2 transition-all border-b-primary cursor-pointer hover:opacity-95 data-[state=active]:text-primary" value="drafts">Drafts</TabsTrigger>
           </TabsList>
 
           {/* Posts tab */}
@@ -90,10 +82,13 @@ export default function CreatePost() {
         createPostForm={createPostForm} 
         createProjectForm={createProjectForm} 
         isSavingDraft={isSavingDraft} 
+        isUploadedPhotosLoading={isLoading}
         handleRemoveUploadedImage={handleRemoveUploadedImage}
         handleSubmitProjectPost={handleSubmitProjectPost} 
         handleSavePostDraft={handleSavePostDraft} 
-        handleSubmitPost={handleSubmitPost} 
+        handleSubmitPost={handleSubmitPost}
+        setImageToPreview={setImageToPreview} 
+        setIsPreviewOpen={setIsPreviewOpen}
       />
 
       {/* Delete Draft Modal */}

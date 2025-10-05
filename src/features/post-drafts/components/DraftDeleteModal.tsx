@@ -1,8 +1,8 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { useDeleteDraftStore } from "@/store/useDraftStore";
-import { useState } from "react";
+import { PostDraftType, ProjectDraftType } from "../types";
 
-const DraftDeleteModal = ({ currentDraft, handleDeleteDraft} : any) => {
+const DraftDeleteModal = ({ currentDraft, handleDeleteDraft} : { currentDraft: PostDraftType | ProjectDraftType | null, handleDeleteDraft: (draftType: "post" | "project", draftId: string | undefined) => void}) => {
   const { isDeleteDraftModalOpen, setIsDeleteDraftModalOpen } = useDeleteDraftStore();
   
   return (
