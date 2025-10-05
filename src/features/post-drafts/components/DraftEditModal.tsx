@@ -3,11 +3,25 @@ import { FormProvider } from "react-hook-form"
 import PostForm from "../../../features/post/components/PostForm"
 import ProjectForm from "../../../features/post/components/ProjectForm"
 import UploadedImagesMap from "@/features/post/components/UploadedImagesMap"
+import { useEditDraftStore } from "@/store/useDraftStore"
+import { PostDraftType, ProjectDraftType } from "../types"
+
+interface DraftEditModal {
+    isUploadedPhotosLoading: boolean,
+    currentDraft: PostDraftType | ProjectDraftType | null,
+    createPostForm: any
+    createProjectForm: any
+    handleSubmitProjectPost: () => void, 
+    isSavingDraft: boolean,
+    handleSavePostDraft: (form: any) => void
+    handleSubmitPost: () => void
+    handleRemoveUploadedImage: (url: string) => void
+    setImageToPreview: (imageId: string) => void
+    setIsPreviewOpen: (isPreview: boolean) => void
+}
 
 const DraftEditModal = ({
-    isDraftModalOpen, 
     isUploadedPhotosLoading,
-    setIsDraftModalOpen, 
     currentDraft, 
     createPostForm, 
     createProjectForm, 
@@ -17,10 +31,11 @@ const DraftEditModal = ({
     handleSubmitPost,
     handleRemoveUploadedImage,
     setImageToPreview,
-    setIsPreviewOpen} : any) => {
+    setIsPreviewOpen} : DraftEditModal) => {
+    const { isEditDraftModalOpen, setIsEditDraftModalOpen } = useEditDraftStore();
     
     return (
-         <AlertDialog open={isDraftModalOpen} onOpenChange={setIsDraftModalOpen}>
+         <AlertDialog open={isEditDraftModalOpen} onOpenChange={setIsEditDraftModalOpen}>
             <AlertDialogContent>
             <AlertDialogHeader>
                 <AlertDialogTitle>Edit {currentDraft?.title}</AlertDialogTitle>

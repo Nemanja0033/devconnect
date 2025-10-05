@@ -23,3 +23,17 @@ export type PostDraftType = {
     id: string
     type: DraftType.PROJECT | undefined;
 }
+
+export interface DraftEditModal {
+    isUploadedPhotosLoading: boolean,
+    currentDraft: PostDraftType | ProjectDraftType | null,
+    createPostForm: any
+    createProjectForm: any
+    handleSubmitProjectPost: () => void, 
+    isSavingDraft: boolean,
+    handleSavePostDraft: (form: any) => void
+    handleSubmitPost: () => void
+    handleRemoveUploadedImage: (url: string) => void
+    setImageToPreview: (imageId: string) => void
+    setIsPreviewOpen: (isPreview: boolean) => void
+}

@@ -1,17 +1,9 @@
 "use client"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useEffect, useState } from "react";
 
-export function DraftSkeleton({ exsistingDrafts } : { exsistingDrafts?: number[] }) {
-    // based on how much drafts fit in the viewport
-    const [skeletons, setSkeletons] = useState([6]);
-
-    useEffect(() => {
-      if(exsistingDrafts){
-        setSkeletons(() => [...exsistingDrafts]);
-      }
-
-    }, [exsistingDrafts])
+export function DraftSkeleton() {
+  const skeletons = Array(5).fill('');
+  
   return (
       <div className="grid w-full gap-1 h-full">
         {skeletons.map((_, i) => (
