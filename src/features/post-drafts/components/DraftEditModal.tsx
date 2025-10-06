@@ -9,8 +9,8 @@ import { PostDraftType, ProjectDraftType } from "../types"
 interface DraftEditModal {
     isUploadedPhotosLoading: boolean,
     currentDraft: PostDraftType | ProjectDraftType | null,
-    createPostForm: any
-    createProjectForm: any
+    createPostFormDraft: any
+    createProjectFormDraft: any
     handleSubmitProjectPost: () => void, 
     isSavingDraft: boolean,
     handleSavePostDraft: (form: any) => void
@@ -23,8 +23,8 @@ interface DraftEditModal {
 const DraftEditModal = ({
     isUploadedPhotosLoading,
     currentDraft, 
-    createPostForm, 
-    createProjectForm, 
+    createPostFormDraft, 
+    createProjectFormDraft, 
     handleSubmitProjectPost, 
     isSavingDraft, 
     handleSavePostDraft, 
@@ -32,7 +32,7 @@ const DraftEditModal = ({
     handleRemoveUploadedImage,
     setImageToPreview,
     setIsPreviewOpen} : DraftEditModal) => {
-    const { isEditDraftModalOpen, setIsEditDraftModalOpen } = useEditDraftStore();
+    const { isEditDraftModalOpen, setIsEditDraftModalOpen, setCurrentDraft } = useEditDraftStore();
     
     return (
          <AlertDialog open={isEditDraftModalOpen} onOpenChange={setIsEditDraftModalOpen}>
@@ -42,7 +42,7 @@ const DraftEditModal = ({
             </AlertDialogHeader>
 
             {currentDraft?.type === "CLASSIC" && (
-                <FormProvider {...createPostForm}>
+                <FormProvider {...createPostFormDraft}>
                 <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={currentDraft.images} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
                 <PostForm
                     isSavingDraft={isSavingDraft}
@@ -55,7 +55,7 @@ const DraftEditModal = ({
 
             <div className="overflow-auto">
                 {currentDraft?.type === 'PROJECT' && (
-                    <FormProvider {...createProjectForm}>
+                    <FormProvider {...createProjectFormDraft}>
                     <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={currentDraft.images} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
                     <ProjectForm savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
                     </FormProvider>
@@ -63,7 +63,7 @@ const DraftEditModal = ({
             </div>
 
             <AlertDialogFooter>
-                <AlertDialogCancel>Close</AlertDialogCancel>
+                <AlertDialogCancel onClick={() => setCurrentDraft(null)}>Close</AlertDialogCancel>
             </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

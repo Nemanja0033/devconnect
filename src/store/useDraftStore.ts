@@ -5,7 +5,7 @@ interface EditDraftStore {
     isEditDraftModalOpen: boolean;
     currentDraft: PostDraftType | ProjectDraftType | null;
     setIsEditDraftModalOpen: (isOpen: boolean) => void;
-    setCurrentDraft: (draft: PostDraftType | ProjectDraftType) => void;
+    setCurrentDraft: (draft: PostDraftType | ProjectDraftType | null) => void;
 }
 
 interface DeleteDraftStore {
