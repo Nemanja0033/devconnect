@@ -64,6 +64,7 @@ export function useDraft(imagesUrl: string[], resetImages: () => void) {
 
   const handleDeleteDraft = async (draftType: 'post' | 'project', draftId: string | undefined) => {
     try {
+      console.log('@deleting_draft', draftId);
       await deleteDraft(draftType, draftId);
       toast.success("Draft deleted");
       await refetchDrafts();

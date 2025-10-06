@@ -1,23 +1,24 @@
-'use client';
-
 import { createPost, createProject } from "@/services/post/postService";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { CreatePostForm, CreateProjectForm } from "../types";
-import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
 import { useEditDraftStore } from "@/store/useDraftStore";
+import { CreatePostForm, CreateProjectForm } from "../types";
+import { deleteDraft } from "@/services/post-draft/draftService";
 
 export function useSubmitPost(
   imagesUrl: string[],
   resetImages: () => void,
   handleDeleteDraft: (draftType: 'post' | 'project', draftId: string) => void,
   createPostForm: any,
-  createProjectForm: any
+  createProjectForm: any,
+  createPostFormDraft: any,
+  createProjectFromDraft: any
 ) {
   const { currentDraft } = useEditDraftStore();
 
-  const handleSubmitPost = async () => {
-    const { title, content } = createPostForm.getValues();
+  const handleSubmitPost = async (data?: CreatePostForm) => {
+    if(!data) return;
+    // use this simpler logic to pass data coming from form whatever is from draft or post form.
+    const { title, content} = data;
 
     try {
       await createPost({ title, content, images: imagesUrl });
@@ -29,33 +30,41 @@ export function useSubmitPost(
       }
 
       createPostForm.reset();
+      createPostFormDraft.reset();
       resetImages();
     } catch (err) {
       toast.error("Error while posting");
     }
   };
 
-  const handleSubmitProjectPost = async () => {
+  const handleSubmitProjectPost = async (data?: CreateProjectForm) => {
+    if(!data) return;
+
     const {
       title,
       description,
-      sourceCodeUrl,
-      liveDemoUrl,
+      sourceUrl,
+      liveUrl,
       issues
-    } = createProjectForm.getValues();
+    } = data;
 
     try {
       await createProject({
         title,
         description,
-        sourceUrl: sourceCodeUrl,
-        liveUrl: liveDemoUrl,
+        sourceUrl,
+        liveUrl,
         issues,
         images: imagesUrl
       });
-
       toast.success("Posted successfully!");
-      createPostForm.reset();
+
+      if(currentDraft){
+        await deleteDraft('project', currentDraft.id)
+      }
+
+      createProjectForm.reset();
+      createProjectForm.reset()
       resetImages();
     } catch (err) {
       toast.error("Error while posting");

@@ -20,6 +20,8 @@ import { useImagePreviewStore } from "@/store/useImagePreviewStore";
 export default function CreatePost() {
   const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
   const createProjectForm = useForm<CreateProjectForm>({ mode: "onSubmit" });
+  const createPostFormDraft = useForm<CreatePostForm>({ mode: "onSubmit" });
+  const createProjectFormDraft = useForm<CreateProjectForm>({ mode: "onSubmit" });
   const { imagesUrl, isLoading, uploadImages, handleRemoveUploadedImage, resetImages } = useUploadImages();
   const {
     drafts,
@@ -32,7 +34,7 @@ export default function CreatePost() {
     handleSaveProjectDraft,
   } = useDraft(imagesUrl, resetImages);
 
-  const { handleSubmitPost,handleSubmitProjectPost,} = useSubmitPost(imagesUrl, resetImages, handleDeleteDraft, createPostForm, createProjectForm);
+  const { handleSubmitPost,handleSubmitProjectPost,} = useSubmitPost(imagesUrl, resetImages, handleDeleteDraft, createPostForm, createProjectForm, createProjectFormDraft, createPostFormDraft);
   const { setIsPreviewOpen, setImageToPreview } = useImagePreviewStore();
 
   return (
@@ -79,8 +81,8 @@ export default function CreatePost() {
       {/* Draft Edit Modal */}
       <DraftEditModal 
         currentDraft={currentDraft} 
-        createPostForm={createPostForm} 
-        createProjectForm={createProjectForm} 
+        createPostFormDraft={createPostFormDraft} 
+        createProjectFormDraft={createProjectFormDraft} 
         isSavingDraft={isSavingDraft} 
         isUploadedPhotosLoading={isLoading}
         handleRemoveUploadedImage={handleRemoveUploadedImage}
