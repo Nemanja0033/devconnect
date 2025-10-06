@@ -1,10 +1,13 @@
 import Draft from '@/features/post-drafts/components/Draft';
 import { DraftSkeleton } from '@/features/post-drafts/components/DraftSkeleton';
+import { useDraftQuery } from '@/features/post-drafts/hooks/useDraftQuery';
 import { PostDraftType, ProjectDraftType } from '@/features/post-drafts/types';
 import { useDeleteDraftStore, useEditDraftStore } from '@/store/useDraftStore';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 
-const DraftSection = ({ isDraftsLoading, drafts, openEditDraftModal }: { isDraftsLoading: boolean, drafts: PostDraftType[] | ProjectDraftType[], openEditDraftModal: (draftId: string) => void}) => {
+const DraftSection = ({ openEditDraftModal }: {  openEditDraftModal: (draftId: string) => void}) => {
+  const { data: drafts = [], isLoading: isDraftsLoading} = useDraftQuery();
   const { setIsDeleteDraftModalOpen} = useDeleteDraftStore();
   const { setCurrentDraft } = useEditDraftStore();
   return (

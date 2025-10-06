@@ -24,10 +24,8 @@ export default function CreatePost() {
   const createProjectFormDraft = useForm<CreateProjectForm>({ mode: "onSubmit" });
   const { imagesUrl, isLoading, uploadImages, handleRemoveUploadedImage, resetImages } = useUploadImages();
   const {
-    drafts,
     currentDraft,
     isSavingDraft,
-    isLoading : isDraftsLoading,
     handleDeleteDraft,
     openEditDraftModal,
     handleSavePostDraft,
@@ -73,7 +71,7 @@ export default function CreatePost() {
 
           {/* Drafts tab */}
           <TabsContent className="mt-3 md:w-[530px]" value="drafts">
-            <DraftSection isDraftsLoading={isDraftsLoading} drafts={drafts} openEditDraftModal={openEditDraftModal} />
+            <DraftSection openEditDraftModal={openEditDraftModal} />
           </TabsContent>
         </Tabs>
       </div>

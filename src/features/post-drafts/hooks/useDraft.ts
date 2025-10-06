@@ -1,23 +1,15 @@
 'use client'
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { savePostDraft, saveProjectDraft, getPostDrafts, getProjecftDrafts, deleteDraft } from "@/services/post-draft/draftService";
+import { savePostDraft, saveProjectDraft, deleteDraft } from "@/services/post-draft/draftService";
 import { toast } from "sonner";
 import { mapImagesToObject } from "@/features/post/lib/lib";
 import { useEditDraftStore } from "@/store/useDraftStore";
+import { useDraftQuery } from "./useDraftQuery";
 
 export function useDraft(imagesUrl: string[], resetImages: () => void) {
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const { currentDraft, setCurrentDraft, setIsEditDraftModalOpen } = useEditDraftStore();
-
-  const { data: drafts = [],isLoading, refetch: refetchDrafts} = useQuery({
-    queryKey: ['drafts'],
-    queryFn: async () => {
-      const postDrafts = await getPostDrafts();
-      const projectDrafts = await getProjecftDrafts();
-      return [...postDrafts, ...projectDrafts];
-    },
-  });
+  const { data: drafts = [],isLoading, refetch: refetchDrafts} = useDraftQuery();
 
   const handleSavePostDraft = async (postForm: any) => {
     setIsSavingDraft(true);
@@ -84,9 +76,7 @@ export function useDraft(imagesUrl: string[], resetImages: () => void) {
   };
 
   return {
-    isLoading,
     isSavingDraft,
-    drafts,
     currentDraft,
     openEditDraftModal,
     handleDeleteDraft,
