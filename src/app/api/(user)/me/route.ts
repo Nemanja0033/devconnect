@@ -1,3 +1,4 @@
+import { insertDataFromBody } from "@/helpers/helper";
 import { getAuthOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";
@@ -37,21 +38,34 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request) {
     try{
+        // if user send bio data for first time use email as param for search db
+        const allowedFields = ["username", "avatar", "bio", "title"];
+        const updateData: Record<string, any> = {};
+        const body = await req.json();
+        
+        const { email } = body;
+
+        if (email) {
+            insertDataFromBody(body, allowedFields, updateData);
+            console.log(body)
+            if (Object.keys(updateData).length === 0) {
+              return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+            }
+          
+            const _updatedUser = await db.user.update({
+              where: { email },
+              data: updateData
+            });
+          
+            return NextResponse.json(_updatedUser, { status: 200 });
+        }
+
         const session = await getServerSession(getAuthOptions());
         const user: any = session?.user;
 
         if(!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-        const body = await req.json();
-        const updateData: Record<string, any> = {};
-
-        const allowedFields = ["username", "avatar", "bio", "title"];
-
-        for(const key of allowedFields){
-            if(body[key] !== undefined){
-                updateData[key] = body[key];
-            }
-        };
+        insertDataFromBody(body, allowedFields, updateData);
 
         if(Object.keys(updateData).length === 0){
             return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
