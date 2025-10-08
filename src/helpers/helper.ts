@@ -24,3 +24,11 @@ export function getPostTypeDetails(type: any | undefined){
     }
 }
 
+// update user api helper
+export function insertDataFromBody(body: any,fieldsToIterate: string[], dataObj: Record<string, any>){
+    for(const key of fieldsToIterate){
+        if(body[key] !== undefined){
+            dataObj[key] = body[key];
+        }
+    }
+}

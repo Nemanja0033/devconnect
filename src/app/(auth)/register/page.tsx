@@ -103,8 +103,8 @@ export default function RegisterPage(){
 
     const updateUserBiography = async () => {
         try{
-            const res = await fetch('api/user-bio', {
-                method: "PUT",
+            const res = await fetch('api/me', {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: credentialsData.email,
