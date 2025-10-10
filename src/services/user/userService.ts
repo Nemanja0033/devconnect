@@ -7,7 +7,9 @@ export async function fetchCurrentUser() {
 export async function fetchCurrentUserPosts(){
     const res = await fetch("/api/me/posts", {credentials: "include"});
     if (!res.ok) throw new Error("Failed to fetch user posts");
-    return res.json();
+    const allData = await res.json();
+    const mergedData = [...allData.currentUserPosts.Project, ...allData.currentUserPosts.posts]
+    return mergedData;
 }
 
 export async function updateUser(updateData: Partial<{

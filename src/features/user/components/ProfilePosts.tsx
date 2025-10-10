@@ -9,8 +9,8 @@ const ProfilePosts = ({ posts, user }: { posts: any, user: any}) => {
                 <Button className="text-primary" variant={'outline'}>Create a post</Button>
             </div>
             <div className="flex gap-3 overflow-auto mt-3">
-                {posts?.currentUserPosts ? posts?.currentUserPosts.posts.map((post: any) => (
-                    <div className="w-96 h-[300px] p-3 border-2 rounded-md shadow-md">
+                {posts ? posts.map((post: any) => (
+                    <div className="w-96 h-auto p-3 border-2 rounded-md shadow-md">
                         <div className="flex w-96 gap-2 items-center">
                             <img src={user?.user.avatar} className="w-12 h-12 rounded-full" />
                             <span>{user?.user.username}</span>
@@ -20,6 +20,12 @@ const ProfilePosts = ({ posts, user }: { posts: any, user: any}) => {
                             <span>{post.title}</span>
                             <p className="line-clamp-3">{post.content}</p>
                         </div>
+
+                        {post.images[0] ? (
+                            <div className='mt-3 w-full'>
+                                <img src={post.images[0].url} alt="" />
+                            </div>
+                        ) : null}
                     </div>
                 )) : (
                     <div className='w-full justify-center'>
