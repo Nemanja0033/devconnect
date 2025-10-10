@@ -1,4 +1,5 @@
 "use client"
+import ImagePreview from "@/features/post/components/ImagePreveiw";
 import EditAboutModal from "@/features/user/components/EditAboutModal";
 import EditAvatarModal from "@/features/user/components/EditAvatarModal";
 import EditHeadingModal from "@/features/user/components/EditHeadingModal";
@@ -32,7 +33,7 @@ const ProfilePage = () => {
     <main className="w-full h-screen flex-col place-items-center">
         <ProfileHeading openAvatarEdit={() => setIsAvatarEditOpen(true)} openHeadingEdit={() => setIsHeadingEditOpen(true)} user={user} />
         <ProfileAbout openAboutEdit={() => setIsAboutEditOpen(true)} user={user}/>
-        <ProfilePosts posts={posts} user={user} />
+        <ProfilePosts isLoading={isPostsLoading} posts={posts} user={user} />
 
         <FormProvider {...editHeadingForm}>
             <EditHeadingModal isHeadingEditOpen={isHeadingEditOpen} setIsHeadingEditOpen={setIsHeadingEditOpen} user={user} handleUpdateUser={handleUpdateUser} /> 
@@ -43,6 +44,7 @@ const ProfilePage = () => {
         </FormProvider>
 
         <EditAvatarModal isAvatarEditOpen={isAvatarEditOpen} setIsAvatarEditOpen={setIsAvatarEditOpen} isUploading={isUploading} imagesUrl={imagesUrl} handleUpdateUser={handleUpdateUser} uploadImages={uploadImages} />
+        <ImagePreview />
     </main>
   )
 }
