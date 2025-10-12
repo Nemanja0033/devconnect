@@ -2,9 +2,9 @@ import { coverPlaceholder } from '@/constants/constants'
 import { EditIcon } from 'lucide-react'
 import React from 'react'
 
-const ProfileHeading = ({ user, openAvatarEdit, openHeadingEdit }: { user: any, openAvatarEdit: () => void, openHeadingEdit: () => void}) => {
+const ProfileHeading = ({ user, openAvatarEdit, openHeadingEdit }: { user: any, openAvatarEdit?: () => void, openHeadingEdit?: () => void}) => {
   return (
-    <section className="md:w-[1000px] h-105 shadow-md border-2 dark:bg-accent mt-2 rounded-md">
+    <section className="lg:w-[1000px] w-full h-105 shadow-md border-2 dark:bg-accent mt-2 rounded-md">
             <img src={coverPlaceholder} className="md:h-52 w-full rounded-md md:w-[999px] absolute" alt="" />
             <div className="relative top-32">
                 <img onClick={openAvatarEdit} src={user?.user.avatar} className="rounded-full border-4 border-accent w-52 h-52 cursor-pointer" alt="" />

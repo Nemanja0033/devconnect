@@ -33,3 +33,18 @@ export async function POST(req: Request){
         return NextResponse.json({ error: err }, { status: 500 });
     }
 }
+
+export async function DELETE(req: Request){
+    try {
+        const body = await req.json();
+        const { id } = body
+        await db.project.deleteMany({
+            where: { id },
+        });
+
+        return NextResponse.json({ message: "Post deleted succesfully"}, { status: 200});
+    }
+    catch(err){
+        return NextResponse.json({ error: err}, { status: 500});
+    }
+}
