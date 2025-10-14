@@ -12,12 +12,10 @@ import { useMePostsQuery } from "@/features/user/hooks/useMePostsQuery";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery"
 import { useUpdateUser } from "@/features/user/hooks/useUpdateUser";
 import { useUploadImages } from "@/hooks/useUploadImages";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider } from "react-hook-form";
  
 const ProfilePage = () => {
-  const params = useParams()
   const { data: user, isLoading, isError: isErrroWithUserData } = useMeQuery();
   const { data: postsData, isLoading: isPostsLoading, isError: isErrorWithUserPost } = useMePostsQuery();
   const { editAboutForm, editHeadingForm } = useEditForms();
@@ -27,10 +25,6 @@ const ProfilePage = () => {
   const [isHeadingEditOpen, setIsHeadingEditOpen] = useState(false);
   const [isAboutEditOpen, setIsAboutEditOpen] = useState(false);
   const [isAvatarEditOpen, setIsAvatarEditOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(params)
-  }, [])
 
   return (
     <main className="w-full lg:p-0 p-2 h-screen flex-col place-items-center">
