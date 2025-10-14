@@ -2,10 +2,11 @@
 import "./globals.css"
 import { SessionProvider } from "next-auth/react"
 import { Toaster } from "sonner"
-import Navbar from "@/components/shared/Navbar"
+import Navbar from "@/components/layout-ui/Navbar"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { usePathname } from "next/navigation"
 import Providers from "./providers"
+import { AppSidebar } from "@/components/layout-ui/Sidebar"
 
 export default function RootLayout({
   children,

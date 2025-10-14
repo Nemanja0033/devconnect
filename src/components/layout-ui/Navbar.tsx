@@ -7,6 +7,9 @@ import { ModeToggle } from "../ui/theme-toggle";
 import AvatarToggle from "../../features/user/components/AvatarToggle";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery";
 import { useEffect } from "react";
+import NotificationToggle from "./NotificationIcon";
+import { Input } from "../ui/input";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
     const { status } = useSession();
@@ -18,20 +21,29 @@ const Navbar = () => {
     }, [data]);
 
   return (
-    <header className="w-full h-[80px] border-b shadow-md rounded-md bg-accent flex lg:px-40 px-5 justify-between items-center">
+    <header className="w-full h-[70px] border-b-2 shadow-md bg-background flex lg:px-40 px-5 justify-between items-center">
         <div>
             <Link href={'/'}>
-                <img src={`${theme === 'light' ? "/logo.png" : "/dark-logo.png"}`} className="w-32 relative top-1 h-auto" alt="" />
+                <img src={`${theme === 'light' ? "/logo.webp" : "/logo.webp"}`} className="w-40 relative top-1 h-auto" alt="" />
             </Link>
         </div>
+
+        <div className="w-96 relative">
+            <Input className="dark:bg-accent rounded-2xl w-full px-10" placeholder="Search DevConnect" />
+            <Search strokeWidth={2} className="absolute top-[5.5px] left-2 text-gray-400" />
+        </div>
+
         <nav>
             {
                 status === 'authenticated' ?
                 (
-                    <div className="gap-2 flex">
+                    <div className="gap-4 items-center flex">
                     <Link href={'/createpost'}>
-                        <Button>+ Create</Button>
+                        <Button className="hover:text-primary transition-all" variant={'outline'}>+ Create</Button>
                     </Link>
+
+                    <NotificationToggle />
+                    
                     <AvatarToggle isLoading={isLoading} avatar={data?.user.avatar} username={data?.user.username} email={data?.user.email}/>
                     </div>
                 )
