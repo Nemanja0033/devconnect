@@ -1,45 +1,52 @@
+"use client"
 import { useState, useEffect } from "react";
-import { music } from "../constants/ui-constants";
 
-export function useMusicPlayer(){
-    const [isMusicOn, setIsMusicOn] = useState(false);
-    const [musicToPlay, ignore] = useState(music);
-    const [musicIndex, setMusicIndex] = useState(0);
-    
-    useEffect(() => {
-        musicToPlay.forEach((track) => {
-            track.pause();
-        });
+export function useMusicPlayer() {
+  const [isMusicOn, setIsMusicOn] = useState(false);
+  const [musicToPlay, setMusicToPlay] = useState<HTMLAudioElement[]>([]);
+  const [musicIndex, setMusicIndex] = useState(0);
 
-        if (isMusicOn) {
-            const currentTrack = musicToPlay[musicIndex];
-            console.log(currentTrack);
-            if (currentTrack) {
-                currentTrack.volume = 0.05;
-                currentTrack.play();
-            }
-        }
-    }, [isMusicOn, musicIndex]);
-
-
-    function toggleMusic(){
-        setIsMusicOn(!isMusicOn);
+  // 1️⃣ Prvi useEffect: inicijalizuje Audio samo na klijentu
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const music = [
+        new Audio('/good-night-lofi-cozy-chill-music-160166.mp3'),
+        new Audio('/chill-lofi-background-music-331434.mp3'),
+        new Audio('/tvari-tokyo-cafe-159065.mp3')
+      ];
+      setMusicToPlay(music);
     }
+  }, []);
 
-    function nextSong(){
-        if(musicIndex === musicToPlay.length) setMusicIndex(0);
-        setMusicIndex((perv) => perv + 1);
-    }
+  // 2️⃣ Drugi useEffect: pušta muziku samo kad je sve spremno
+  useEffect(() => {
+    if (musicToPlay.length === 0) return;
 
-    function pervSong(){
-        if(musicIndex === 0) return;
-        setMusicIndex((perv) => perv - 1);
-    }
+    musicToPlay.forEach((track) => track.pause());
 
-    return {
-        isMusicOn,
-        toggleMusic,
-        nextSong,
-        pervSong
+    if (isMusicOn && musicToPlay[musicIndex]) {
+      const currentTrack = musicToPlay[musicIndex];
+      currentTrack.volume = 0.05;
+      currentTrack.play();
     }
+  }, [isMusicOn, musicIndex, musicToPlay]);
+
+  function toggleMusic() {
+    setIsMusicOn((prev) => !prev);
+  }
+
+  function nextSong() {
+    setMusicIndex((prev) => (prev + 1) % musicToPlay.length);
+  }
+
+  function pervSong() {
+    setMusicIndex((prev) => (prev === 0 ? 0 : prev - 1));
+  }
+
+  return {
+    isMusicOn,
+    toggleMusic,
+    nextSong,
+    pervSong
+  };
 }

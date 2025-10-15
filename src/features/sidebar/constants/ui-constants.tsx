@@ -1,5 +1,6 @@
+"use client"
 import { Variants } from "framer-motion"
-import { ArrowRight, Disc3Icon, Heart, HeartIcon, Home, MenuIcon, Music2Icon, Pause, Play, Square, StopCircle, Users2Icon } from "lucide-react";
+import { ArrowRight, Heart, HeartIcon, Home, MenuIcon, Music2Icon, Pause, Play, Square, StopCircle, Users2Icon } from "lucide-react";
 
 export const navOptions = [
     {
@@ -34,9 +35,3 @@ export const sidebarVariants: Variants = {
       },
     },
   };
-
-export const music = [
-  new Audio('/good-night-lofi-cozy-chill-music-160166.mp3'),
-  new Audio('/chill-lofi-background-music-331434.mp3'),
-  new Audio('/tvari-tokyo-cafe-159065.mp3')
-]
