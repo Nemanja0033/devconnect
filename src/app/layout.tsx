@@ -6,7 +6,7 @@ import Navbar from "@/components/layout-ui/Navbar"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { usePathname } from "next/navigation"
 import Providers from "./providers"
-import { AppSidebar } from "@/components/layout-ui/Sidebar"
+import { AppSidebar } from "@/features/sidebar/components/Sidebar"
 
 export default function RootLayout({
   children,
@@ -22,7 +22,7 @@ export default function RootLayout({
           <SessionProvider>
             <ThemeProvider
               attribute="class"
-              defaultTheme="light"
+              defaultTheme="dark"
               enableSystem={false}
               disableTransitionOnChange
             >
