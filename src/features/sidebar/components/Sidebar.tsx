@@ -26,7 +26,7 @@ export function AppSidebar() {
           >
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute right-4 w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors"
+              className="absolute right-4 top-0 w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-600 cursor-pointer transition-colors"
               aria-label="Close sidebar"
             >
               <MenuIcon />
@@ -38,14 +38,31 @@ export function AppSidebar() {
               ))}
             </div>
 
-            <div className="w-full h-20 border-b-2 flex relative  justify-center items-center py-2">
-              <span className="absolute flex gap-2 text-xs text-gray-400 top-1 left-2">Ambient music <Disc3Icon size={18} className={`${isMusicOn && 'animate-spin'}`} strokeWidth={0.8} /></span>
+            <div className="w-full h-20 border-b-2 flex relative justify-center items-center py-4">
+                <div className="absolute top-0 left-2 flex w-full felx justify-between">
+                  <span className="flex gap-2 text-xs text-gray-400">Ambient music <Disc3Icon size={18} className={`${isMusicOn && 'animate-spin'}`} strokeWidth={0.8} /></span>
+                </div>
                 <div className="bg-accent/50 gap-3 w-full rounded-lg text-gray-400 h-full flex justify-center mt-2 items-center">
                 <button onClick={pervSong} className="p-1 border-2 rounded-full hover:bg-gray-600 hover:text-primary cursor-pointer transition-all"><ArrowLeft size={18} /></button>
                 <button onClick={toggleMusic} className="p-1 border-2 rounded-full hover:bg-gray-600 hover:text-primary cursor-pointer transition-all">{!isMusicOn ? <Play size={20} /> : <Pause size={20} className="text-primary" /> }</button>
                 <button onClick={nextSong} className="p-1 border-2 rounded-full hover:bg-gray-600 hover:text-primary cursor-pointer transition-all"><ArrowRight size={18} /></button>
               </div>
             </div>
+
+            <div className="w-full h-32 border-b-2 grid place-items-center relative mt-1 py-4">
+              <div className="absolute top-0 left-2 flex w-full felx justify-between">
+                <span className="flex gap-2 text-xs text-gray-400">Recent</span>
+              </div>
+              <span className="text-gray-600 text-sm">No history</span>
+            </div>
+
+            <div className="w-full h-32 border-b-2 grid place-items-center relative mt-1 py-4">
+              <div className="absolute top-0 left-2 flex w-full felx justify-between">
+                <span className="flex gap-2 text-xs text-gray-400">Community</span>
+              </div>
+            </div>
+
+            <span className="text-[12px] hover:underline cursor-pointer text-gray-600 absolute bottom-35">DevConnect 2025. All rights reserved</span>
           </motion.aside>
         )}
       </AnimatePresence>
