@@ -1,21 +1,23 @@
 "use client"
+import ImagePreview from "@/features/post/components/ImagePreveiw";
 import EditAboutModal from "@/features/user/components/EditAboutModal";
 import EditAvatarModal from "@/features/user/components/EditAvatarModal";
 import EditHeadingModal from "@/features/user/components/EditHeadingModal";
 import ProfileAbout from "@/features/user/components/ProfileAbout";
 import ProfileHeading from "@/features/user/components/ProfileHeading";
 import ProfilePosts from "@/features/user/components/ProfilePosts";
+import ProfileProjects from "@/features/user/components/ProfileProjects";
 import { useEditForms } from "@/features/user/hooks/useEditForms";
 import { useMePostsQuery } from "@/features/user/hooks/useMePostsQuery";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery"
 import { useUpdateUser } from "@/features/user/hooks/useUpdateUser";
 import { useUploadImages } from "@/hooks/useUploadImages";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider } from "react-hook-form";
  
 const ProfilePage = () => {
   const { data: user, isLoading, isError: isErrroWithUserData } = useMeQuery();
-  const { data: posts, isLoading: isPostsLoading, isError: isErrorWithUserPost } = useMePostsQuery();
+  const { data: postsData, isLoading: isPostsLoading, isError: isErrorWithUserPost } = useMePostsQuery();
   const { editAboutForm, editHeadingForm } = useEditForms();
   const { uploadImages, imagesUrl, isLoading: isUploading } = useUploadImages(true);
   const { handleUpdateUser } = useUpdateUser(imagesUrl, user?.user);
@@ -24,15 +26,12 @@ const ProfilePage = () => {
   const [isAboutEditOpen, setIsAboutEditOpen] = useState(false);
   const [isAvatarEditOpen, setIsAvatarEditOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(posts)
-  })
-
   return (
-    <main className="w-full h-screen flex-col place-items-center">
+    <main className="w-full lg:p-0 p-2 h-screen flex-col place-items-center">
         <ProfileHeading openAvatarEdit={() => setIsAvatarEditOpen(true)} openHeadingEdit={() => setIsHeadingEditOpen(true)} user={user} />
         <ProfileAbout openAboutEdit={() => setIsAboutEditOpen(true)} user={user}/>
-        <ProfilePosts posts={posts} user={user} />
+        <ProfileProjects isLoading={isPostsLoading} projects={postsData?.projects} user={user} />
+        <ProfilePosts isLoading={isPostsLoading} posts={postsData?.posts} user={user} />
 
         <FormProvider {...editHeadingForm}>
             <EditHeadingModal isHeadingEditOpen={isHeadingEditOpen} setIsHeadingEditOpen={setIsHeadingEditOpen} user={user} handleUpdateUser={handleUpdateUser} /> 
@@ -43,6 +42,7 @@ const ProfilePage = () => {
         </FormProvider>
 
         <EditAvatarModal isAvatarEditOpen={isAvatarEditOpen} setIsAvatarEditOpen={setIsAvatarEditOpen} isUploading={isUploading} imagesUrl={imagesUrl} handleUpdateUser={handleUpdateUser} uploadImages={uploadImages} />
+        <ImagePreview />
     </main>
   )
 }

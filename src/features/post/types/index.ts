@@ -3,6 +3,16 @@ export type CreatePostForm = {
     content: string,
 }
 
+export type PostType = {
+    image: any, // need to be any type beacuse of conflict
+    author: string,
+    date: string,
+    title: string,
+    id: string,
+    likes: number,
+    comments: number
+}
+
 export type CreateProjectForm = {
     title: string,
     description: string,

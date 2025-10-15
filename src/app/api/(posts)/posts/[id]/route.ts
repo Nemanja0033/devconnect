@@ -38,17 +38,3 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         return NextResponse.json({ error: "Greška prilikom ažuriranja posta" }, { status: 500 });
     }
 }
-
-// DELETE uniqe post
-export async function DELETE(req: Request, { params }: { params: { id: string}}){
-    try {
-        await db.post.delete({
-            where: { id: params.id },
-        });
-
-        return NextResponse.json({ message: "Post deleted succesfully"}, { status: 200});
-    }
-    catch(err){
-        return NextResponse.json({ error: err}, { status: 500});
-    }
-}

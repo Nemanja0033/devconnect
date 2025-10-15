@@ -6,13 +6,13 @@ export function getPostTypeDetails(type: any | undefined){
     switch (type) {
         case 'CLASSIC':
             post_type = 'Post';
-            badge_color = 'bg-blue-300';
-            text_color = 'text-blue-400';
+            badge_color = 'bg-primary';
+            text_color = 'text-secondary';
             break;
         case 'PROJECT': 
             post_type = 'Project';   
-            badge_color = 'bg-red-300';
-            text_color = 'text-red-400';
+            badge_color = 'bg-secondary';
+            text_color = 'text-primary';
 
             break;
     };

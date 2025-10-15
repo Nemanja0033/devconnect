@@ -15,14 +15,14 @@ export async function GET(req: Request){
         const currentUserPosts = await db.user.findUnique({
             where: { id: currentUser.id },
             select: {
-                project:{
-                    include: {
-                        images: true
-                    }
-                },
                 posts: {
                     include: {
                         images: true,
+                    }
+                },
+                Project: {
+                    include: {
+                        images: true
                     }
                 }
             }

@@ -6,7 +6,7 @@ export const createPost = async (data: { title: string, content: string, images:
   
 export const createProject = async (data: {
     title: string,
-    description: string,
+    description: string ,
     sourceUrl: string,
     liveUrl: string,
     issues: string,
@@ -14,4 +14,8 @@ export const createProject = async (data: {
     }) => {
     return axios.post('/api/project', data);
 };
+
+export const deletePost = async (data: { id: string}) => {
+  return axios.delete(`/api/posts`, { data } );
+}
   

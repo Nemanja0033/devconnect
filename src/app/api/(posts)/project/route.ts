@@ -1,16 +1,20 @@
+import { getAuthOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request){
     try{
+        const session: any = await getServerSession(getAuthOptions());
         const { title, description, images, sourceUrl, liveUrl, issues } = await req.json();
-
+        const authorId = session.user.id;
         if(!title || !description){
             return NextResponse.json({ message: "Title and description are required!"});
         }
 
         const _newProject = await db.project.create({
             data: {
+                authorId,
                 title,
                 description,
                 sourceUrl: sourceUrl ?? "",
@@ -27,5 +31,20 @@ export async function POST(req: Request){
     catch(err){
         console.log(err);
         return NextResponse.json({ error: err }, { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request){
+    try {
+        const body = await req.json();
+        const { id } = body
+        await db.project.deleteMany({
+            where: { id },
+        });
+
+        return NextResponse.json({ message: "Post deleted succesfully"}, { status: 200});
+    }
+    catch(err){
+        return NextResponse.json({ error: err}, { status: 500});
     }
 }

@@ -2,10 +2,11 @@
 import "./globals.css"
 import { SessionProvider } from "next-auth/react"
 import { Toaster } from "sonner"
-import Navbar from "@/components/shared/Navbar"
+import Navbar from "@/components/layout-ui/Navbar"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { usePathname } from "next/navigation"
 import Providers from "./providers"
+import { AppSidebar } from "@/components/layout-ui/Sidebar"
 
 export default function RootLayout({
   children,
@@ -26,8 +27,11 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {path === "/" ? null : <Navbar />}
+              {path === "/" ? null : <AppSidebar />}
               <Toaster position="top-center" />
-              {children}
+                <div className={`${path === '/' ? 'py-0' : 'py-20'}`}>
+                {children}
+                </div>
             </ThemeProvider>
           </SessionProvider>
         </Providers>
