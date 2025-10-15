@@ -21,7 +21,7 @@ const Navbar = () => {
     }, [data]);
 
   return (
-    <header className="w-full h-[70px] border-b-2 shadow-md bg-background flex lg:px-40 px-5 justify-between items-center">
+    <header className="w-full h-[70px] fixed z-10 border-b-2 shadow-md bg-background flex px-5 justify-between items-center">
         <div>
             <Link href={'/'}>
                 <img src={`${theme === 'light' ? "/logo.webp" : "/logo.webp"}`} className="w-40 relative top-1 h-auto" alt="" />
@@ -39,7 +39,7 @@ const Navbar = () => {
                 (
                     <div className="gap-4 items-center flex">
                     <Link href={'/createpost'}>
-                        <Button className="hover:text-primary transition-all" variant={'outline'}>+ Create</Button>
+                        <Button className="hover:text-primary transition-all cursor-pointer rounded-lg" variant={'outline'}>+ Create</Button>
                     </Link>
 
                     <NotificationToggle />

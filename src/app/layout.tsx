@@ -27,8 +27,11 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {path === "/" ? null : <Navbar />}
+              {path === "/" ? null : <AppSidebar />}
               <Toaster position="top-center" />
-              {children}
+                <div className={`${path === '/' ? 'py-0' : 'py-20'}`}>
+                {children}
+                </div>
             </ThemeProvider>
           </SessionProvider>
         </Providers>
