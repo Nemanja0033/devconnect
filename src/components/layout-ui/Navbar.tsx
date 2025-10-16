@@ -50,7 +50,7 @@ const Navbar = () => {
                 :
                 (
                  <div>
-                    <ModeToggle />
+                    {/* <ModeToggle /> */}
                     <Link href={'/login'}>
                         <Button variant={'link'}>Login</Button>
                     </Link>
