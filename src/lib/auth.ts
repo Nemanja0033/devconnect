@@ -16,6 +16,6 @@ export const login = async (email: string, password: string) => {
     toast.success("Successfully logged in!");
     // window.location.href = '/feed'
   } else {
-    toast.error(res?.error || "Login failed");
+    toast.error("Invalid email or password.");
   }
 };
