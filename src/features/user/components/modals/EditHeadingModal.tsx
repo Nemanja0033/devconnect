@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import { EditHeadingForm } from '../types'
 import { Label } from '@/components/ui/label'
+import { EditHeadingForm } from '../../types'
 
 const EditHeadingModal = ({ user, isHeadingEditOpen, setIsHeadingEditOpen, handleUpdateUser }: any) => {
     const { register, handleSubmit } = useFormContext<EditHeadingForm>();
@@ -16,7 +16,7 @@ const EditHeadingModal = ({ user, isHeadingEditOpen, setIsHeadingEditOpen, handl
                 <AlertDialogTitle>Edit intro</AlertDialogTitle>
                 <form className="w-full" onSubmit={handleSubmit(handleUpdateUser)}>
                     <Label className="text-primary text-sm" htmlFor="username">*Username</Label>
-                    <Input {...register('username')} id="username" defaultValue={user?.username} />
+                    <Input disabled className='cursor-not-allowed' {...register('username')} id="username" defaultValue={user?.username} />
                     <Label className="text-primary text-sm" htmlFor="title">*Title</Label>
                     <Input {...register("title")} id="title" defaultValue={user?.title} />
                     <div className="w-full flex justify-end mt-3 gap-2 items-center">
