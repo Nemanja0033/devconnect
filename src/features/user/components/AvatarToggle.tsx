@@ -15,7 +15,7 @@ export default function AvatarToggle({ isLoading, avatar, username, email }: { i
     
     const queryClient = useQueryClient();
     const slug = slugify(username, {
-        lower: true,
+        lower: false,
         strict: true,
         locale: 'en'
     });
