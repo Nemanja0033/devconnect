@@ -9,22 +9,27 @@ datasource db {
 
 // model for users
 
-model User {
-  id            String   @id @default(uuid())
-  username      String   @unique
-  email         String   @unique
-  password      String
-  posts         Post[]
-  avatar        String?
-  bio           String?
-  title         String?
-  createdAt     DateTime @default(now())
-  Comment       Comment[]
-  Like          Like[]
-  PostDraft     PostDraft[]
-  Project       Project[]
-  ProjectDraft  ProjectDraft[]
-}
+  model User {
+    id            String   @id @default(uuid())
+    username      String   @unique
+    email         String   @unique
+    password      String
+    avatar        String?
+    bio           String?
+    title         String?
+    createdAt     DateTime @default(now())
+    Comment       Comment[]
+    Like          Like[]
+    ProjectDraft  ProjectDraft[]
+    PostDraft     PostDraft[]
+    Project       Project[]
+    posts         Post[]
+    saved         Saved[]
+    groups        Group[] @relation("OwnedGroups") 
+    memberships   GroupMember[]
+    sentNotifications Notification[] @relation("SentNotifications")
+    recivedNotifications  Notification[] @relation("RecivedNotifications")
+  }
 
 //model for posts
 
@@ -32,12 +37,13 @@ model Post {
   id        String   @id @default(uuid())
   title     String
   content   String
-  images    Image[]
-  author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   createdAt DateTime @default(now())
-  Comment Comment[]
-  Like Like[]
+  author    User     @relation(fields: [authorId], references: [id])
+  Comment   Comment[]
+  Like      Like[]
+  images    Image[]
+  saved     Saved[]
 }
 
 model Project {
@@ -47,20 +53,20 @@ model Project {
   sourceUrl     String?
   liveUrl       String?
   issues        String?
+  authorId      String
   images        Image[]
   author        User     @relation(fields: [authorId], references: [id])
-  authorId      String
 }
 
 model PostDraft {
-  type      PostType @default(CLASSIC)
+  createdAt DateTime @default(now())
   id        String   @id @default(uuid())
   title     String
   content   String
-  images    Image[]
-  author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  createdAt DateTime @default(now())
+  type      PostType @default(CLASSIC)
+  author    User     @relation(fields: [authorId], references: [id])
+  images    Image[]
 }
 
 model ProjectDraft {
@@ -71,10 +77,10 @@ model ProjectDraft {
   sourceUrl     String?
   liveUrl       String?
   issues        String?
-  images        Image[]
-  author        User    @relation(fields: [authorId], references: [id])
   authorId      String
   createdAt     DateTime @default(now())
+  images        Image[]
+  author        User    @relation(fields: [authorId], references: [id])
 }
 
 enum PostType {
@@ -86,13 +92,13 @@ model Image {
   id             String      @id @default(uuid())
   url            String
   postId         String?
-  post           Post?       @relation(fields: [postId], references: [id], map: "Image_Post_fkey")
   postDraftId    String?
-  postDraft      PostDraft?  @relation(fields: [postDraftId], references: [id], map: "Image_PostDraft_fkey")
   projectId      String?
-  project        Project?    @relation(fields: [projectId], references: [id], map: "Image_Project_fkey")
   projectDraftId String?
   projectDraft   ProjectDraft? @relation(fields: [projectDraftId], references: [id], map: "Image_ProjectDraft_fkey")
+  post           Post?       @relation(fields: [postId], references: [id], map: "Image_Post_fkey")
+  project        Project?    @relation(fields: [projectId], references: [id], map: "Image_Project_fkey")
+  postDraft      PostDraft?  @relation(fields: [postDraftId], references: [id], map: "Image_PostDraft_fkey")
 }
 
 // model for comments
@@ -101,10 +107,10 @@ model Comment {
   id        String   @id @default(uuid())
   content   String
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id])
 }
 
 // model for likes
@@ -112,8 +118,45 @@ model Comment {
 model Like {  
   id        String   @id @default(uuid())
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id])
+
+}
+
+model Saved {
+  id      String  @id  @default(uuid())
+  postId  String  
+  userId  String
+  user    User  @relation(fields: [userId], references: [id])
+  post    Post  @relation(fields: [postId], references: [id])
+}
+
+model Group {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  createdAt     DateTime @default(now())
+  ownerId       String
+  owner         User     @relation("OwnedGroups", fields: [ownerId], references: [id])
+  members       GroupMember[]
+}
+
+model GroupMember {
+  id        String   @id @default(uuid())
+  userId    String
+  groupId   String
+  joinedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id])
+  @@unique([userId, groupId]) 
+}
+
+model Notification {
+  id        String  @id @default(uuid())
+  senderId  String
+  reciverId String
+  sender    User    @relation("SentNotifications", fields: [senderId], references: [id])
+  reciver   User    @relation("RecivedNotifications", fields: [reciverId], references: [id])
 }
