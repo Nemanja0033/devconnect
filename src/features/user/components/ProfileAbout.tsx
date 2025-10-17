@@ -7,7 +7,7 @@ const ProfileAbout = ({ user, isMyProfile, openAboutEdit }: {isMyProfile:boolean
   return (
     <section className="lg:w-[1000px] w-full h-auto mt-3 border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
             <div className="w-full flex justify-between items-center">
-                <span className="text-lg font-bold text-primary">About</span>
+                <span className="text-lg font-bold">About</span>
               {isMyProfile && <button className="text-primary cursor-pointer"  onClick={openAboutEdit}><EditIcon /></button>}
             </div>
             <p className={`${!isReadMoreOpen ? 'line-clamp-3' : ''}`}>{user?.bio}</p>

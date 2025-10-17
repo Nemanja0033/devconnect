@@ -6,7 +6,6 @@ export function useFetchUserQuery(username: string) {
     queryKey: ["user", username],
     queryFn: () => fetchUser(username),
     enabled: !!username, 
-    staleTime: 1000 * 60 * 5,
     retry: false,
     refetchOnWindowFocus: false
   });
