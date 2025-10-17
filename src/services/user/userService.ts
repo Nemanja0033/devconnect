@@ -19,9 +19,20 @@ export async function fetchCurrentUserPosts(){
 }
 
 export async function fetchUser(username: string) {
+  try {
     const response = await axios.get(`/api/users/${username}`);
+
+    if (!response.data) {
+        console.log(response.data)
+      throw new Error("User not found");
+    }
+
     return response.data;
+  } catch (error) {
+    throw error; 
+  }
 }
+
 
 export async function fetchUserPosts(username: string){
     const response = await axios.get(`/api/posts/all-user-posts/${username}`);

@@ -1,8 +1,6 @@
 "use client"
 import ImagePreview from "@/features/post/components/ImagePreveiw";
-import EditAboutModal from "@/features/user/components/EditAboutModal";
-import EditAvatarModal from "@/features/user/components/EditAvatarModal";
-import EditHeadingModal from "@/features/user/components/EditHeadingModal";
+import EditAvatarModal from "@/features/user/components/modals/EditAvatarModal";
 import ProfileAbout from "@/features/user/components/ProfileAbout";
 import ProfileHeading from "@/features/user/components/ProfileHeading";
 import ProfilePosts from "@/features/user/components/ProfilePosts";
@@ -10,28 +8,31 @@ import ProfileProjects from "@/features/user/components/ProfileProjects";
 import { useEditForms } from "@/features/user/hooks/useEditForms";
 import { useFetchUserQuery } from "@/features/user/hooks/useFetchUserQuery";
 import { useUser } from "@/features/user/hooks/useUser";
-import { useMePostsQuery } from "@/features/user/hooks/useMePostsQuery";
-import { useMeQuery } from "@/features/user/hooks/useMeQuery"
 import { useUpdateUser } from "@/features/user/hooks/useUpdateUser";
 import { useUploadImages } from "@/hooks/useUploadImages";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-import { notFound } from "next/navigation";
+import UserNotFound from "../../../../features/user/components/UserNotFound";
+import { ProfileSkeleton } from "@/features/user/components/ProfileSkeleton";
+import EditAboutModal from "@/features/user/components/modals/EditAboutModal";
+import EditHeadingModal from "@/features/user/components/modals/EditHeadingModal";
  
 const ProfilePage = () => {
   const { isUserProfile, rawUsername } = useUser();
-  const { data: user, isLoading, isError: isErrroWithUserData } = useFetchUserQuery(rawUsername);
+  const { data: user, isLoading, isError: isErrroWithUserData, isEnabled } = useFetchUserQuery(rawUsername);
   const { editAboutForm, editHeadingForm } = useEditForms();
   const { uploadImages, imagesUrl, isLoading: isUploading } = useUploadImages(true);
-  const { handleUpdateUser } = useUpdateUser(imagesUrl, user?.user);
-
+  const { handleUpdateUser } = useUpdateUser(imagesUrl, rawUsername);
   const [isHeadingEditOpen, setIsHeadingEditOpen] = useState(false);
   const [isAboutEditOpen, setIsAboutEditOpen] = useState(false);
   const [isAvatarEditOpen, setIsAvatarEditOpen] = useState(false);
 
-  // This need to be fixed, not redirect properly
   if(isErrroWithUserData){
-    return notFound();
+    return <UserNotFound />
+  }
+
+  if(isLoading || !isEnabled){
+    return <ProfileSkeleton />
   }
 
   return (
