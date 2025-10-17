@@ -16,9 +16,9 @@ const EditHeadingModal = ({ user, isHeadingEditOpen, setIsHeadingEditOpen, handl
                 <AlertDialogTitle>Edit intro</AlertDialogTitle>
                 <form className="w-full" onSubmit={handleSubmit(handleUpdateUser)}>
                     <Label className="text-primary text-sm" htmlFor="username">*Username</Label>
-                    <Input {...register('username')} id="username" defaultValue={user?.user.username} />
+                    <Input {...register('username')} id="username" defaultValue={user?.username} />
                     <Label className="text-primary text-sm" htmlFor="title">*Title</Label>
-                    <Input {...register("title")} id="title" defaultValue={user?.user.title} />
+                    <Input {...register("title")} id="title" defaultValue={user?.title} />
                     <div className="w-full flex justify-end mt-3 gap-2 items-center">
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <Button type="submit" onClick={() => setIsHeadingEditOpen(false)}>Save</Button>

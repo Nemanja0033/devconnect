@@ -15,9 +15,9 @@ const EditAboutModal = ({ isAboutEditOpen, setIsAboutEditOpen, user, handleUpdat
             <AlertDialogHeader>
             <AlertDialogTitle>Edit about</AlertDialogTitle>
                 <form onSubmit={handleSubmit(handleUpdateUser)}>
-                    <Label htmlFor="about" className="text-primary text-sm">*About</Label>
-                    <Textarea {...register('bio')} defaultValue={user?.user.bio} id="about" />
-                    <div className="w-full justify-end items-center gap-2 mt-3">
+                    <Label htmlFor="about" className="text-primary text-sm mb-2">*About</Label>
+                    <Textarea {...register('bio')} defaultValue={user?.bio} id="about" />
+                    <div className="w-full flex justify-end items-center gap-2 mt-3">
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <Button type="submit" onClick={() => setIsAboutEditOpen(false)}>Save</Button>                        
                     </div>

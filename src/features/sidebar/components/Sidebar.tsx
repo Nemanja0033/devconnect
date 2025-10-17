@@ -2,15 +2,26 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navOptions, sidebarVariants } from "../constants/ui-constants";
 import { MenuIcon, Disc3Icon, Play, Pause, ArrowRight, ArrowLeft } from "lucide-react";
 import { useMusicPlayer } from "../hooks/useMusicPlayer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AppSidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { isMusicOn, toggleMusic, nextSong, pervSong } = useMusicPlayer();
+  const isMobile = useIsMobile();
   const path = usePathname();
+
+  useEffect(() => {
+    if(isMobile){
+      setIsOpen(false);
+    }
+    else{
+      setIsOpen(true);
+    }
+  }, [isMobile]);
 
   return (
     <div className="relative">
@@ -22,7 +33,7 @@ export function AppSidebar() {
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="w-60 p-3 h-screen flex-col fixed top-19 left-0 shadow-lg border-r z-50"
+            className="w-60 p-3 h-screen bg-background flex-col fixed top-19 left-0 shadow-lg border-r z-50"
           >
             <button
               onClick={() => setIsOpen(false)}
@@ -60,15 +71,16 @@ export function AppSidebar() {
               <div className="absolute top-0 left-2 flex w-full felx justify-between">
                 <span className="flex gap-2 text-xs text-gray-400">Community</span>
               </div>
+              <span className="text-gray-600 text-sm">No recent posts</span>
             </div>
 
-            <span className="text-[12px] hover:underline cursor-pointer text-gray-600 absolute bottom-35">DevConnect 2025. All rights reserved</span>
+            <span className="text-[12px] hover:underline cursor-pointer text-gray-600 absolute bottom-20">DevConnect 2025. All rights reserved</span>
           </motion.aside>
         )}
       </AnimatePresence>
 
       {!isOpen && (
-        <aside className="w-12 h-screen fixed">
+        <aside className="w-12 h-screen md:fixed md:flex hidden">
           <motion.button
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
