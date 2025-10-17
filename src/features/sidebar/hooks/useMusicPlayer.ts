@@ -6,7 +6,6 @@ export function useMusicPlayer() {
   const [musicToPlay, setMusicToPlay] = useState<HTMLAudioElement[]>([]);
   const [musicIndex, setMusicIndex] = useState(0);
 
-  // 1️⃣ Prvi useEffect: inicijalizuje Audio samo na klijentu
   useEffect(() => {
     if (typeof window !== "undefined") {
       const music = [

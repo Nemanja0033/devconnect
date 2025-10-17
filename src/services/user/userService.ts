@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function fetchCurrentUser() {
     const res = await fetch("/api/me", { credentials: "include" });
     if (!res.ok) throw new Error("Failed to fetch user");
@@ -14,6 +16,15 @@ export async function fetchCurrentUserPosts(){
     }
     // const mergedData = [...allData.currentUserPosts.Project, ...allData.currentUserPosts.posts]
     return postAndProjects;
+}
+
+export async function fetchUser(username: string) {
+    const response = await axios.get(`/api/users/${username}`);
+    return response.data;
+}
+
+export async function fetchUserPosts(username: string){
+    const response = await axios.get(`/api/posts/all-user-posts/${username}`);
 }
 
 export async function updateUser(updateData: Partial<{

@@ -7,9 +7,11 @@ import { deleteProject } from '@/services/project/projectService';
 import { toast } from 'sonner';
 import Loader from '@/components/screens/Loader';
 
-const ProfileProjects = ({ projects, user, isLoading }: { projects: any, user: any, isLoading: boolean}) => {
+const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfile: boolean, projects: any, user: any, isLoading: boolean}) => {
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
     const queryClient = useQueryClient();
+
+    if(!projects) return;
 
     if(isLoading){
         return (

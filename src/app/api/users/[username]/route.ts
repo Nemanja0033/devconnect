@@ -2,12 +2,32 @@ import { db } from "@/lib/prismaClient";
 import { NextResponse } from "next/server";
 
 // GET single user from db
-export async function GET(req: Request, { params }: { params: {id: string}}) {
+export async function GET(req: Request, { params }: { params: {username: string}}) {
     try{
+        const rawUsername = params.username;
+        const username = rawUsername.replace('-', ' ');
+
         const user = await db.user.findUnique({
-            where: { id: params.id },
-            include: {posts: true}
-        });
+        where: { username },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          avatar: true,
+          bio: true,
+          title: true,
+          posts: {
+                    include: {
+                        images: true,
+                    }
+                },
+         Project: {
+                    include: {
+                        images: true
+                    }
+                }
+        },
+      });
 
         if(!user){
             return NextResponse.json({error: "User not found"}, { status: 404});
