@@ -1,4 +1,4 @@
-import { EditAboutForm, EditHeadingForm } from "@/app/(dashboard)/profile/page";
+import { EditAboutForm, EditHeadingForm } from "@/app/(dashboard)/profile/[username]/page";
 import { useForm } from "react-hook-form";
 
 export function useEditForms(){

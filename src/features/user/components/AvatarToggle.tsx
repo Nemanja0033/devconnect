@@ -12,9 +12,10 @@ import slugify from 'slugify'
 
 export default function AvatarToggle({ isLoading, avatar, username, email }: { isLoading: boolean, avatar: string, username: string, email: string}){
     if(!username) return;
+    
     const queryClient = useQueryClient();
     const slug = slugify(username, {
-        lower: true,
+        lower: false,
         strict: true,
         locale: 'en'
     });
@@ -46,7 +47,7 @@ export default function AvatarToggle({ isLoading, avatar, username, email }: { i
                     <div className="flex justify-start items-center gap-2">
                         <img src={avatar} className="h-10 w-10 rounded-full" alt="" />
                         <div className="grid place-items-start">
-                            <Link href={`/profile`}>{username}</Link>
+                            <Link href={`/profile/${slug}`}>{username}</Link>
                             <span className="text-xs text-gray-400">{email}</span>
                         </div>
                     </div>

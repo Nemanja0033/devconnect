@@ -7,8 +7,9 @@ import PostOptions from './PostOptionsMenu'
 import { deletePost } from '@/services/post/postService'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
+import Link from 'next/link'
 
-const ProfilePosts = ({ posts, user, isLoading }: { posts: any, user: any, isLoading: boolean}) => {
+const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: boolean, posts: any, user: any, isLoading: boolean}) => {
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
     const [postsLayout, setPostsLayout] = useState<"inline" | "grid">("inline");
     const queryClient = useQueryClient();
@@ -47,9 +48,11 @@ const ProfilePosts = ({ posts, user, isLoading }: { posts: any, user: any, isLoa
     return (
         <section className="lg:w-[1000px] w-full h-fit mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
                 <div className="flex justify-between">
-                    <span className="text-lg font-bold text-primary">Posts</span>
+                    <span className="text-lg font-bold">Posts</span>
                     <div className='flex items-center gap-2'>
-                        <Button className="text-primary" variant={'outline'}>Create a post</Button>
+                        {isMyProfile && <Button asChild className="text-primary" variant={'outline'}>
+                            <Link href={'/createpost'}>Create a post</Link>
+                        </Button> }
                         <button className='text-primary cursor-pointer' onClick={() => setPostsLayout((perv) => perv === 'grid' ? 'inline' : 'grid')}>{postsLayout === 'inline' ? <LayoutGrid /> : <GalleryHorizontalEnd />}</button>
                     </div>
                 </div>
@@ -58,8 +61,8 @@ const ProfilePosts = ({ posts, user, isLoading }: { posts: any, user: any, isLoa
                         <div className={`${postsLayout === 'inline' ? 'w-full' : 'w-full'} h-auto p-3 border-2 rounded-md shadow-md`}>
                             <div className={`flex justify-between w-full items-center`}>
                                 <div className='flex gap-2 items-center'>
-                                    <img src={user?.user.avatar} className="w-12 h-12 rounded-full" />
-                                    <span>{user?.user.username}</span>
+                                    <img src={user?.avatar} className="w-12 h-12 rounded-full" />
+                                    <span>{user?.username}</span>
                                 </div>
                                 <PostOptions handleDelete={() => handleDeletePost(post.id)} />
                             </div>
