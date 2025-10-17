@@ -47,17 +47,14 @@ const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfi
     return (
         <section className="lg:w-[1000px] w-full h-fit mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
                 <div className="flex justify-between">
-                    <span className="text-lg font-bold text-primary">Projects</span>
-                    <div className='flex items-center gap-2'>
-                        <Button className="text-primary" variant={'outline'}>Create a post</Button>
-                    </div>
+                    <span className="text-lg font-bold">Projects</span>
                 </div>
                 <div className={`grid place-items-start gap-2 mt-3`}>
                     {projects ? projects.map((project: any) => (
                         <div key={project.id} className={`w-96 h-auto p-3 border-2 rounded-md shadow-md`}>
                             <div className={`flex justify-between w-full items-center`}>
                                 <span>{project.title}</span>    
-                                <PostOptions handleDelete={() => handleDeleteProject(project.id)} />
+                                {isMyProfile && <PostOptions handleDelete={() => handleDeleteProject(project.id)} />}
                             </div>
 
                             <div className="mt-3 w-full font-semibold">

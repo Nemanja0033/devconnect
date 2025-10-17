@@ -48,7 +48,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
     return (
         <section className="lg:w-[1000px] w-full h-fit mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
                 <div className="flex justify-between">
-                    <span className="text-lg font-bold text-primary">Posts</span>
+                    <span className="text-lg font-bold">Posts</span>
                     <div className='flex items-center gap-2'>
                         {isMyProfile && <Button asChild className="text-primary" variant={'outline'}>
                             <Link href={'/createpost'}>Create a post</Link>
