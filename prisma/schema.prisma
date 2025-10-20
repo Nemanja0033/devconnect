@@ -38,12 +38,14 @@ model Post {
   title     String
   content   String
   authorId  String
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
-  Comment   Comment[]
-  Like      Like[]
+  createdAt DateTime  @default(now())
+  groupid String?
+  author    User      @relation(fields: [authorId], references: [id])
+  Comment   Comment[] @relation("Post-Comment-Relation")
+  Like      Like[]    @relation("Post-Like-Relation")
   images    Image[]
   saved     Saved[]
+  group     Group?  @relation("group-posts", fields: [groupid], references: [id])
 }
 
 model Project {
@@ -109,7 +111,7 @@ model Comment {
   postId    String
   authorId  String
   createdAt DateTime @default(now())
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation("Post-Comment-Relation",fields: [postId], references: [id])
   author    User     @relation(fields: [authorId], references: [id])
 }
 
@@ -120,7 +122,7 @@ model Like {
   postId    String
   authorId  String
   createdAt DateTime @default(now())
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation("Post-Like-Relation", fields: [postId], references: [id])
   author    User     @relation(fields: [authorId], references: [id])
 
 }
@@ -139,7 +141,8 @@ model Group {
   description   String
   createdAt     DateTime @default(now())
   ownerId       String
-  owner         User     @relation("OwnedGroups", fields: [ownerId], references: [id])
+  owner         User    @relation("OwnedGroups", fields: [ownerId], references: [id])
+  posts         Post[]  @relation("group-posts")
   members       GroupMember[]
 }
 

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { getAuthOptions } from "@/lib/authOptions";
 
+// Get all likes data
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
@@ -14,6 +15,7 @@ export async function GET(req: NextRequest) {
 
         const likes = await db.like.findMany({
             where: { postId },
+            
         });
 
         return NextResponse.json({ likes }, { status: 200 });
