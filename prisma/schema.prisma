@@ -40,8 +40,8 @@ model Post {
   authorId  String
   createdAt DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
-  Comment   Comment[]
-  Like      Like[]
+  Comment   Comment[] @relation("Post-Comment-Relation")
+  Like      Like[] @relation("Post-Like-Relation")
   images    Image[]
   saved     Saved[]
 }
@@ -109,7 +109,7 @@ model Comment {
   postId    String
   authorId  String
   createdAt DateTime @default(now())
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation("Post-Comment-Relation",fields: [postId], references: [id])
   author    User     @relation(fields: [authorId], references: [id])
 }
 
@@ -120,7 +120,7 @@ model Like {
   postId    String
   authorId  String
   createdAt DateTime @default(now())
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation("Post-Like-Relation", fields: [postId], references: [id])
   author    User     @relation(fields: [authorId], references: [id])
 
 }
