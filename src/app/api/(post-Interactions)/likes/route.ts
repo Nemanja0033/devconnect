@@ -46,7 +46,12 @@ export async function POST(req: NextRequest) {
         });
 
         if (existingLike) {
-            return NextResponse.json({ error: "You have already liked this post" }, { status: 400 });
+            await db.like.delete({
+                where: {
+                    id: existingLike.id
+                }
+            });
+            return NextResponse.json({ message: "Like removed" }, { status: 200 });
         }
 
         const like = await db.like.create({

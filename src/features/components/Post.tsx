@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Heart, MessageCircle, ThumbsUp } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
-
+// THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 const Post = ({ post }: any) => {
     const queryClient = useQueryClient();
     const [isLiked, setIsLiked] = useState(false);
