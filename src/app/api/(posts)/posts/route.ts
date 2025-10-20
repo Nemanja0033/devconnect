@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { getAuthOptions } from "@/lib/authOptions";
 
 // geting all posts
+
+// THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 export async function GET(req: Request){
     try{
         const posts = await db.post.findMany({

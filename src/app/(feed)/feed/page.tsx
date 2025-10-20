@@ -3,6 +3,7 @@ import Post from "@/features/components/Post";
 import { useFetchPostsQuery } from "@/features/feed/hooks/useFetchPostsQuery";
 import { useState } from "react";
 
+// THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 export default function FeedPage(){
     const { data: posts, isLoading, isError} = useFetchPostsQuery();
 
