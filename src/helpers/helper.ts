@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from "date-fns";
+
 export function getPostTypeDetails(type: any | undefined){
     let post_type = '';
     let badge_color = '';
@@ -31,4 +33,9 @@ export function insertDataFromBody(body: any,fieldsToIterate: string[], dataObj:
             dataObj[key] = body[key];
         }
     }
+}
+
+export function formatDate(date: string | number | Date){
+    const parsedDate = new Date(date);
+    return formatDistanceToNow(parsedDate, { addSuffix: true })
 }

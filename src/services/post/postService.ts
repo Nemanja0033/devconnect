@@ -18,4 +18,8 @@ export const createProject = async (data: {
 export const deletePost = async (data: { id: string}) => {
   return axios.delete(`/api/posts`, { data } );
 }
+
+export const fetchPosts = async () => {
+  return axios.get('/api/posts');
+}
   

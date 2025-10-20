@@ -1,15 +1,17 @@
-import { PostDraftType } from "@/features/post-drafts/types";
-import { db } from "@/lib/prismaClient";
+"use client"
+import Post from "@/features/components/Post";
+import { useFetchPostsQuery } from "@/features/feed/hooks/useFetchPostsQuery";
+import { useState } from "react";
 
-export default async function FeedPage(){
-    const posts: PostDraftType[] = await db.post.findMany();
+export default function FeedPage(){
+    const { data: posts, isLoading, isError} = useFetchPostsQuery();
+
+    if(isLoading) return;
+
     return (
-        <div className="w-full h-screen grid place-items-center">
-            {posts.map((p) => (
-                <div className="w-96 h-auto bg-accent rounded-md p-3">
-                    <span>{p.title}</span>
-                    <p>{p.content}</p>
-                </div>
+        <div className="w-full p-3 h-screen grid gap-2 place-items-center">
+            {posts?.data?.map((p: any, i: number) => (
+                <Post key={p.id ?? i} post={p} />
             ))}
         </div>
     )

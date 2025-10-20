@@ -6,8 +6,34 @@ import { getAuthOptions } from "@/lib/authOptions";
 // geting all posts
 export async function GET(req: Request){
     try{
-        const posts = await db.post.findMany();
-
+        const posts = await db.post.findMany({
+        orderBy: {
+            createdAt: 'desc'
+        },
+        include: {
+            Like: {
+                select: {
+                    author: {
+                        select: {
+                            username: true,
+                            avatar: true
+                        }
+                    }
+                }
+            },
+            author: {
+                select:{
+                    username: true,
+                    avatar: true
+                }
+            },
+            group: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
         return NextResponse.json(posts, { status: 200})
     }
     catch(err){
