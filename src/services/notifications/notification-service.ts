@@ -9,3 +9,7 @@ export async function sendNotification(senderId: string, senderUsername: string,
         type
     });
 }
+
+export async function fetchNotifications(reciverId: string){
+    return await axios.get(`/api/notification/${reciverId}`);
+}

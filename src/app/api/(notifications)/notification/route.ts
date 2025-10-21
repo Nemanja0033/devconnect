@@ -10,7 +10,7 @@ export async function POST(req: Request){
             return NextResponse.json({ error: "SenderId, ReciverId and type is required!"}, { status: 400 });
         }
 
-        const notification = db.notification.create({
+        const notification = await db.notification.create({
             data: {
                 message: getNotificationMessage(type, senderUsername),
                 senderId,

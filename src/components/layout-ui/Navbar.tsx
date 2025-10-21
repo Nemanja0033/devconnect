@@ -3,11 +3,10 @@ import { useSession } from "next-auth/react"
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useTheme } from "next-themes";
-import { ModeToggle } from "../ui/theme-toggle";
 import AvatarToggle from "../../features/user/components/AvatarToggle";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery";
 import { useEffect } from "react";
-import NotificationToggle from "./NotificationIcon";
+import NotificationToggle from "../../features/notifications/components/NotificationToggle";
 import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 
@@ -42,7 +41,7 @@ const Navbar = () => {
                         <Button className="hover:text-primary transition-all cursor-pointer rounded-lg" variant={'outline'}>+ Create</Button>
                     </Link>
 
-                    <NotificationToggle />
+                    <NotificationToggle reciverId={data?.user.id} />
                     
                     <AvatarToggle isLoading={isLoading} avatar={data?.user.avatar} username={data?.user.username} email={data?.user.email}/>
                     </div>

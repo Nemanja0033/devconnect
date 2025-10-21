@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request, { params }: { params: { id: string}}){
     try{
         const notifications = await db.notification.findMany({
-            where: { authorId: params.id },
+            where: { reciverId: params.id },
         });
 
         if(!notifications){
