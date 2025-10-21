@@ -4,24 +4,58 @@ import { formatDate } from '@/helpers/helper'
 import { likePost } from '@/services/post-interactions/post-interactions-service'
 import { useQueryClient } from '@tanstack/react-query'
 import { Heart, MessageCircle, ThumbsUp } from 'lucide-react'
+import { getSession } from 'next-auth/react'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
 // THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 const Post = ({ post }: any) => {
     const queryClient = useQueryClient();
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState<boolean | null>(null);
+    const [likes, setLikes] = useState<number | null>(null);
 
     const handleLikePost = async (postId: string) => {
-        try{
-            setIsLiked(true);
+        const user = await getSession();
+        if(!user) return;
+
+        try {
+            // Optimistic UI update
+            setIsLiked(!isLiked);
+            setLikes((prev) => (prev ?? 0) + (isLiked ? -1 : 1));
+
+            // Call the API to like/unlike the post
             await likePost(postId);
-            queryClient.invalidateQueries({ queryKey: ['posts']});
+        } catch (err) {
+            // Revert the optimistic update in case of an error
+            setIsLiked((prev) => !prev);
+            setLikes((prev) => (prev ?? 0) + (isLiked ? 1 : -1));
+            console.error("Error liking the post:", err);
         }
-        catch(err){
-            setIsLiked(false);
-            console.log(err);
-        }
-    }
+    };
+
+    useEffect(() => {
+        const fetchLikes = async () => {
+            try {
+                const session: any = await getSession();
+                const userId = session?.user.id;
+
+                if (!userId) {
+                    setIsLiked(false);
+                    setLikes(post.Like.length);
+                    return;
+                }
+
+                const userLike = post.Like.find((like: any) => like.authorId === userId);
+                setIsLiked(!!userLike);
+                setLikes(post.Like.length);
+            } catch (err) {
+                console.error("Error fetching likes:", err);
+            }
+        };
+
+        fetchLikes();
+    }, [post.Like]);
+
     return (
             <div className="md:w-[600px] grid gap-2 h-auto bg-accent/50 hover:bg-accent/80 transition-all rounded-md p-3">
                 <div className="grid gap-1">
@@ -35,7 +69,7 @@ const Post = ({ post }: any) => {
                     <p className="line-clamp-4">{post.content}</p>
                 </div>
                 <div className='flex justify-start gap-2 items-center'>
-                    <Button onClick={() => handleLikePost(post.id)} className={`hover:text-primary cursor-pointer transition-all ${isLiked ? 'text-primary' : ''}`} variant={'secondary'}><ThumbsUp size={20} strokeWidth={0.75} />{post.Like.length}</Button>
+                    <Button onClick={() => handleLikePost(post.id)} className={`hover:text-primary cursor-pointer transition-all ${isLiked ? 'text-primary' : ''}`} variant={'secondary'}><ThumbsUp size={20} strokeWidth={0.75} />{likes}</Button>
                     <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /></Button>
                     <Button className='hover:text-primary cursor-pointer transition-all' variant={'secondary'}><Heart size={20} strokeWidth={0.75} /></Button>
                 </div>

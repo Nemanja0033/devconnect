@@ -20,25 +20,23 @@ export async function GET(req: Request){
                             username: true,
                             avatar: true
                         }
-                    }
+                    },
+                    authorId: true
                 }
             },
             author: {
                 select:{
+                    id: true,
                     username: true,
                     avatar: true
                 }
             },
-            group: {
-                select: {
-                    name: true
-                }
-            }
         }
     });
         return NextResponse.json(posts, { status: 200})
     }
     catch(err){
+        console.log("@ERRRORRROROROR", err)
         return NextResponse.json({error: err}, {status: 500})
     }
 }
