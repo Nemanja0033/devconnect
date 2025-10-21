@@ -24,9 +24,14 @@ const NotificationToggle = ({ reciverId }: { reciverId: string}) => {
           {data?.data.notifications.length> 0 && <div className='bg-red-500 w-2 h-2 absolute top-0 left-0 rounded-full'></div>}
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='p-3 grid gap-2'>
+      <DropdownMenuContent className='p-3 grid gap-2 max-h-60 overflow-auto'>
+        {data?.data.notifications.length < 1 && (
+          <span className='text-gray-600 text-sm p-3'>No new notifications. . .</span>
+        )}
         {isLoading ? (
-          <Loader />
+          <div className='w-full flex justify-center'>
+            <Loader />
+          </div>
         ) : data?.data.notifications.map((notification: any) => (
           <div className="w-full p-3 rounded-md bg-accent shadow-md flex justify-center items-center">
             <span>{notification.message}</span>

@@ -5,6 +5,6 @@ export function useFetchNofiticationsQuery(reciverId: string){
     return useQuery({
         queryKey: ["notifications"],
         queryFn: () => fetchNotifications(reciverId),
-        refetchInterval: 10000,
+        refetchInterval: 5000,
     })
 }

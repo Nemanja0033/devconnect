@@ -18,8 +18,10 @@ const Post = ({ post }: any) => {
     const [likes, setLikes] = useState<number | null>(null);
     const { transformedSlug: slug } = useSlugify(post.author.username);
 
+    // **TODO** implement some rate limiting for likes
     const handleLikePost = async (postId: string) => {
         const user: any = await getSession();
+        
         if(!user) return;
 
         try {
@@ -29,7 +31,15 @@ const Post = ({ post }: any) => {
 
             // Call the API to like/unlike the post
             await likePost(postId);
-            await sendNotification(user?.user.id, user?.user.name, post.authorId, NotificationType.LIKE);
+
+            // Prevent self-like notifications
+            if(post.author.id === user?.user.id) return;
+
+            // Send notification only when post is liked
+            if(!isLiked){
+                await sendNotification(user?.user.id, user?.user.name, post.authorId, NotificationType.LIKE);
+            }
+
         } catch (err) {
             setIsLiked((prev) => !prev);
             setLikes((prev) => (prev ?? 0) + (isLiked ? 1 : -1));
