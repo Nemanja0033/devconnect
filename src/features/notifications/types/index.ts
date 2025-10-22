@@ -3,3 +3,13 @@ export enum NotificationType{
     COMMENT = 'Comment',
     FOLLOW = 'Follow'
 }
+
+export interface Notification{ 
+    id: string,
+    message: string,
+    senderId: string,
+    reciverid: string,
+    viewed: boolean,
+    createdAt: Date | any,
+    type: NotificationType,
+}

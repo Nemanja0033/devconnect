@@ -17,3 +17,28 @@ export async function GET(req: Request, { params }: { params: { id: string}}){
         return NextResponse.json({ error: err}, { status: 500});
     }
 }
+
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+  try {
+    const updated = await db.notification.updateMany({
+      where: { reciverId: params.id },
+      data: {
+        viewed: true,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Notifications marked as viewed",
+        updatedCount: updated.count,
+      },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error("Error updating notifications:", err);
+    return NextResponse.json(
+      { error: "Failed to update notifications" },
+      { status: 500 }
+    );
+  }
+}

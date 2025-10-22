@@ -13,3 +13,7 @@ export async function sendNotification(senderId: string, senderUsername: string,
 export async function fetchNotifications(reciverId: string){
     return await axios.get(`/api/notification/${reciverId}`);
 }
+
+export async function viewNotifications(reciverId: string){
+    return await axios.patch(`/api/notification/${reciverId}`);
+}

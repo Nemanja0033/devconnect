@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { Bell } from 'lucide-react'
 import {
   DropdownMenu,
@@ -8,33 +8,46 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useFetchNofiticationsQuery } from '../hooks/useFetchNotificationsQuery'
 import Loader from '@/components/screens/Loader'
+import { formatDate } from '@/helpers/helper'
+import { viewNotifications } from '@/services/notifications/notification-service'
+import { Notification } from '../types'
 
 const NotificationToggle = ({ reciverId }: { reciverId: string}) => {
-  const { data, isLoading, isError } = useFetchNofiticationsQuery(reciverId);
-
-  useEffect(() => {
-    console.log(data);
-  }, [])
+  const { data, isLoading, refetch } = useFetchNofiticationsQuery(reciverId);
+  const hasUnread = useMemo(() => {
+    return data?.data.notifications.some((n: Notification) => !n.viewed);
+  }, [data]);
+  
+  const handleReadNotifications = async (reciverId: string) => {
+    try{
+      await viewNotifications(reciverId);
+      refetch();
+    }
+    catch(err){
+      console.error("Error while viewing notification", err);
+    }
+  }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={() => handleReadNotifications(reciverId)}>
       <DropdownMenuTrigger asChild>
         <button className="cursor-pointer hover:text-primary transition-all relative">
           <Bell strokeWidth={1.2} />
-          {data?.data.notifications.length> 0 && <div className='bg-red-500 w-2 h-2 absolute top-0 left-0 rounded-full'></div>}
+          {hasUnread ? <div className='bg-red-500 w-2 h-2 absolute top-0 left-0 rounded-full'></div> : null}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='p-3 grid gap-2 max-h-60 overflow-auto'>
-        {data?.data.notifications.length < 1 && (
+        {!isLoading && data?.data.notifications.length < 1 && (
           <span className='text-gray-600 text-sm p-3'>No new notifications. . .</span>
         )}
         {isLoading ? (
           <div className='w-full flex justify-center'>
             <Loader />
           </div>
-        ) : data?.data.notifications.map((notification: any) => (
-          <div className="w-full p-3 rounded-md bg-accent shadow-md flex justify-center items-center">
-            <span>{notification.message}</span>
+        ) : data?.data.notifications.map((notification: Notification) => (
+          <div className={`w-full grid p-3 rounded-md hover:bg-accent/70 cursor-pointer bg-accent shadow-md`}>
+            <span className='text-sm'>{notification.message}</span>
+            <span className='text-xs text-gray-400 text-end'>{formatDate(notification.createdAt)}</span>
           </div>
         ))}
       </DropdownMenuContent>
