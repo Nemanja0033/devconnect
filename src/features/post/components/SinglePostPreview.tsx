@@ -25,7 +25,7 @@ const SinglePostPreview = ({ post }: { post: any }) => {
   };
 
   const previewImage = () => {
-    if(post?.imags.length === 0) return;
+    if(post.images.length  === 0) return;
     setImageToPreview(post?.images[imageIndex].url);
     setIsPreviewOpen(true);
   }
