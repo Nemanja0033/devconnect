@@ -42,3 +42,16 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     );
   }
 }
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }){
+  try{
+    const deleteNotifications = await db.notification.deleteMany({
+      where: { reciverId: params.id }
+    });
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  }
+  catch(err){
+    return NextResponse.json({ error: err }, { status: 500 });
+  }
+}
