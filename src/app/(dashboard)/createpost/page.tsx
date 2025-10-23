@@ -1,6 +1,6 @@
 "use client"
 import ProjectForm from "@/features/post/components/ProjectForm";
-import UploadImageForm from "@/features/post/components/UploadImage";
+import UploadImageForm from "@/features/post/components/create-post/UploadImage";
 import UploadedImagesMap from "@/features/post/components/UploadedImagesMap";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React from "react"
@@ -13,7 +13,7 @@ import ImagePreveiw from "@/features/post/components/ImagePreveiw";
 import PostForm from "@/features/post/components/PostForm";
 import { useSubmitPost } from "@/features/post/hooks/useSubmitPost";
 import { useUploadImages } from "@/hooks/useUploadImages";
-import DraftSection from "@/features/post/components/DraftSection";
+import DraftSection from "@/features/post/components/create-post/DraftSection";
 import { CreatePostForm, CreateProjectForm } from "@/features/post/types";
 import { useImagePreviewStore } from "@/store/useImagePreviewStore";
 

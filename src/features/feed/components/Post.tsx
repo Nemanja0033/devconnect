@@ -6,11 +6,19 @@ import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSlugify } from '@/hooks/useSlugify'
 import { useLikes } from '@/features/post/hooks/useLikes'
+import { useImagePreviewStore } from '@/store/useImagePreviewStore'
+import ImagePreview from '@/features/post/components/ImagePreveiw'
 
 // THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 const Post = ({ post }: any) => {
     const { isLiked, isLikesLoading ,likes, handleLikePost} = useLikes(post);
     const { transformedSlug: slug } = useSlugify(post.author.username);
+    const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
+    
+    const previewImage = () => {
+        setImageToPreview(post.images[0].url);
+        setIsPreviewOpen(true);
+    }
 
     return (
             <div  className="md:w-[600px] w-full grid gap-2 h-auto bg-accent/50 hover:bg-accent/80 transition-all rounded-md p-3">
@@ -25,6 +33,13 @@ const Post = ({ post }: any) => {
                     <Link href={`/post/${post.id}`} className='font-bold hover:underline cursor-pointer transition-all'>{post.title}</Link>
                     <p className="line-clamp-4">{post.content}</p>
                 </div>
+
+                <div className='w-full'>
+                    {post.images.length > 0  && (
+                        <img onClick={previewImage} className='w-full rounded-md' src={post.images[0].url} alt={post.title} />
+                    )}
+                </div>
+
                 <div className='flex justify-start gap-2 items-center'>
                     {!isLikesLoading ? (
                         <>
@@ -40,6 +55,7 @@ const Post = ({ post }: any) => {
                         </>
                     )}
                 </div>
+                <ImagePreview />
             </div>
         )
     }

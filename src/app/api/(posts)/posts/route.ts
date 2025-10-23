@@ -24,6 +24,12 @@ export async function GET(req: Request){
                     authorId: true
                 }
             },
+            images: {
+                select: {
+                    id: true,
+                    url: true
+                }
+            },
             author: {
                 select:{
                     id: true,

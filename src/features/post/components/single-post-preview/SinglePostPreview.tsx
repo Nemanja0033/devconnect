@@ -2,13 +2,19 @@
 import { useState } from "react";
 import ImageSliderButton from "./ImageSliderButton";
 import { motion } from "framer-motion";
-import ImagePreview from "./ImagePreveiw";
+import ImagePreview from "../ImagePreveiw";
 import { useImagePreviewStore } from "@/store/useImagePreviewStore";
+import { useLikes } from "../../hooks/useLikes";
+import LikeButton from "./buttons/LikeButton";
+import CommentButton from "./buttons/CommentButton";
+import FavouriteButton from "./buttons/FavouriteButton";
+import CommentSection from "./CommentSection";
 
 const SinglePostPreview = ({ post }: { post: any }) => {
-  const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore()
   const [imageIndex, setImageIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right" | null>(null);
+  const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore()
+  const { handleLikePost, isLiked, likes } = useLikes(post);
 
   const showNextImage = () => {
     if (imageIndex < post.images.length - 1) {
@@ -66,6 +72,14 @@ const SinglePostPreview = ({ post }: { post: any }) => {
           <ImageSliderButton side="right" onClick={showNextImage} />
         )}
       </div>
+
+      <div className="w-full flex p-2 bg-accent/50 rounded-md justify-start gap-3"> 
+        <LikeButton handleLikePost={() => handleLikePost(post.id)} isLiked={isLiked} likes={likes} />
+        <CommentButton />
+        <FavouriteButton />
+      </div>
+
+      <CommentSection />
 
       <ImagePreview />
     </div>

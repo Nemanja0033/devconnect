@@ -1,4 +1,4 @@
-import SinglePostPreview from "@/features/post/components/SinglePostPreview";
+import SinglePostPreview from "@/features/post/components/single-post-preview/SinglePostPreview";
 import { db } from "@/lib/prismaClient";
 
 export default async function PostPage({ params }: { params: Promise<{ id: string }>}){ 
