@@ -1,13 +1,13 @@
 import { useFormContext } from "react-hook-form";
-import { Input } from "../../../components/ui/input";
-import { Textarea } from "../../../components/ui/textarea";
 import { Loader2 } from "lucide-react";
-import { Button } from "../../../components/ui/button";
-import ErrorTooltip from "../../../components/reusables/FormErrorTooltip";
 import { useEffect } from "react";
 import { Label } from "@radix-ui/react-label";
 import { ProjectDraftType } from "@/features/post-drafts/types";
-import { CreateProjectForm } from "../types";
+import { CreateProjectForm } from "../../types";
+import ErrorTooltip from "@/components/reusables/FormErrorTooltip";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedFromDraft }: { isSavingDraft?: boolean, saveDraft?: (projectForm: any) => void, onSubmit: () => void, savedFromDraft?: ProjectDraftType}){
     const {

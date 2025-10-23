@@ -79,7 +79,7 @@ const SinglePostPreview = ({ post }: { post: any }) => {
         <FavouriteButton />
       </div>
 
-      <CommentSection />
+      <CommentSection post={post} />
 
       <ImagePreview />
     </div>

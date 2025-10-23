@@ -16,8 +16,8 @@ export type PostType = {
 export type CreateProjectForm = {
     title: string,
     description: string,
-    sourceUrl: string,
-    liveUrl: string,
+    sourceCodeUrl: string,
+    liveDemoUrl: string,
     issues: string,
     techStack: string
 }

@@ -37,6 +37,13 @@ export async function GET(req: Request){
                     avatar: true
                 }
             },
+            comments: {
+                content: true,
+                author: {
+                    username: true,
+                    avatar: true
+                }
+            }
         }
     });
         return NextResponse.json(posts, { status: 200})
