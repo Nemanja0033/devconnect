@@ -9,6 +9,9 @@ import LikeButton from "./buttons/LikeButton";
 import CommentButton from "./buttons/CommentButton";
 import FavouriteButton from "./buttons/FavouriteButton";
 import CommentSection from "./CommentSection";
+import { Button } from "@/components/ui/button";
+import { MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 const SinglePostPreview = ({ post }: { post: any }) => {
   const [imageIndex, setImageIndex] = useState(0);
@@ -75,7 +78,9 @@ const SinglePostPreview = ({ post }: { post: any }) => {
 
       <div className="w-full flex p-2 bg-accent/50 rounded-md justify-start gap-3"> 
         <LikeButton handleLikePost={() => handleLikePost(post.id)} isLiked={isLiked} likes={likes} />
-        <CommentButton />
+        <Link href={'#comments'}>
+            <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /> {post._count.Comment}</Button>
+        </Link>
         <FavouriteButton />
       </div>
 

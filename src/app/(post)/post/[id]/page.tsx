@@ -6,10 +6,15 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
     const post = await db.post.findUnique({
         where: { id },
         include: {
-            Comment: true,
+            // Comment: true,
             author: true,
             Like: true,
             images: true,
+            _count: {
+                select: {
+                    Comment: true,
+                }
+            }
         }
     })
 

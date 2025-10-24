@@ -37,6 +37,11 @@ export async function GET(req: Request){
                     avatar: true
                 }
             },
+            _count: {
+                select: {
+                    Comment: true
+                }
+            }
         }
     });
         return NextResponse.json(posts, { status: 200})

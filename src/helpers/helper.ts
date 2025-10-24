@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
+import slugify from "slugify";
 
 export function getPostTypeDetails(type: any | undefined){
     let post_type = '';
@@ -38,4 +39,12 @@ export function insertDataFromBody(body: any,fieldsToIterate: string[], dataObj:
 export function formatDate(date: string | number | Date){
     const parsedDate = new Date(date);
     return formatDistanceToNow(parsedDate, { addSuffix: true })
+}
+
+export function slugifyUsername(username: string) {
+    return slugify(username, {
+        lower: false,
+        strict: true,
+        locale: 'en',
+    });
 }

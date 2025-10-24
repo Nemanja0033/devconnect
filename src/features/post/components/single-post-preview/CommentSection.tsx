@@ -6,6 +6,15 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useFetchCommentsQuery } from '../../hooks/useFetchCommentsQuery';
 import { Loader2 } from 'lucide-react';
+import Loader from '@/components/screens/Loader';
+import Link from 'next/link';
+import { useSlugify } from '@/hooks/useSlugify';
+import { slugifyUsername } from '@/helpers/helper';
+import { Badge } from '@/components/ui/badge';
+import SingleComment from './SingleComment';
+import { sendNotification } from '@/services/notifications/notification-service';
+import { getSession } from 'next-auth/react';
+import { NotificationType } from '@/features/notifications/types';
 
 // ** This component needs to be refactored latter in production . . .
 
@@ -14,21 +23,22 @@ interface CommentForm {
 }
 
 const CommentSection = ({ post }: any) => {
-  const { data, isLoading, isError, refetch } = useFetchCommentsQuery(post.id);
+  const { data: comments, isLoading, isError, refetch } = useFetchCommentsQuery(post.id);
   const [isFocused, setIsFocused] = useState(false);
   const commentForm = useForm<CommentForm>();
   const { handleSubmit, formState: { errors, isSubmitting }, reset, register} = commentForm;
 
   const handlePostComment = async (data: CommentForm) => {
     if(!data) return;
-
     const { comment } = data;
-
+    const session: any = await getSession();
+    console.log("@user", session.user)
     try{
         await postComment(post.id, comment);
         setIsFocused(false);
         reset();
         refetch();
+        await sendNotification(session.user.id, session.user.name, post.authorId, NotificationType.COMMENT);
     }
     catch(err){
         console.error("Error while commenting", err)
@@ -36,9 +46,9 @@ const CommentSection = ({ post }: any) => {
   }
 
   return (
-    <div className='w-full grid gap-3'>
+    <div id='comments' className='w-full grid gap-3'>
         <div className='w-full flex justify-start'>
-            <span className='text-lg font-semibold'>Comments</span>
+            <span className='text-lg font-semibold'>Comments {!isLoading && `(${comments?.data.length})`}</span>
         </div>
         <hr />
         <form onSubmit={handleSubmit(handlePostComment)} className='w-full relative'>
@@ -48,7 +58,7 @@ const CommentSection = ({ post }: any) => {
                     value: 1000,
                     message: "Limit reached!"
                 }
-            })} onFocus={() => setIsFocused(true)} className={`${isFocused && 'h-32'} max-h-32 px-5`} placeholder='Leave your comment. . .' />
+            })} onFocus={() => setIsFocused(true)} className={`${isFocused && 'h-32'} max-h-40 px-5`} placeholder='Leave your comment. . .' />
             {isFocused && (
                 
                 <div className='flex items-center gap-2 absolute bottom-2 right-2'>
@@ -61,8 +71,12 @@ const CommentSection = ({ post }: any) => {
             </div>
         </form>
 
-        <div className='w-full grid'>
-            
+        <div className='w-full grid place-items-center gap-2 mt-5'>
+           {isLoading ? (
+            <Loader />
+           ) : comments?.data.map((com: any) => (
+                <SingleComment comment={com} authorId={post.authorId} />
+            ))}
         </div>
     </div>
   )
