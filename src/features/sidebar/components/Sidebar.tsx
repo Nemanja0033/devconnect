@@ -33,7 +33,7 @@ export function AppSidebar() {
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="w-60 p-3 h-screen bg-slate-900 flex-col fixed top-18 left-0 shadow-lg border-r z-50"
+            className="w-60 p-3 h-screen bg-slate-900 flex-col fixed top-18 left-0 shadow-lg z-50"
           >
             <button
               onClick={() => setIsOpen(false)}

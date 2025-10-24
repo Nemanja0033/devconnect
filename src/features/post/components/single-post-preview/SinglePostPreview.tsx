@@ -40,7 +40,7 @@ const SinglePostPreview = ({ post }: { post: any }) => {
   }
 
   return (
-    <div className="w-5xl grid gap-3">
+    <div className="w-5xl grid gap-3 p-3">
       <div className="w-full flex justify-start">
         <h1 className="text-2xl font-semibold">{post?.title}</h1>
       </div>

@@ -20,7 +20,7 @@ const Navbar = () => {
     }, [data]);
 
   return (
-    <header className="w-full h-[70px] fixed z-10 border-b-2 shadow-md bg-slate-900 flex px-5 justify-between items-center">
+    <header className="w-full h-[70px] fixed z-10 shadow-lg bg-slate-900 flex px-5 justify-between items-center">
         <div>
             <Link href={'/'}>
                 <img src={`${theme === 'light' ? "/logo.webp" : "/logo.webp"}`} className="w-40 relative top-1 h-auto" alt="" />

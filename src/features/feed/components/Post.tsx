@@ -21,7 +21,7 @@ const Post = ({ post }: any) => {
     }
 
     return (
-            <div  className="md:w-[600px] w-full grid gap-2 h-auto bg-accent/50 hover:bg-accent/80 transition-all rounded-md p-3">
+            <div className="md:w-[600px] w-full grid gap-2 h-auto bg-accent/50 hover:bg-accent/80 transition-all rounded-md p-3">
                 <div className="grid gap-1">
                     <div className="flex gap-2 w-full items-center">
                         <img className="h-8 w-8 rounded-full cursor-pointer" src={post.author.avatar as string | undefined} alt={post.author.username + ' ' + 'avatar'} />
