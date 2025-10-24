@@ -8,10 +8,12 @@ import { useSlugify } from '@/hooks/useSlugify'
 import { useLikes } from '@/features/post/hooks/useLikes'
 import { useImagePreviewStore } from '@/store/useImagePreviewStore'
 import ImagePreview from '@/features/post/components/ImagePreveiw'
+import { useAddToFavourites } from '@/features/post/hooks/useAddToFavourites'
 
 // THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 const Post = ({ post }: any) => {
     const { isLiked, isLikesLoading ,likes, handleLikePost} = useLikes(post);
+    const { isSaved, isSavedLoading, favourites, handleAddPostToFavourites } = useAddToFavourites(post);
     const { transformedSlug: slug } = useSlugify(post.author.username);
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
     
@@ -47,7 +49,7 @@ const Post = ({ post }: any) => {
                             <Link href={`/post/${post.id}#comments`}>
                                 <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /> {post._count.Comment}</Button>
                             </Link>
-                            <Button className='hover:text-primary cursor-pointer transition-all' variant={'secondary'}><Heart size={20} strokeWidth={0.75} /></Button>
+                            <Button onClick={() => handleAddPostToFavourites(post.id)} className={`hover:text-primary cursor-pointer transition-all ${isSaved ? 'text-red-500' : ""}`} variant={'secondary'}><Heart size={20} strokeWidth={0.75} />{favourites}</Button>
                         </>
                     ) : (
                         <>

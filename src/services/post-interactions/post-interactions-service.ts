@@ -26,3 +26,12 @@ export async function fetchComments(postId: string){
         throw new Error("Error while fetching coments");
     }
 }
+
+export async function addPostToFavourites(postId: string, authorId: string){
+    try{
+        return axios.post('/api/favourite', { postId, authorId });
+    }
+    catch(err){
+        throw new Error("Error while adding post to favourites");
+    }
+}

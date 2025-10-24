@@ -37,6 +37,13 @@ export async function GET(req: Request){
                     avatar: true
                 }
             },
+            favourite: {
+                select: {
+                    id: true,
+                    postId: true,
+                    author: true
+                }
+            },
             _count: {
                 select: {
                     Comment: true

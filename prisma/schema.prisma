@@ -29,6 +29,7 @@ datasource db {
     memberships   GroupMember[]
     sentNotifications Notification[] @relation("SentNotifications")
     recivedNotifications  Notification[] @relation("RecivedNotifications")
+    savedPosts    Favourite[] @relation("saved-post-user")
   }
 
 //model for posts
@@ -46,6 +47,7 @@ model Post {
   images    Image[]
   saved     Saved[]
   group     Group?  @relation("group-posts", fields: [groupid], references: [id])
+  favourite Favourite[] @relation("saved-post")
 }
 
 model Project {
@@ -173,4 +175,12 @@ enum NotificationType {
   Like 
   Comment
   Follow
+}
+
+model Favourite {
+  id      String  @id @default(uuid())
+  postId  String @unique
+  authorId String 
+  author    User  @relation("saved-post-user", fields: [authorId], references: [id])
+  savedPost Post @relation("saved-post", fields: [postId], references: [id])
 }
