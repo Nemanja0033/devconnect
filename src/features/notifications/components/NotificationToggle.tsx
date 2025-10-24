@@ -12,6 +12,7 @@ import { formatDate } from '@/helpers/helper'
 import { deleteNotifications, viewNotifications } from '@/services/notifications/notification-service'
 import { Notification } from '../types'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 // **This component needs to be refactored latter to clean and scalabale code. 
 // **use custom hook and feature based separation.
@@ -59,7 +60,7 @@ const NotificationToggle = ({ reciverId }: { reciverId: string}) => {
           </div>
         ) : data?.data.notifications.map((notification: Notification) => (
           <div className={`w-full grid p-3 rounded-md hover:bg-accent/70 cursor-pointer bg-accent shadow-md`}>
-            <span className='text-sm'>{notification.message}</span>
+            <Link href={notification.url} className='text-sm hover:underline hover:text-primary'>{notification.message}</Link>
             <span className='text-xs text-gray-400 text-end'>{formatDate(notification.createdAt)}</span>
           </div>
         ))}

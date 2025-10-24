@@ -9,6 +9,7 @@ export interface Notification{
     message: string,
     senderId: string,
     reciverid: string,
+    url: string,
     viewed: boolean,
     createdAt: Date | any,
     type: NotificationType,

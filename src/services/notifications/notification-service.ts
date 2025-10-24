@@ -3,11 +3,12 @@ import axios from "axios";
 
 const API_ENDPOINT = '/api/notification';
 
-export async function sendNotification(senderId: string, senderUsername: string, reciverId: string, type: NotificationType){
+export async function sendNotification(senderId: string, senderUsername: string, reciverId: string, url: string, type: NotificationType){
     return await axios.post(`/api/notification`, {
         senderId,
         reciverId,
         senderUsername,
+        url,
         type
     });
 }

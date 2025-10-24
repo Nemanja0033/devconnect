@@ -29,7 +29,8 @@ export function useLikes(post: any){
     
                 // Send notification only when post is liked
                 if(!isLiked){
-                    await sendNotification(user?.user.id, user?.user.name, post.authorId, NotificationType.LIKE);
+                    const url = `/post/${post.id}`;
+                    await sendNotification(user?.user.id, user?.user.name, post.authorId, url, NotificationType.LIKE);
                 }
     
             } catch (err) {

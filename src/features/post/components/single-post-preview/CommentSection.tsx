@@ -32,13 +32,16 @@ const CommentSection = ({ post }: any) => {
     if(!data) return;
     const { comment } = data;
     const session: any = await getSession();
-    console.log("@user", session.user)
-    try{
+    const url = `/post/${post.id}#comment`;
+    try{        
         await postComment(post.id, comment);
         setIsFocused(false);
         reset();
         refetch();
-        await sendNotification(session.user.id, session.user.name, post.authorId, NotificationType.COMMENT);
+        
+        if(session.user.id !== post.authorId){
+            await sendNotification(session.user.id, session.user.name, post.authorId, url, NotificationType.COMMENT);
+        }
     }
     catch(err){
         console.error("Error while commenting", err)

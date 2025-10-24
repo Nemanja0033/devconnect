@@ -4,17 +4,18 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request){
     try{
-        const { senderId, senderUsername, reciverId, type } = await req.json();
+        const { senderId, senderUsername, reciverId, url, type } = await req.json();
 
-        if(!senderId || !reciverId || !type || !senderUsername){
+        if(!senderId || !reciverId || !type || !senderUsername || !url){
             return NextResponse.json({ error: "SenderId, ReciverId and type is required!"}, { status: 400 });
         }
 
         const notification = await db.notification.create({
             data: {
-                message: getNotificationMessage(type, senderUsername),
+                message: getNotificationMessage(type, senderUsername) || '',
                 senderId,
-                reciverId
+                reciverId,
+                url
             }
         });
 

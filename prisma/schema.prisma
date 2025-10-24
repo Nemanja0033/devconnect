@@ -162,6 +162,7 @@ model Notification {
   senderId  String
   reciverId String
   viewed    Boolean  @default(false)
+  url       String
   createdAt DateTime @default(now())
   type      NotificationType @default(Like)
   sender    User    @relation("SentNotifications", fields: [senderId], references: [id])
