@@ -58,7 +58,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                 </div>
                 <div className={`${postsLayout === 'inline' ? 'flex' : 'grid place-items-center gap-2'} gap-3 overflow-auto mt-3`}>
                     {posts ? posts.map((post: any) => (
-                        <div className={`${postsLayout === 'inline' ? 'w-full' : 'w-full'} h-auto p-3 border-2 rounded-md shadow-md`}>
+                        <div className={`${postsLayout === 'inline' ? 'min-w-[300px] max-w-[300px]' : 'w-full'} h-auto p-3 border-2 rounded-md shadow-md`}>
                             <div className={`flex justify-between w-full items-center`}>
                                 <div className='flex gap-2 items-center'>
                                     <img src={user?.avatar} className="w-12 h-12 rounded-full" />

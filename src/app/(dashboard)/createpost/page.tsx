@@ -37,7 +37,7 @@ export default function CreatePost() {
 
   return (
     <main className="flex w-full h-[80vh] p-5 justify-center items-center">
-      <div className="p-5 md:w-fit h-full border-2 dark:bg-accent overflow-auto shadow-md rounded-md w-full">
+      <div className="p-5 md:w-fit h-full dark:bg-accent/50 overflow-auto shadow-md rounded-md w-full">
         <span className="text-2xl font-semibold">Create Post</span>
         <Tabs defaultValue="post">
           <TabsList className="flex px-1 justify-between w-full gap-3">

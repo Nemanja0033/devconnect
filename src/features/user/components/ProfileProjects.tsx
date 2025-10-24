@@ -49,9 +49,9 @@ const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfi
                 <div className="flex justify-between">
                     <span className="text-lg font-bold">Projects</span>
                 </div>
-                <div className={`grid place-items-start gap-2 mt-3`}>
+                <div className={`flex place-items-start gap-2 overflow-auto mt-3`}>
                     {projects ? projects.map((project: any) => (
-                        <div key={project.id} className={`w-96 h-auto p-3 border-2 rounded-md shadow-md`}>
+                        <div key={project.id} className={`min-w-64 max-w-64 h-auto p-3 border-2 rounded-md shadow-md`}>
                             <div className={`flex justify-between w-full items-center`}>
                                 <span>{project.title}</span>    
                                 {isMyProfile && <PostOptions handleDelete={() => handleDeleteProject(project.id)} />}
