@@ -19,7 +19,7 @@ export function AppSidebar() {
       setIsOpen(false);
     }
     else{
-      setIsOpen(true);
+      setIsOpen(false);
     }
   }, [isMobile]);
 

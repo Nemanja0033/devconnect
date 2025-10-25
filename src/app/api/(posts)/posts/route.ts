@@ -41,7 +41,8 @@ export async function GET(req: Request){
                 select: {
                     id: true,
                     postId: true,
-                    author: true
+                    author: true,
+                    authorId: true
                 }
             },
             _count: {

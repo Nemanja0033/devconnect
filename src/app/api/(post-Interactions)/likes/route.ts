@@ -2,8 +2,8 @@ import { db } from "@/lib/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { getAuthOptions } from "@/lib/authOptions";
+import { rateLimiter } from "@/lib/rateLimiter";
 
-// Get all likes data
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
@@ -26,6 +26,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
+        const ip = req.headers.get('x-forwarded-for') ?? 'unknown';
+        const { success } = await rateLimiter.limit(ip);
+
+        if(!success){
+            return NextResponse.json({ error: "To many requests!"}, { status: 429 });
+        }
+        
         const session: any = await getServerSession(getAuthOptions());
 
         if (!session || !session.user) {
