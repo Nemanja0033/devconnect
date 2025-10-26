@@ -1,0 +1,20 @@
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
+import { useGroupStore } from '@/store/useGroupStore'
+import React from 'react'
+import CreateGroupForm from '../forms/CreateGroupForm';
+
+const CreateGroupModal = () => {
+    const { isCreateGroupModalOpen, setIsCreateModalOpen } = useGroupStore();
+  return (
+     <AlertDialog open={isCreateGroupModalOpen} onOpenChange={setIsCreateModalOpen}>
+            <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Create Group</AlertDialogTitle>
+            </AlertDialogHeader>
+            <CreateGroupForm onClose={() => setIsCreateModalOpen(false)} onSubmit={() => {}} />
+            </AlertDialogContent>
+        </AlertDialog>
+  )
+}
+
+export default CreateGroupModal

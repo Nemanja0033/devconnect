@@ -38,7 +38,7 @@ const Navbar = () => {
                 (
                     <div className="gap-4 items-center flex">
                     <Link href={'/createpost'}>
-                        <Button className="hover:text-primary transition-all cursor-pointer rounded-lg" variant={'outline'}>+ Create</Button>
+                        <Button className="text-white transition-all cursor-pointer rounded-lg">+ Create</Button>
                     </Link>
 
                     <NotificationToggle reciverId={data?.user.id} />
