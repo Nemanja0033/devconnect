@@ -1,7 +1,5 @@
 "use client"
-import ProjectForm from "@/features/post/components/ProjectForm";
-import UploadImageForm from "@/features/post/components/UploadImage";
-import UploadedImagesMap from "@/features/post/components/UploadedImagesMap";
+import UploadImageForm from "@/features/post/components/create-post/UploadImage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import React from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -10,12 +8,14 @@ import DraftEditModal from "@/features/post-drafts/components/DraftEditModal";
 import { mapImagesToObject } from "@/features/post/lib/lib";
 import DraftDeleteModal from "@/features/post-drafts/components/DraftDeleteModal";
 import ImagePreveiw from "@/features/post/components/ImagePreveiw";
-import PostForm from "@/features/post/components/PostForm";
 import { useSubmitPost } from "@/features/post/hooks/useSubmitPost";
 import { useUploadImages } from "@/hooks/useUploadImages";
-import DraftSection from "@/features/post/components/DraftSection";
+import DraftSection from "@/features/post/components/create-post/DraftSection";
 import { CreatePostForm, CreateProjectForm } from "@/features/post/types";
 import { useImagePreviewStore } from "@/store/useImagePreviewStore";
+import PostForm from "@/features/post/components/create-post/PostForm";
+import ProjectForm from "@/features/post/components/create-post/ProjectForm";
+import UploadedImagesMap from "@/features/post/components/create-post/UploadedImagesMap";
 
 export default function CreatePost() {
   const createPostForm = useForm<CreatePostForm>({ mode: "onSubmit" });
@@ -37,7 +37,7 @@ export default function CreatePost() {
 
   return (
     <main className="flex w-full h-[80vh] p-5 justify-center items-center">
-      <div className="p-5 md:w-fit h-full border-2 dark:bg-accent overflow-auto shadow-md rounded-md w-full">
+      <div className="p-5 md:w-fit h-full dark:bg-accent/50 overflow-auto shadow-md rounded-md w-full">
         <span className="text-2xl font-semibold">Create Post</span>
         <Tabs defaultValue="post">
           <TabsList className="flex px-1 justify-between w-full gap-3">

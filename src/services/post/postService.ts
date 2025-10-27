@@ -7,8 +7,8 @@ export const createPost = async (data: { title: string, content: string, images:
 export const createProject = async (data: {
     title: string,
     description: string ,
-    sourceUrl: string,
-    liveUrl: string,
+    sourceCodeUrl: string,
+    liveDemoUrl: string,
     issues: string,
     images: string[]
     }) => {

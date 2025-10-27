@@ -11,7 +11,7 @@ const ImagePreview = () => {
           initial={{scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.1 }}
-          className="fixed inset-0 z-[99999] bg-black/90 flex justify-center items-center p-10"
+          className="fixed inset-0 z-[99999] overfolw-none bg-black/90 flex justify-center items-center p-10"
         >
           <button
             onClick={() => setIsPreviewOpen(false)}

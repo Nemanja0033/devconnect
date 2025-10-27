@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { getAuthOptions } from "@/lib/authOptions";
 
-
 export async function GET(req: Request, { params }: { params: { id: string}}){
     try{
         const { id } = params;
@@ -13,8 +12,8 @@ export async function GET(req: Request, { params }: { params: { id: string}}){
         }
 
         const comments = await db.comment.findMany({
-            where: { id },
-            include: { author: { select: { id: true, name: true}}},
+            where: { postId: id },
+            include: { author: { select: { id: true, username: true, avatar: true }}},
             orderBy: { createdAt: "desc" },
         });
 

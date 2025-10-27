@@ -19,7 +19,7 @@ export function AppSidebar() {
       setIsOpen(false);
     }
     else{
-      setIsOpen(true);
+      setIsOpen(false);
     }
   }, [isMobile]);
 
@@ -33,7 +33,7 @@ export function AppSidebar() {
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="w-60 p-3 h-screen bg-background flex-col fixed top-19 left-0 shadow-lg border-r z-50"
+            className="w-60 p-3 h-screen dark:bg-slate-900 bg-neutral-50 flex-col fixed top-18 left-0 shadow-lg z-50"
           >
             <button
               onClick={() => setIsOpen(false)}

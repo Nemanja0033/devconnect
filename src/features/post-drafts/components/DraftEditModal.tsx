@@ -1,10 +1,10 @@
 import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogCancel, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { FormProvider } from "react-hook-form"
-import PostForm from "../../../features/post/components/PostForm"
-import ProjectForm from "../../../features/post/components/ProjectForm"
-import UploadedImagesMap from "@/features/post/components/UploadedImagesMap"
 import { useEditDraftStore } from "@/store/useDraftStore"
 import { PostDraftType, ProjectDraftType } from "../types"
+import PostForm from "@/features/post/components/create-post/PostForm"
+import ProjectForm from "@/features/post/components/create-post/ProjectForm"
+import UploadedImagesMap from "@/features/post/components/create-post/UploadedImagesMap"
 
 interface DraftEditModal {
     isUploadedPhotosLoading: boolean,

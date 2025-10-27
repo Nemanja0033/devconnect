@@ -20,18 +20,34 @@ export async function GET(req: Request){
                             username: true,
                             avatar: true
                         }
-                    }
+                    },
+                    authorId: true
+                }
+            },
+            images: {
+                select: {
+                    id: true,
+                    url: true
                 }
             },
             author: {
                 select:{
+                    id: true,
                     username: true,
                     avatar: true
                 }
             },
-            group: {
+            favourite: {
                 select: {
-                    name: true
+                    id: true,
+                    postId: true,
+                    author: true,
+                    authorId: true
+                }
+            },
+            _count: {
+                select: {
+                    Comment: true
                 }
             }
         }
@@ -39,6 +55,7 @@ export async function GET(req: Request){
         return NextResponse.json(posts, { status: 200})
     }
     catch(err){
+        console.log("@ERRRORRROROROR", err)
         return NextResponse.json({error: err}, {status: 500})
     }
 }

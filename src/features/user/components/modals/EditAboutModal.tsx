@@ -4,7 +4,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@radix-ui/react-label'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import { EditAboutForm } from '../types'
+import { EditAboutForm } from '../../types'
 
 const EditAboutModal = ({ isAboutEditOpen, setIsAboutEditOpen, user, handleUpdateUser}: any) => {
   const { register, handleSubmit } = useFormContext<EditAboutForm>();

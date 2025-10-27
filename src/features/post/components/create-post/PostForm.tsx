@@ -6,7 +6,7 @@ import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PostDraftType, ProjectDraftType } from "@/features/post-drafts/types";
-import { CreatePostForm } from "../types";
+import { CreatePostForm } from "../../types";
 
 export default function PostForm({
     onSubmit, 

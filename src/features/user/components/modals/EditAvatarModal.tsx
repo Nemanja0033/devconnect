@@ -1,7 +1,7 @@
 import Loader from '@/components/screens/Loader'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import UploadImageForm from '@/features/post/components/UploadImage'
+import UploadImageForm from '@/features/post/components/create-post/UploadImage'
 import React from 'react'
 
 const EditAvatarModal = ({ isAvatarEditOpen, setIsAvatarEditOpen, isUploading, imagesUrl, handleUpdateUser, uploadImages}: any) => {
