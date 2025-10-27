@@ -1,8 +1,8 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import CreateGroupModal from "@/features/groups/components/modals/CreateGroupModal";
-import { slugifyUsername } from "@/helpers/helper";
-import { useGroupStore } from "@/store/useGroupStore";
+import { slugifyUsername } from "@/helpers/helpers";
+import { useGroupStore } from "@/features/groups/store/useGroupStore";
 import { Users } from "lucide-react";
 import Link from "next/link";
 

@@ -1,9 +1,9 @@
 'use client'
 import { useState } from "react";
-import { savePostDraft, saveProjectDraft, deleteDraft } from "@/services/post-draft/draftService";
+import { savePostDraft, saveProjectDraft, deleteDraft } from "@/features/post-drafts/services/draftService";
 import { toast } from "sonner";
 import { mapImagesToObject } from "@/features/post/lib/lib";
-import { useEditDraftStore } from "@/store/useDraftStore";
+import { useEditDraftStore } from "@/features/post-drafts/store/useDraftStore";
 import { useDraftQuery } from "./useDraftQuery";
 
 export function useDraft(imagesUrl: string[], resetImages: () => void) {

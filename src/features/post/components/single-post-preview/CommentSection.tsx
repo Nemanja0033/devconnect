@@ -1,20 +1,16 @@
 import ErrorTooltip from '@/components/reusables/FormErrorTooltip';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea'
-import { postComment } from '@/services/post-interactions/post-interactions-service';
+import { postComment } from '@/features/post/services/post-interactions-service';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useFetchCommentsQuery } from '../../hooks/useFetchCommentsQuery';
 import { Loader2 } from 'lucide-react';
 import Loader from '@/components/screens/Loader';
-import Link from 'next/link';
-import { useSlugify } from '@/hooks/useSlugify';
-import { slugifyUsername } from '@/helpers/helper';
-import { Badge } from '@/components/ui/badge';
 import SingleComment from './SingleComment';
-import { sendNotification } from '@/services/notifications/notification-service';
 import { getSession } from 'next-auth/react';
 import { NotificationType } from '@/features/notifications/types';
+import { sendNotification } from '@/features/notifications/services/notification-service';
 
 // ** This component needs to be refactored latter in production . . .
 

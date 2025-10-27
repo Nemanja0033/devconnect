@@ -1,7 +1,7 @@
 import { Loader } from 'lucide-react'
 import React from 'react'
 import { Notification } from '../types'
-import { formatDate } from '@/helpers/helper'
+import { formatDate } from '@/helpers/helpers'
 
 const NotificationsBody = ({ isLoading, data }: { isLoading: boolean, data: any}) => {
   return (

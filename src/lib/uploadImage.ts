@@ -8,7 +8,7 @@ export const uploadToCloud = async (file: File) => {
         formData.append('upload_preset', 'post_images');
 
         const response = await axios.post(
-            'https://api.cloudinary.com/v1_1/dssl3tt5e/image/upload',
+            process.env.CLOUDINARY_URL || '',
             formData
         );
         return response.data.secure_url;

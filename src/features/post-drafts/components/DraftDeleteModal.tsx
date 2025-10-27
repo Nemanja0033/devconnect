@@ -1,5 +1,5 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
-import { useDeleteDraftStore } from "@/store/useDraftStore";
+import { useDeleteDraftStore } from "@/features/post-drafts/store/useDraftStore";
 import { PostDraftType, ProjectDraftType } from "../types";
 
 const DraftDeleteModal = ({ currentDraft, handleDeleteDraft} : { currentDraft: PostDraftType | ProjectDraftType | null, handleDeleteDraft: (draftType: "post" | "project", draftId: string | undefined) => void}) => {

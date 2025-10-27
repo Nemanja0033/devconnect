@@ -1,6 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button'
-import { formatDate } from '@/helpers/helper'
+import { formatDate } from '@/helpers/helpers'
 import { Heart, MessageCircle, ThumbsUp } from 'lucide-react'
 import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'

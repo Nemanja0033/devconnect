@@ -1,9 +1,9 @@
 "use client";
-import AvatarUploadForm from "@/components/forms/AvatarUploadForm";
-import BiographyForm from "@/components/forms/BiographyForm";
-import RegisterForm from "@/components/forms/RegisterForm";
 import StepIndicator from "@/components/stepper/StepIndicator";
 import { AVATAR_MAX_SIZE_MB, STEPS } from "@/constants/constants";
+import AvatarUploadForm from "@/features/auth/components/forms/AvatarUploadForm";
+import BiographyForm from "@/features/auth/components/forms/BiographyForm";
+import RegisterForm from "@/features/auth/components/forms/RegisterForm";
 import { uploadToCloud } from "@/lib/uploadImage";
 import { useUserStore } from "@/store/useUserStore";
 import { AvatarForm, BiographyFormType, RegisterFormType, RegistrationSteps } from "@/types";

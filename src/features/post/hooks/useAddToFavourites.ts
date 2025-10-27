@@ -1,5 +1,5 @@
 import { useMeQuery } from "@/features/user/hooks/useMeQuery";
-import { addPostToFavourites } from "@/services/post-interactions/post-interactions-service";
+import { addPostToFavourites } from "@/features/post/services/post-interactions-service";
 import { useEffect, useRef, useState } from "react";
 
 export function useAddToFavourites(post: any){

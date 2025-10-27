@@ -1,8 +1,8 @@
-import { createPost, createProject } from "@/services/post/postService";
+import { createPost, createProject } from "@/features/post/services/postService";
 import { toast } from "sonner";
-import { useEditDraftStore } from "@/store/useDraftStore";
+import { useEditDraftStore } from "@/features/post-drafts/store/useDraftStore";
 import { CreatePostForm, CreateProjectForm } from "../types";
-import { deleteDraft } from "@/services/post-draft/draftService";
+import { deleteDraft } from "@/features/post-drafts/services/draftService";
 
 export function useSubmitPost(
   imagesUrl: string[],

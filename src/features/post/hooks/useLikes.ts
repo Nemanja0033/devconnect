@@ -1,8 +1,8 @@
 "use client"
+import { sendNotification } from "@/features/notifications/services/notification-service";
 import { NotificationType } from "@/features/notifications/types";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery";
-import { sendNotification } from "@/services/notifications/notification-service";
-import { likePost } from "@/services/post-interactions/post-interactions-service";
+import { likePost } from "@/features/post/services/post-interactions-service";
 import { useEffect, useRef, useState } from "react";
 
 export function useLikes(post: any){

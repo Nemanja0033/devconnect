@@ -1,4 +1,4 @@
-import { updateUser } from "@/services/user/userService";
+import { updateUser } from "@/features/user/services/userService";
 import { useQueryClient } from "@tanstack/react-query";
 import { EditHeadingForm, EditAboutForm } from "../types";
 import { useMeQuery } from "./useMeQuery";

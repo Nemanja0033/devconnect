@@ -1,5 +1,5 @@
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
-import { useGroupStore } from '@/store/useGroupStore'
+import { useGroupStore } from '@/features/groups/store/useGroupStore'
 import React from 'react'
 import CreateGroupForm from '../forms/CreateGroupForm';
 

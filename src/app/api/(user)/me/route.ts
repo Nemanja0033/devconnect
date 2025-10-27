@@ -1,4 +1,4 @@
-import { insertDataFromBody } from "@/helpers/helper";
+import { insertDataFromBody } from "@/helpers/helpers";
 import { getAuthOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";

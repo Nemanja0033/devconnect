@@ -8,11 +8,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useFetchNofiticationsQuery } from '../hooks/useFetchNotificationsQuery'
 import Loader from '@/components/screens/Loader'
-import { formatDate } from '@/helpers/helper'
-import { deleteNotifications, viewNotifications } from '@/services/notifications/notification-service'
+import { formatDate } from '@/helpers/helpers'
 import { Notification } from '../types'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { deleteNotifications, viewNotifications } from '../services/notification-service'
 
 // **This component needs to be refactored latter to clean and scalabale code. 
 // **use custom hook and feature based separation.

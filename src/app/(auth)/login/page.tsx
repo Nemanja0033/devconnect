@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { login } from "@/lib/auth";
-import { fetchCurrentUser } from "@/services/user/userService";
+import { fetchCurrentUser } from "@/features/user/services/userService";
 import { LoginFormType } from "@/types";
 import { Label } from "@radix-ui/react-label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -1,4 +1,4 @@
-import { fetchPosts } from "@/services/post/postService";
+import { fetchPosts } from "@/features/post/services/postService";
 import { useQuery } from "@tanstack/react-query";
 
 // THIS IS ONLY FOR DEMO

@@ -3,7 +3,7 @@ import { useImagePreviewStore } from '@/store/useImagePreviewStore';
 import React from 'react'
 import PostOptions from './PostOptionsMenu';
 import { useQueryClient } from '@tanstack/react-query';
-import { deleteProject } from '@/services/project/projectService';
+import { deleteProject } from '@/features/post/services/projectService';
 import { toast } from 'sonner';
 import Loader from '@/components/screens/Loader';
 

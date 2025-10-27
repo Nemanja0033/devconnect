@@ -1,4 +1,4 @@
-import { CreatePostForm, CreateProjectForm } from "@/types";
+import { CreatePostForm, CreateProjectForm } from "@/features/post/types";
 import axios from "axios";
 
 export const savePostDraft = async (data: CreatePostForm, images: unknown[]) => {

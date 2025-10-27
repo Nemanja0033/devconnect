@@ -1,11 +1,11 @@
 import { Label } from "@radix-ui/react-label";
-import ErrorTooltip from "../reusables/FormErrorTooltip";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-import { Input } from "../ui/input";
 import { useFormContext } from "react-hook-form";
 import { RegisterFormType } from "@/types";
 import Link from "next/link";
+import ErrorTooltip from "@/components/reusables/FormErrorTooltip";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function RegisterForm({ onSubmit }: { onSubmit: () => void}){
     const {
