@@ -2,13 +2,16 @@ import { updateUser } from "@/features/user/services/userService";
 import { useQueryClient } from "@tanstack/react-query";
 import { EditHeadingForm, EditAboutForm } from "../types";
 import { useMeQuery } from "./useMeQuery";
+import { useState } from "react";
 
 export function useUpdateUser(imagesUrl: string[], rawUsername: string){
+    const [loading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
     const { data: user } = useMeQuery();
 
     const handleUpdateUser = async (data?: EditHeadingForm | EditAboutForm) => {
         try {
+          setIsLoading(true);
           // If we pass data - we are updating Heading or About then run this block.   
           if(data){
             if ('username' in data && (data.username === user?.user.username)) {
@@ -30,8 +33,9 @@ export function useUpdateUser(imagesUrl: string[], rawUsername: string){
                 console.log("Nothing were changed");
                 return;
             }
-            const updatedUser = await updateUser(data);
+            await updateUser(data);
             queryClient.invalidateQueries({ queryKey: ['currentUser']});
+            queryClient.invalidateQueries({ queryKey: ['user', rawUsername]});
           }
           
           // If we are updaing avatar
@@ -44,9 +48,13 @@ export function useUpdateUser(imagesUrl: string[], rawUsername: string){
         } catch (error) {
           console.error("Update failed:", error);
         }
+        finally{
+          setIsLoading(false);
+        }
     };
     
     return {
-        handleUpdateUser
+        loading,
+        handleUpdateUser,
     }
 }

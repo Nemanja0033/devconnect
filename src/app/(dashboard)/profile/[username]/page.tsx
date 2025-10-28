@@ -16,13 +16,14 @@ import UserNotFound from "../../../../features/user/components/UserNotFound";
 import { ProfileSkeleton } from "@/features/user/components/ProfileSkeleton";
 import EditAboutModal from "@/features/user/components/modals/EditAboutModal";
 import EditHeadingModal from "@/features/user/components/modals/EditHeadingModal";
+import GlobalLoader from "@/components/screens/GlobalLoader";
  
 const ProfilePage = () => {
   const { isUserProfile, rawUsername } = useUser();
   const { data: user, isLoading, isError: isErrroWithUserData, isEnabled } = useFetchUserQuery(rawUsername);
   const { editAboutForm, editHeadingForm } = useEditForms();
   const { uploadImages, imagesUrl, isLoading: isUploading } = useUploadImages(true);
-  const { handleUpdateUser } = useUpdateUser(imagesUrl, rawUsername);
+  const { loading: isUserUpdating, handleUpdateUser } = useUpdateUser(imagesUrl, rawUsername);
   const [isHeadingEditOpen, setIsHeadingEditOpen] = useState(false);
   const [isAboutEditOpen, setIsAboutEditOpen] = useState(false);
   const [isAvatarEditOpen, setIsAvatarEditOpen] = useState(false);
@@ -37,6 +38,7 @@ const ProfilePage = () => {
 
   return (
     <main className="w-full mt-54 lg:p-0 p-2 h-screen flex-col place-items-center">
+        {isUserUpdating && <GlobalLoader />}
         <ProfileHeading isMyProfile={isUserProfile} openAvatarEdit={() => setIsAvatarEditOpen(true)} openHeadingEdit={() => setIsHeadingEditOpen(true)} user={user} />
         <ProfileAbout isMyProfile={isUserProfile} openAboutEdit={() => setIsAboutEditOpen(true)} user={user}/>
         <ProfileProjects isMyProfile={isUserProfile} isLoading={isLoading} projects={user?.Project ?? []} user={user} />

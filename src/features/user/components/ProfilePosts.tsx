@@ -64,7 +64,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                                     <img src={user?.avatar} className="w-12 h-12 rounded-full" />
                                     <span>{user?.username}</span>
                                 </div>
-                                <PostOptions handleDelete={() => handleDeletePost(post.id)} />
+                                {isMyProfile && <PostOptions handleDelete={() => handleDeletePost(post.id)} />}
                             </div>
 
                             <div className="mt-3 w-full font-semibold">
