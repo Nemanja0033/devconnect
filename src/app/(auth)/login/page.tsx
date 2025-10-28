@@ -65,7 +65,7 @@ const LoginPage = () => {
               type="email"
               placeholder="example@mail.com"
             />
-            <ErrorTooltip>{errors.email?.message}</ErrorTooltip>
+            {errors.email && <ErrorTooltip>{errors.email?.message}</ErrorTooltip>}
           </div>
 
           <div className="w-full grid gap-1">
@@ -77,7 +77,7 @@ const LoginPage = () => {
               type="password"
               placeholder="*****"
             />
-            <ErrorTooltip>{errors.password?.message}</ErrorTooltip>
+            {errors.password && <ErrorTooltip>{errors.password?.message}</ErrorTooltip>}
           </div>
 
           <div className="w-full flex justify-between">

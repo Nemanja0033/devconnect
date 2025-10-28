@@ -19,7 +19,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
 
         try{
             await deletePost({ id });
-            queryClient.invalidateQueries({ queryKey: ["currentUserPosts"]});
+            queryClient.invalidateQueries({ queryKey: ["user"]});
             toast.success("Post succesfully deleted");
         }
         catch(err){

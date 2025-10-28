@@ -42,7 +42,7 @@ export async function POST(req: Request){
             return NextResponse.json({ message: "Removed from favourites" }, { status: 200 });
         }
 
-        const addToFavourite = await db.favourite.create({
+        await db.favourite.create({
             data:{
                 postId,
                 authorId

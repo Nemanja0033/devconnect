@@ -36,7 +36,8 @@ const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfi
 
         try{
             await deleteProject({ id });
-            queryClient.invalidateQueries({ queryKey: ["currentUserPosts"]});
+            // **TODO** This is just workaround need to pass rawUsername to queryKey while invalidate
+            queryClient.invalidateQueries({ queryKey: ["user"]});
             toast.success("Project succesfully deleted");
         }
         catch(err){

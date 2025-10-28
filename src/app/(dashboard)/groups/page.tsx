@@ -10,13 +10,14 @@ import { GroupForm } from "@/features/groups/types";
 import { FormProvider, useForm } from "react-hook-form";
 import GlobalLoader from "@/components/screens/GlobalLoader";
 import { useCreateGroup } from "@/features/groups/hooks/useCreateGroup";
+import { useIsUserAuth } from "@/hooks/useSession";
 
 export default function GroupsPage(){
-    const mockGroups: any[] = []
     const { data, isLoading, isError } = useFetchGroupsQuery();
     const { setIsCreateModalOpen } = useGroupStore();
     const { isLoading: isGroupSubmitting, handleCreateGroup } = useCreateGroup();
     const createGroupForm = useForm<GroupForm>();
+    const { isAuth } = useIsUserAuth();
 
     if(isLoading || isGroupSubmitting){
         return <GlobalLoader />
@@ -28,7 +29,7 @@ export default function GroupsPage(){
                 <div className="w-full grid my-2">
                     <div className="w-full flex justify-between">
                         <h1 className="text-2xl font-semibold">Explore Groups</h1>
-                        <Button onClick={() => setIsCreateModalOpen(true)} className="text-white cursor-pointer">+ Create New Group</Button>
+                        {isAuth && <Button onClick={() => setIsCreateModalOpen(true)} className="text-white cursor-pointer">+ Create New Group</Button> }
                     </div>
                     <p className="text-gray-500 text-lg">Create a space for your team, tech stack, or favorite dev topic</p>
                 </div>
@@ -43,7 +44,7 @@ export default function GroupsPage(){
                                     <Link href={`/group/${slugifyUsername(g.name)}`} className="font-semibold text-xl hover:underline cursor-pointer transition-all">{g.name} </Link>
                                     <span className="text-xs text-primary flex gap-1 items-center"><Users size={18} strokeWidth={1} />{g.members.length}</span>
                                 </div>
-                                <Button variant={'secondary'} size={'sm'} className="text-primary hover:text-white cursor-pointer">Join</Button>
+                               {isAuth &&  <Button variant={'secondary'} size={'sm'} className="text-primary hover:text-white cursor-pointer">Join</Button>}
                             </div>
                             <p className="text-gray-500">{g.description}</p>
                         </div>
