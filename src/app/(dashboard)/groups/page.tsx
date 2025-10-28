@@ -5,12 +5,22 @@ import { slugifyUsername } from "@/helpers/helpers";
 import { useGroupStore } from "@/features/groups/store/useGroupStore";
 import { Users } from "lucide-react";
 import Link from "next/link";
+import { useFetchGroupsQuery } from "@/features/groups/hooks/useFetchGroupsQuery";
+import { GroupForm } from "@/features/groups/types";
+import { FormProvider, useForm } from "react-hook-form";
+import GlobalLoader from "@/components/screens/GlobalLoader";
+import { useCreateGroup } from "@/features/groups/hooks/useCreateGroup";
 
 export default function GroupsPage(){
-    // Mock data for groups
     const mockGroups: any[] = []
+    const { data, isLoading, isError } = useFetchGroupsQuery();
+    const { setIsCreateModalOpen } = useGroupStore();
+    const { isLoading: isGroupSubmitting, handleCreateGroup } = useCreateGroup();
+    const createGroupForm = useForm<GroupForm>();
 
-    const { isCreateGroupModalOpen, setIsCreateModalOpen } = useGroupStore();
+    if(isLoading || isGroupSubmitting){
+        return <GlobalLoader />
+    }
 
     return(
         <main className="w-full h-full flex justify-center">
@@ -24,9 +34,9 @@ export default function GroupsPage(){
                 </div>
 
                 <div className="grid md:grid-cols-3 w-full gap-3 mt-10">
-                    {mockGroups.length < 1 ? (
+                    {data?.data.groups.length < 1 ? (
                         <span className="text-gray-500">No groups found . . . </span>
-                    ) : mockGroups.map((g) => (
+                    ) : data?.data.groups.map((g: any) => (
                         <div className="w-auto h-34 rounded-md shadow-md p-2 bg-accent/50">
                             <div className="w-full flex justify-between">
                                 <div className="grid">
@@ -40,7 +50,9 @@ export default function GroupsPage(){
                     ))}
                 </div>
             </div>
-            <CreateGroupModal />
+            <FormProvider {...createGroupForm}>
+                <CreateGroupModal handleCreateGroup={handleCreateGroup} />
+            </FormProvider>
         </main>
     )
 }
