@@ -33,7 +33,7 @@ const ProfilePage = () => {
   }
 
   if(isLoading || !isEnabled){
-    return <ProfileSkeleton />
+    return <GlobalLoader />
   }
 
   return (
