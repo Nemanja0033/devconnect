@@ -60,7 +60,7 @@ export function AppSidebar() {
               </div>
             </div>
 
-            <div className="w-full h-32 border-b-2 grid place-items-center relative mt-1 py-4">
+            {/* <div className="w-full h-32 border-b-2 grid place-items-center relative mt-1 py-4">
               <div className="absolute top-0 left-2 flex w-full felx justify-between">
                 <span className="flex gap-2 text-xs text-gray-400">Recent</span>
               </div>
@@ -72,7 +72,7 @@ export function AppSidebar() {
                 <span className="flex gap-2 text-xs text-gray-400">Community</span>
               </div>
               <span className="text-gray-600 text-sm">No recent posts</span>
-            </div>
+            </div> */}
 
             <span className="text-[12px] hover:underline cursor-pointer text-gray-600 absolute bottom-20">DevConnect 2025. All rights reserved</span>
           </motion.aside>
