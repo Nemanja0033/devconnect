@@ -17,3 +17,12 @@ export async function fetchGroups(){
         throw new Error("Error while fetching groups");
     }
 }
+
+export async function joinGroup(groupId: string){
+    try{
+        return axios.post(`/api/groups/${groupId}`);
+    }
+    catch(err){
+        throw new Error("Error while joining group");
+    }
+}
