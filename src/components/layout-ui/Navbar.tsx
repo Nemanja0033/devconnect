@@ -7,9 +7,8 @@ import AvatarToggle from "../../features/user/components/AvatarToggle";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery";
 import { useEffect } from "react";
 import NotificationToggle from "../../features/notifications/components/NotificationToggle";
-import { Input } from "../ui/input";
-import { Search } from "lucide-react";
-
+import SearchBar from "@/features/search/components/SearchBar";
+        
 const Navbar = () => {
     const { status } = useSession();
     const { theme } = useTheme();
@@ -26,12 +25,7 @@ const Navbar = () => {
                 <img src={`${theme === 'light' ? "/logo.webp" : "/logo.webp"}`} className="w-40 relative top-1 h-auto" alt="" />
             </Link>
         </div>
-
-        <div className="w-96 relative">
-            <Input className="dark:bg-accent rounded-2xl w-full px-10" placeholder="Search DevConnect" />
-            <Search strokeWidth={2} className="absolute top-[5.5px] left-2 text-gray-400" />
-        </div>
-
+        <SearchBar />
         <nav>
             {
                 status === 'authenticated' ?

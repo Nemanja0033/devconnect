@@ -20,8 +20,8 @@ export async function POST(req: Request) {
       take: 20,
       include: {
         author: { select: { id: true, username: true, avatar: true } },
-        images: { select: { id: true, url: true } },
-        _count: { select: { Comment: true } },
+        // images: { select: { id: true, url: true } },
+        // _count: { select: { Comment: true } },
       },
     });
 
