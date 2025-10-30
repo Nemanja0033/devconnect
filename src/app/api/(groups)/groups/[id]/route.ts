@@ -3,6 +3,42 @@ import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
+export async function GET(req: Request, { params }: { params: { id: string}}){
+    try{
+        const session = await getServerSession(getAuthOptions());
+        
+        if(!session){
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const groupData = await db.group.findMany({
+            where: { id: params.id },
+            include: {
+              posts: {
+                include: {
+                  author: true,
+                  images: true,
+                  Comment: true,
+                  Like: true,
+                  favourite: true,
+                  group: true,
+                  _count: { select: { Comment: true } },
+                },
+                orderBy: {
+                  createdAt: 'desc',
+                },
+              },
+              members: true,
+            },
+        });
+
+        return NextResponse.json({ groupData }, { status: 200 });
+    }
+    catch(err){
+        return NextResponse.json({ error: err }, { status: 500 });
+    }
+}
+
 export async function POST(req: Request, { params }: { params: {id: string }}){
     try{
         const session: any = await getServerSession(getAuthOptions());

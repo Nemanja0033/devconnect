@@ -9,10 +9,7 @@ export function useCreateGroup(){
     const [isLoading, setIsLoading] = useState(false);
 
     async function handleCreateGroup(data?: GroupForm){
-        if(!data) {
-            console.log('@func entered');
-            return
-        }
+        if(!data) return;
 
         const { name, description } = data;
 

@@ -9,7 +9,6 @@ import GlobalLoader from "@/components/screens/GlobalLoader";
 import { useCreateGroup } from "@/features/groups/hooks/useCreateGroup";
 import { useIsUserAuth } from "@/hooks/useSession";
 import GroupCard from "@/features/groups/components/GroupCard";
-import { useJoinGroup } from "@/features/groups/hooks/useJoinGroup";
 
 export default function GroupsPage(){
     const { data, isLoading, isError } = useFetchGroupsQuery();
@@ -37,7 +36,7 @@ export default function GroupsPage(){
                     {data?.data.groups.length < 1 ? (
                         <span className="text-gray-500">No groups found . . . </span>
                     ) : data?.data.groups.map((g: any) => (
-                        <GroupCard  group={g} />
+                        <GroupCard key={g.id} group={g} />
                     ))}
                 </div>
             </div>

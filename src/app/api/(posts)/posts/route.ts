@@ -37,6 +37,7 @@ export async function GET(req: Request) {
             },
           },
           _count: { select: { Comment: true } },
+          group: true
         },
       });
   
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const { title, content, images } = await req.json();
+        const { title, content, images, groupId } = await req.json();
         const authorId = session.user.id;
 
         
@@ -74,9 +75,13 @@ export async function POST(req: Request) {
         }
 
         const newPost = await db.post.create({
-            data: { title, content, authorId,  images: {
-                create: images.map((url: string) => ({ url })),
-              },},
+            data: { 
+              title, 
+              content, 
+              authorId,  
+              images: { create: images.map((url: string) => ({ url })),},
+              groupid: groupId ?? null
+            },
         });
 
         return NextResponse.json(newPost, { status: 201 });

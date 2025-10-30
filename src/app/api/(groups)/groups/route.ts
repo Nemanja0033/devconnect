@@ -7,7 +7,8 @@ export async function GET(req: Request){
     try{
         const groups = await db.group.findMany({
             include: {
-                members: true
+                members: true,
+                posts: true
             }
         });
 

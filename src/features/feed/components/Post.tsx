@@ -1,6 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button'
-import { formatDate } from '@/helpers/helpers'
+import { formatDate, slugifyUsername } from '@/helpers/helpers'
 import { Heart, MessageCircle, ThumbsUp } from 'lucide-react'
 import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -9,6 +9,7 @@ import { useLikes } from '@/features/post/hooks/useLikes'
 import { useImagePreviewStore } from '@/store/useImagePreviewStore'
 import ImagePreview from '@/features/post/components/ImagePreveiw'
 import { useAddToFavourites } from '@/features/post/hooks/useAddToFavourites'
+import { Badge } from '@/components/ui/badge'
 
 // THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
 const Post = ({ post }: any) => {
@@ -26,8 +27,17 @@ const Post = ({ post }: any) => {
             <div className="md:w-[600px] w-full grid gap-2 h-auto bg-accent/50 hover:bg-accent/80 transition-all rounded-md p-3">
                 <div className="grid gap-1">
                     <div className="flex gap-2 w-full items-center">
-                        <img className="h-8 w-8 rounded-full cursor-pointer" src={post.author.avatar as string | undefined} alt={post.author.username + ' ' + 'avatar'} />
-                        <Link href={`/profile/${slug}`} className="text-sm hover:underline cursor-pointer text-gray-400">{post.group ? post.group.name : post.author.username}</Link>
+                        {post.groupid ? (
+                            <Link
+                            href={`/groups/${slugifyUsername(post.group.id)}`}
+                            className="w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center text-primary"
+                          >
+                            {post.group.name[0].toUpperCase()}
+                          </Link>
+                        ) : (
+                            <img className="h-8 w-8 rounded-full cursor-pointer" src={post.author.avatar as string | undefined} alt={post.author.username + ' ' + 'avatar'} />
+                        )}
+                        <Link href={`${ post.group ? `/groups/${post.group.id}` : `/profile/${slug}`}`} className="text-sm hover:underline cursor-pointer flex gap-2 text-gray-400">{post.group ? post.group.name : post.author.username} {post.group && <Badge className='text-white'>Group</Badge>}</Link>
                         <span className='text-xs text-gray-400'>{formatDate(post.createdAt)}</span>
                     </div>
                 </div>
