@@ -1,3 +1,4 @@
+import { slugifyUsername } from "@/helpers/helpers";
 import { getAuthOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";
@@ -24,6 +25,8 @@ export default async function FavouritePostsPage(){
         }
     });
 
+    console.log('@favourites ',favourites);
+
     return(
         <div className="w-full h-full flex justify-center">
             <div className="w-5xl p-3 flex-col">
@@ -36,7 +39,10 @@ export default async function FavouritePostsPage(){
                     {favourites.map((f) => (
                         <div key={f.savedPost.id} className="w-auto h-34 rounded-md shadow-md p-2 bg-accent/50">
                             <div className="w-full flex justify-between">
-                                <div className="grid">
+                                <div className="flex items-center gap-1">
+                                    <Link href={`/profile/${slugifyUsername(f.savedPost.author.username)}`}>
+                                        <img className="w-7 h-7 rounded-full" src={f.savedPost.author.avatar} alt="" />
+                                    </Link>
                                     <Link href={`/post/${f.savedPost.id}`} className="font-semibold text-xl hover:underline cursor-pointer transition-all">{f.savedPost.title} </Link>
                                 </div>
                             </div>

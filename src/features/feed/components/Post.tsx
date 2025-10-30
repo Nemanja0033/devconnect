@@ -1,6 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button'
-import { formatDate, slugifyUsername } from '@/helpers/helpers'
+import { formatDate, getRandomTextColor, slugifyUsername } from '@/helpers/helpers'
 import { Heart, MessageCircle, ThumbsUp } from 'lucide-react'
 import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -30,7 +30,7 @@ const Post = ({ post }: any) => {
                         {post.groupid ? (
                             <Link
                             href={`/groups/${slugifyUsername(post.group.id)}`}
-                            className="w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center text-primary"
+                            className={`w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center ${getRandomTextColor(post.group.name[0])}`}
                           >
                             {post.group.name[0].toUpperCase()}
                           </Link>

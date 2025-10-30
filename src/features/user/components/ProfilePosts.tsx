@@ -68,7 +68,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                             </div>
 
                             <div className="mt-3 w-full font-semibold">
-                                <span>{post.title}</span>
+                                <Link href={`/post/${post.id}`}>{post.title}</Link>
                                 <p className="line-clamp-3">{post.content}</p>
                             </div>
 

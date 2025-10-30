@@ -1,6 +1,6 @@
 import Loader from '@/components/screens/Loader'
 import { Button } from '@/components/ui/button'
-import { slugifyUsername } from '@/helpers/helpers'
+import { getRandomTextColor, slugifyUsername } from '@/helpers/helpers'
 import { Users } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -18,7 +18,7 @@ const GroupCard = ({ group }: any) => {
           <div className="flex gap-2 items-center">
             <Link
               href={`/groups/${slugifyUsername(group.id)}`}
-              className="w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center text-primary"
+              className={`w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center ${getRandomTextColor(group.name[0].toUpperCase())}`}
             >
               {group.name[0].toUpperCase()}
             </Link>

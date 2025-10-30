@@ -59,7 +59,7 @@ const NotificationToggle = ({ reciverId }: { reciverId: string}) => {
             <Loader />
           </div>
         ) : data?.data.notifications.map((notification: Notification) => (
-          <div className={`w-full grid p-3 rounded-md hover:bg-accent/70 cursor-pointer bg-accent shadow-md`}>
+          <div key={notification.id} className={`w-full grid p-3 rounded-md hover:bg-accent/70 cursor-pointer bg-accent shadow-md`}>
             <Link href={notification.url} className='text-sm hover:underline hover:text-primary'>{notification.message}</Link>
             <span className='text-xs text-gray-400 text-end'>{formatDate(notification.createdAt)}</span>
           </div>
