@@ -7,13 +7,14 @@ import AvatarToggle from "../../features/user/components/AvatarToggle";
 import { useMeQuery } from "@/features/user/hooks/useMeQuery";
 import { useEffect } from "react";
 import NotificationToggle from "../../features/notifications/components/NotificationToggle";
-import { Input } from "../ui/input";
-import { Search } from "lucide-react";
-
+import SearchBar from "@/features/search/components/SearchBar";
+import { useIsMobile } from "@/hooks/use-mobile";
+        
 const Navbar = () => {
     const { status } = useSession();
     const { theme } = useTheme();
     const { data, isLoading } = useMeQuery();
+    const isMobile  = useIsMobile();
 
     useEffect(() => {
         console.log(data?.user);
@@ -23,22 +24,17 @@ const Navbar = () => {
     <header className="w-full h-[70px] fixed z-10 shadow-lg dark:bg-slate-900 bg-neutral-50 flex px-5 justify-between items-center">
         <div>
             <Link href={'/'}>
-                <img src={`${theme === 'light' ? "/logo.webp" : "/logo.webp"}`} className="w-40 relative top-1 h-auto" alt="" />
+               <span className="text-2xl"><span className="font-bold text-primary">dev</span>Connect</span>
             </Link>
         </div>
-
-        <div className="w-96 relative">
-            <Input className="dark:bg-accent rounded-2xl w-full px-10" placeholder="Search DevConnect" />
-            <Search strokeWidth={2} className="absolute top-[5.5px] left-2 text-gray-400" />
-        </div>
-
+        {!isMobile && <SearchBar />}
         <nav>
             {
                 status === 'authenticated' ?
                 (
                     <div className="gap-4 items-center flex">
                     <Link href={'/createpost'}>
-                        <Button className="text-white transition-all cursor-pointer rounded-lg">+ Create</Button>
+                        <Button size={`${isMobile ? 'sm': 'default'}`} className="text-white transition-all cursor-pointer rounded-lg">+ Create</Button>
                     </Link>
 
                     <NotificationToggle reciverId={data?.user.id} />

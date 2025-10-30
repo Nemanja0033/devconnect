@@ -1,4 +1,4 @@
-import { fetchComments } from "@/services/post-interactions/post-interactions-service";
+import { fetchComments } from "@/features/post/services/post-interactions-service";
 import { useQuery } from "@tanstack/react-query";
 
 export function useFetchCommentsQuery(postId: string){

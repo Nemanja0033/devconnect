@@ -139,7 +139,7 @@ model Saved {
 
 model Group {
   id            String   @id @default(uuid())
-  name          String
+  name          String   @unique
   description   String
   createdAt     DateTime @default(now())
   ownerId       String

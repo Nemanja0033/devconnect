@@ -14,15 +14,15 @@ export const AVATAR_MAX_SIZE_MB = 1048576 * 25;
 
 export const FEAUTURES = [
     {
-        feauture: '🔗 Collaborative Projects',
-        desc: 'Discover open projects and contribute meaningfully'
+        feauture: 'Educative Posts',
+        desc: 'Discover open educative material and learn new things!'
     },
     {
-        feauture: '🧠 Knowledge Hub',
-        desc: 'Share guides, resources, and useful tools'
+        feauture: 'Communities',
+        desc: 'Create, join specific topics groups.'
     },
     {
-        feauture: '📁 Personal Portfolio',
+        feauture: 'Personal Portfolio',
         desc: 'Showcase your experience, GitHub repos, and achievements'
     }
 ];
@@ -40,8 +40,8 @@ export const devConnectSteps = [
 
   },
   {
-    title: "Collaborate",
-    description: "Join projects, build communities, or start your own.",
+    title: "Learn",
+    description: "Explore educative posts, join communities, or start your own.",
     num: 3
   },
 ];

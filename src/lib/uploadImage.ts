@@ -1,6 +1,5 @@
 import axios from "axios";
 
-//this function provide image upload and store it in the cloud
 export const uploadToCloud = async (file: File) => {
     try {
         const formData = new FormData();
@@ -8,7 +7,7 @@ export const uploadToCloud = async (file: File) => {
         formData.append('upload_preset', 'post_images');
 
         const response = await axios.post(
-            'https://api.cloudinary.com/v1_1/dssl3tt5e/image/upload',
+            process.env.CLOUDINARY_URL || '',
             formData
         );
         return response.data.secure_url;

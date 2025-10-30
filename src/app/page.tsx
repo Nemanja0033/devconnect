@@ -1,41 +1,52 @@
-"use client"
 import { Faq } from "@/components/landing/Faq";
 import Feautures from "@/components/landing/Feautures";
 import Hero from "@/components/landing/Hero";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Main from "@/components/landing/Main";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/theme-toggle";
-import { useTheme } from "next-themes";
+import { Metadata } from "next";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+  title: 'DevConnect | Connect with Developers',
+  description: 'Join DevConnect and share your coding journey. Discover features, stories, and how it works.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: 'DevConnect | Connect with Developers',
+    description: 'Join DevConnect and share your coding journey. Discover features, stories, and how it works.',
+    url: 'https://devconnect.forum',
+    siteName: 'DevConnect',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DevConnect | Connect with Developers',
+    description: 'Join DevConnect and share your coding journey.',
+  },
+};
+
 export default function LandingPage(){
-    const { theme } = useTheme();
     return(
-        <main className={`w-full p-12 flex justify-center items-center h-full ${theme === 'light' ? 'hero' : 'hero-dark'}`}>
-            <section className="grid w-full">
-                <nav className="flex w-full justify-between">
-                    <ModeToggle />
+        <main className={`w-full p-5 flex justify-center items-center h-full animate-gradient bg-gradient-to-r from-stone-900 to-gray-800`}>
+            <section className="grid w-[1200px] place-items-center">
+                <nav className="flex w-full justify-end fixed top-5 right-5">
                     <div className="flex border-b items-center gap-5">
                         <Link href={'/login'}>Login</Link>
                         <Link href={'/register'}>Register</Link>
                     </div>
                 </nav>
-                <div className="mt-64">
+                <div className="mt-60 grid gap-80">
                     <Hero />
-                </div>
-                <div className="mt-84">
                     <Main />
-                </div> 
-                <div className="mt-96">
                     <Feautures />
-                </div>   
-                <div className="mt-84">
                     <HowItWorks />
-                </div>  
-                <div className="mt-64 bg-base-100">
-                    <Faq />
-                </div>          
+                    {/* <Faq /> */}
+                    <footer className="w-full flex justify-center">
+                        <span className="text-gray-600">DevConnect 2025 v.0.2.0 </span>
+                    </footer>
+                </div>
             </section>
         </main>
     )

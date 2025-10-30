@@ -1,4 +1,4 @@
-import { getPostTypeDetails } from "@/helpers/helper"
+import { getPostTypeDetails } from "@/helpers/helpers"
 import { Edit, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DraftType } from "../types";

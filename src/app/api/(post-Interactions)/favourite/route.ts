@@ -1,6 +1,27 @@
+import { getAuthOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismaClient";
 import { rateLimiter } from "@/lib/rateLimiter";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+
+export async function GET(req: Request){
+    try{
+        const session: any = await getServerSession(getAuthOptions());
+
+        if(!session){
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 })
+        }
+        
+        const savedPosts = await db.favourite.findMany({
+            where: { authorId: session.user.id }
+        });
+
+        return NextResponse.json({ savedPosts }, { status: 200 });
+    }
+    catch(err){
+        return NextResponse.json({ error: err }, { status: 500 });
+    }
+}
 
 export async function POST(req: Request){
     try{
@@ -42,7 +63,7 @@ export async function POST(req: Request){
             return NextResponse.json({ message: "Removed from favourites" }, { status: 200 });
         }
 
-        const addToFavourite = await db.favourite.create({
+        await db.favourite.create({
             data:{
                 postId,
                 authorId

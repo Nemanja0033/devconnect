@@ -9,7 +9,7 @@ import { useMusicPlayer } from "../hooks/useMusicPlayer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AppSidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const { isMusicOn, toggleMusic, nextSong, pervSong } = useMusicPlayer();
   const isMobile = useIsMobile();
   const path = usePathname();
@@ -19,7 +19,7 @@ export function AppSidebar() {
       setIsOpen(false);
     }
     else{
-      setIsOpen(false);
+      setIsOpen(true);
     }
   }, [isMobile]);
 
@@ -44,8 +44,8 @@ export function AppSidebar() {
             </button>
 
             <div className="w-full h-32 border-b-2 text-gray-400 py-2 border-t-2 mt-10 mb-1">
-              {navOptions.map((nav) => (
-                <Link className={`flex gap-2 p-2 rounded-lg w-full text-sm ${path === nav.path && 'bg-accent/50 text-primary'} hover:text-primary`} href={nav.path}>{nav.icon} {nav.label}</Link>
+              {navOptions.map((nav, i) => (
+                <Link key={i} className={`flex gap-2 p-2 rounded-lg w-full text-sm ${path === nav.path && 'bg-accent/50 text-primary'} hover:text-primary`} href={nav.path}>{nav.icon} {nav.label}</Link>
               ))}
             </div>
 
@@ -60,7 +60,7 @@ export function AppSidebar() {
               </div>
             </div>
 
-            <div className="w-full h-32 border-b-2 grid place-items-center relative mt-1 py-4">
+            {/* <div className="w-full h-32 border-b-2 grid place-items-center relative mt-1 py-4">
               <div className="absolute top-0 left-2 flex w-full felx justify-between">
                 <span className="flex gap-2 text-xs text-gray-400">Recent</span>
               </div>
@@ -72,15 +72,15 @@ export function AppSidebar() {
                 <span className="flex gap-2 text-xs text-gray-400">Community</span>
               </div>
               <span className="text-gray-600 text-sm">No recent posts</span>
-            </div>
+            </div> */}
 
-            <span className="text-[12px] hover:underline cursor-pointer text-gray-600 absolute bottom-20">DevConnect 2025. All rights reserved</span>
+            <span className="text-[12px] hover:underline cursor-pointer text-gray-600 absolute bottom-20">DevConnect 2025. v.0.2.0</span>
           </motion.aside>
         )}
       </AnimatePresence>
 
       {!isOpen && (
-        <aside className="w-12 h-screen md:fixed md:flex hidden">
+        <aside className="w-12 h-screen fixed flex">
           <motion.button
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}

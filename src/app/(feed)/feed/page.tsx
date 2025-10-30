@@ -1,21 +1,51 @@
 "use client"
-import Post from "@/features/feed/components/Post";
-import PostSkeleton from "@/features/feed/components/PostSkeleton";
-import { useFetchPostsQuery } from "@/features/feed/hooks/useFetchPostsQuery";
+import { Button } from '@/components/ui/button';
+import Post from '@/features/feed/components/Post';
+import PostSkeleton from '@/features/feed/components/PostSkeleton';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
-// THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
-export default function FeedPage(){
-    const { data: posts, isLoading } = useFetchPostsQuery();
+export default function FeedPage() {
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<{ posts: { id: string }[]; nextCursor?: string }, Error>({
+    queryKey: ['posts'],
+    queryFn: async ({ pageParam }) => {
+      const res = await axios.get('/api/posts', {
+        params: { cursor: pageParam, limit: 10 },
+      });
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: null,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
-    return (
-        <div className="w-full p-3 h-screen grid gap-2 place-items-center">
-            {isLoading ? (
-                Array.from({ length: 5 }).map((_, i) => <PostSkeleton key={i} />)
-            ) : (
-                posts?.data?.map((p: any, i: number) => (
-                    <Post key={p.id ?? i} post={p} />
-                ))
-            )}
-        </div>
-    )
+  const allPosts = data?.pages.flatMap((page) => page.posts) ?? [];
+
+  return (
+    <div className="w-full p-3 h-screen grid gap-2 place-items-center overflow-y-auto">
+      {isLoading
+        ? Array.from({ length: 5 }).map((_, i) => <PostSkeleton key={i} />)
+        : allPosts.map((p) => <Post key={p.id} post={p} />)}
+
+      {hasNextPage && (
+        <Button
+          variant={'outline'}
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="mt-4 text-sm text-primary cursor-pointer"
+        >
+          {isFetchingNextPage ? 'Loading more...' : 'Load more'}
+        </Button>
+      )}
+    </div>
+  );
 }

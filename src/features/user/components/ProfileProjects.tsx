@@ -3,7 +3,7 @@ import { useImagePreviewStore } from '@/store/useImagePreviewStore';
 import React from 'react'
 import PostOptions from './PostOptionsMenu';
 import { useQueryClient } from '@tanstack/react-query';
-import { deleteProject } from '@/services/project/projectService';
+import { deleteProject } from '@/features/post/services/projectService';
 import { toast } from 'sonner';
 import Loader from '@/components/screens/Loader';
 
@@ -25,7 +25,7 @@ const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfi
         return (
             <section className="lg:w-[1000px] w-full h-fit mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
                 <div className='w-full flex items-center justify-center'>
-                    <h1 className='text-primary'>No projects to show</h1>
+                    <h1 className='text-gray-600'>No projects to show</h1>
                 </div>
             </section>
         )
@@ -36,7 +36,8 @@ const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfi
 
         try{
             await deleteProject({ id });
-            queryClient.invalidateQueries({ queryKey: ["currentUserPosts"]});
+            // **TODO** This is just workaround need to pass rawUsername to queryKey while invalidate
+            queryClient.invalidateQueries({ queryKey: ["user"]});
             toast.success("Project succesfully deleted");
         }
         catch(err){

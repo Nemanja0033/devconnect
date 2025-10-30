@@ -1,4 +1,4 @@
-import { fetchCurrentUserPosts } from "@/services/user/userService";
+import { fetchCurrentUserPosts } from "@/features/user/services/userService";
 import { useQuery } from "@tanstack/react-query";
 
 export function useMePostsQuery (enabled: boolean = true) {

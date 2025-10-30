@@ -1,6 +1,6 @@
 import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogCancel, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { FormProvider } from "react-hook-form"
-import { useEditDraftStore } from "@/store/useDraftStore"
+import { useEditDraftStore } from "@/features/post-drafts/store/useDraftStore"
 import { PostDraftType, ProjectDraftType } from "../types"
 import PostForm from "@/features/post/components/create-post/PostForm"
 import ProjectForm from "@/features/post/components/create-post/ProjectForm"

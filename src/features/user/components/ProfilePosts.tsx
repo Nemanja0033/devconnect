@@ -4,7 +4,7 @@ import { useImagePreviewStore } from '@/store/useImagePreviewStore'
 import { GalleryHorizontalEnd, LayoutGrid } from 'lucide-react'
 import React, { useState } from 'react'
 import PostOptions from './PostOptionsMenu'
-import { deletePost } from '@/services/post/postService'
+import { deletePost } from '@/features/post/services/postService'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -19,7 +19,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
 
         try{
             await deletePost({ id });
-            queryClient.invalidateQueries({ queryKey: ["currentUserPosts"]});
+            queryClient.invalidateQueries({ queryKey: ["user"]});
             toast.success("Post succesfully deleted");
         }
         catch(err){
@@ -64,11 +64,11 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                                     <img src={user?.avatar} className="w-12 h-12 rounded-full" />
                                     <span>{user?.username}</span>
                                 </div>
-                                <PostOptions handleDelete={() => handleDeletePost(post.id)} />
+                                {isMyProfile && <PostOptions handleDelete={() => handleDeletePost(post.id)} />}
                             </div>
 
                             <div className="mt-3 w-full font-semibold">
-                                <span>{post.title}</span>
+                                <Link href={`/post/${post.id}`}>{post.title}</Link>
                                 <p className="line-clamp-3">{post.content}</p>
                             </div>
 

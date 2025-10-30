@@ -1,5 +1,5 @@
-import { getPostDrafts, getProjecftDrafts } from "@/services/post-draft/draftService";
 import { useQuery } from "@tanstack/react-query";
+import { getPostDrafts, getProjecftDrafts } from "../services/draftService";
 
 export function useDraftQuery(){
     return useQuery({

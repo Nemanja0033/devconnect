@@ -2,7 +2,7 @@ import Draft from '@/features/post-drafts/components/Draft';
 import { DraftSkeleton } from '@/features/post-drafts/components/DraftSkeleton';
 import { useDraftQuery } from '@/features/post-drafts/hooks/useDraftQuery';
 import { PostDraftType, ProjectDraftType } from '@/features/post-drafts/types';
-import { useDeleteDraftStore, useEditDraftStore } from '@/store/useDraftStore';
+import { useDeleteDraftStore, useEditDraftStore } from '@/features/post-drafts/store/useDraftStore';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 

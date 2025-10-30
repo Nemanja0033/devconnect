@@ -28,7 +28,7 @@ export default function RootLayout({
             >
               {path === "/" ? null : <Navbar />}
               {path === "/" ? null : <AppSidebar />}
-              <Toaster position="top-center" />
+              <Toaster position="top-center" theme="dark"/>
                 <div className={`${path === '/' ? 'py-0' : 'py-20'}`}>
                 {children}
                 </div>

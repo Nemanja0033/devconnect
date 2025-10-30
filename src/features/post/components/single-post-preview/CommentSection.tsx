@@ -1,20 +1,17 @@
 import ErrorTooltip from '@/components/reusables/FormErrorTooltip';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea'
-import { postComment } from '@/services/post-interactions/post-interactions-service';
+import { postComment } from '@/features/post/services/post-interactions-service';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useFetchCommentsQuery } from '../../hooks/useFetchCommentsQuery';
 import { Loader2 } from 'lucide-react';
 import Loader from '@/components/screens/Loader';
-import Link from 'next/link';
-import { useSlugify } from '@/hooks/useSlugify';
-import { slugifyUsername } from '@/helpers/helper';
-import { Badge } from '@/components/ui/badge';
 import SingleComment from './SingleComment';
-import { sendNotification } from '@/services/notifications/notification-service';
 import { getSession } from 'next-auth/react';
 import { NotificationType } from '@/features/notifications/types';
+import { sendNotification } from '@/features/notifications/services/notification-service';
+import GlobalLoader from '@/components/screens/GlobalLoader';
 
 // ** This component needs to be refactored latter in production . . .
 
@@ -23,6 +20,7 @@ interface CommentForm {
 }
 
 const CommentSection = ({ post }: any) => {
+  const [isCommentSubmiting, setIsCommentSubmiting] = useState(false);
   const { data: comments, isLoading, isError, refetch } = useFetchCommentsQuery(post.id);
   const [isFocused, setIsFocused] = useState(false);
   const commentForm = useForm<CommentForm>();
@@ -30,6 +28,7 @@ const CommentSection = ({ post }: any) => {
 
   const handlePostComment = async (data: CommentForm) => {
     if(!data) return;
+    setIsCommentSubmiting(true);
     const { comment } = data;
     const session: any = await getSession();
     const url = `/post/${post.id}#comment`;
@@ -46,10 +45,14 @@ const CommentSection = ({ post }: any) => {
     catch(err){
         console.error("Error while commenting", err)
     }
+    finally{
+        setIsCommentSubmiting(false);
+    }
   }
 
   return (
     <div id='comments' className='w-full grid gap-3'>
+        {isCommentSubmiting && <GlobalLoader />}
         <div className='w-full flex justify-start'>
             <span className='text-lg font-semibold'>Comments {!isLoading && `(${comments?.data.length})`}</span>
         </div>

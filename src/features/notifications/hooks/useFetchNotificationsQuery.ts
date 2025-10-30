@@ -1,5 +1,5 @@
-import { fetchNotifications } from "@/services/notifications/notification-service";
 import { useQuery } from "@tanstack/react-query";
+import { fetchNotifications } from "../services/notification-service";
 
 export function useFetchNofiticationsQuery(reciverId: string){
     return useQuery({

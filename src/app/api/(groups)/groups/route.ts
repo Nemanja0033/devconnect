@@ -3,6 +3,22 @@ import { db } from "@/lib/prismaClient";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
+export async function GET(req: Request){
+    try{
+        const groups = await db.group.findMany({
+            include: {
+                members: true,
+                posts: true
+            }
+        });
+
+        return NextResponse.json({ groups }, { status: 200 });
+    }
+    catch(err){
+        return NextResponse.json({ error: err }, { status: 200 });
+    }
+}
+
 export async function POST(req: Request) {
     try {
         const session: any = await getServerSession(getAuthOptions());
@@ -10,11 +26,13 @@ export async function POST(req: Request) {
         if (!session) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
+
+        const ownerId = session.user.id;
         
-        const { name, description, ownerId } = await req.json();
+        const { name, description } = await req.json();
 
         // Validate input
-        if (!name || !description || !ownerId) {
+        if (!name || !description) {
             return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
         }
 

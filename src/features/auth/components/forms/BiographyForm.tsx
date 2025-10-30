@@ -1,13 +1,13 @@
 import { useUserStore } from "@/store/useUserStore";
 import { BiographyFormType } from "@/types";
 import { useFormContext } from "react-hook-form";
-import { Card } from "../ui/card";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
 import { use, useState } from "react";
-import { Input } from "../ui/input";
-import ErrorTooltip from "../reusables/FormErrorTooltip";
 import { Label } from "@radix-ui/react-label";
+import ErrorTooltip from "@/components/reusables/FormErrorTooltip";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "./AvatarUploadForm";
 
 export default function BiographyForm({ onSubmit }: { onSubmit: () => void}){

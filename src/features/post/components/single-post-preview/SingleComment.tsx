@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { slugifyUsername } from '@/helpers/helper';
+import { slugifyUsername } from '@/helpers/helpers';
 import Link from 'next/link';
 import React, { useState } from 'react'
 
