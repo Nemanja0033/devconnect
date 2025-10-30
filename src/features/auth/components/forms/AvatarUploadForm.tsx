@@ -7,11 +7,12 @@ import { Card } from "@/components/ui/card";
 import ErrorTooltip from "@/components/reusables/FormErrorTooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { avatarPlaceholdedr } from "@/constants/constants";
 
 // **TODO fix avatar not display bug
 export function Avatar({ size, avatarUrl }: { size: "lg" | "sm", avatarUrl?: string }){
     return (
-        <img src={avatarUrl === '' ? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541' : avatarUrl} className={`${size === 'lg' ? 'w-48 h-48' : 'w-14 h-14'} rounded-full`} />
+        <img src={avatarUrl === '' ? avatarPlaceholdedr : avatarUrl} className={`${size === 'lg' ? 'w-48 h-48' : 'w-14 h-14'} rounded-full`} />
     )
 }
 

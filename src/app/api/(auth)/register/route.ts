@@ -20,6 +20,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
 
+    const checkIsUsernameTaken = await db.user.findUnique({
+      where: { username }
+    })
+
+    if(checkIsUsernameTaken){
+      return NextResponse.json({ error: `$Username:${username} is taken`});
+    }
+
     const hashedPassword = await hash(password, 10);
 
     const newUser = await db.user.create({

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import slugify from 'slugify'
+import { avatarPlaceholdedr } from "@/constants/constants";
 
 export default function AvatarToggle({ isLoading, avatar, username, email }: { isLoading: boolean, avatar: string, username: string, email: string}){
     if(!username) return;
@@ -40,13 +41,13 @@ export default function AvatarToggle({ isLoading, avatar, username, email }: { i
     return(
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <img className="h-8 w-8 rounded-full cursor-pointer" src={avatar} alt={username} />
+                <img className="h-8 w-8 rounded-full cursor-pointer" src={avatar ?? avatarPlaceholdedr} alt={username} />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="border-2 bg-white dark:bg-slate-900 z-50 grid gap-5 mt-3 p-3 w-64 rounded-md">
                 <div className="py-2 hover:text-primary cursor-pointer transition-all border-b">
                     <div className="flex justify-start items-center gap-2">
                         <Link href={`profile/${slug}`}>
-                            <img src={avatar} className="h-10 w-10 rounded-full" alt="" />
+                            <img src={avatar ?? avatarPlaceholdedr} className="h-8 w-8 rounded-full" alt="" />
                         </Link>
                         <div className="grid place-items-start">
                             <Link href={`/profile/${slug}`}>{username}</Link>

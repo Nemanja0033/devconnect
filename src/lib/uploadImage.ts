@@ -1,6 +1,5 @@
 import axios from "axios";
 
-//this function provide image upload and store it in the cloud
 export const uploadToCloud = async (file: File) => {
     try {
         const formData = new FormData();

@@ -132,6 +132,21 @@
   animation-direction: alternate-reverse;
 }
 
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 20s linear infinite alternate-reverse;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+
 @keyframes bg-paralex {
   0%{
     background-position: left;
