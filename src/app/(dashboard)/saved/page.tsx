@@ -25,8 +25,6 @@ export default async function FavouritePostsPage(){
         }
     });
 
-    console.log('@favourites ',favourites);
-
     return(
         <div className="w-full h-full flex justify-center">
             <div className="w-5xl p-3 flex-col">
@@ -34,6 +32,12 @@ export default async function FavouritePostsPage(){
                     <h1 className="text-2xl font-semibold">Favourite Posts</h1>
                     <p className="text-gray-500 text-lg">Save posts you are intereset in for latter</p>
                 </div>
+
+                {favourites.length < 1 ? (
+                    <div className="flex justify-center h-[70vh] items-center">
+                        <span className="text-gray-600">No saved posts. . .</span>
+                    </div>
+                ) : null}
 
                 <div className="grid md:grid-cols-3 w-full gap-3 mt-10">
                     {favourites.map((f) => (

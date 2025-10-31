@@ -39,7 +39,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
         return (
             <section className="lg:w-[1000px] w-full h-fit mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent">
                 <div className='w-full flex items-center justify-center'>
-                    <h1 className='text-primary'>No projects to show</h1>
+                    <h1 className='text-gray-600'>No posts to show</h1>
                 </div>
             </section>
         )
@@ -86,7 +86,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                         </div>
                     )) : (
                         <div className='w-full justify-center'>
-                            <p className='text-primary'>*No posts for show</p>
+                            {/* <p className='text-primary'>*No posts for show</p> */}
                         </div>
                     )}
                 </div>
