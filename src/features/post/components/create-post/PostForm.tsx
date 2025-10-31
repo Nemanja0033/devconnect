@@ -18,7 +18,7 @@ export default function PostForm({
     : 
     { 
     onSubmit: () => void,
-    onClose: any, 
+    onClose?: any, 
     saveDraft: (postForm: any) => void, 
     isSavingDraft: boolean, 
     savedFromDraft?: PostDraftType | ProjectDraftType 
