@@ -7,7 +7,6 @@ export function useMeQuery(enabled: boolean = true){
     return useQuery({
         queryKey: ["currentUser"],
         queryFn: fetchCurrentUser,
-        enabled: !!isAuth,
         staleTime: 1000 * 60 * 5
     });
 };
