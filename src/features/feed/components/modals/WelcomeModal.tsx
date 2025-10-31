@@ -31,7 +31,7 @@ import { Button } from "@/components/ui/button"
             <AlertDialogDescription>
               Thank you for testing the DevConnect beta. We hope you have a pleasant and insightful experience!
               <br /><br />
-              Feel free to share educational content with fellow developers and help grow the community.
+              Feel free to share educational content with developers and help grow the community.
               <br /><br />
               <strong>Disclaimer:</strong> Sharing content unrelated to programming or developer education is strictly prohibited. Any posts that violate this rule will be removed, and the associated account may be blocked.
               <br /><br />
