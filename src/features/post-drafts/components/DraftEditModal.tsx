@@ -49,6 +49,7 @@ const DraftEditModal = ({
                     saveDraft={handleSavePostDraft}
                     savedFromDraft={currentDraft}
                     onSubmit={handleSubmitPost}
+                    onClose={() => setIsEditDraftModalOpen(false)}
                 />
                 </FormProvider>
             )}
@@ -57,14 +58,11 @@ const DraftEditModal = ({
                 {currentDraft?.type === 'PROJECT' && (
                     <FormProvider {...createProjectFormDraft}>
                     <UploadedImagesMap isLoading={isUploadedPhotosLoading} imagesUrl={currentDraft.images} removeImage={handleRemoveUploadedImage} setImageToPreview={setImageToPreview} setIsPreviewOpen={setIsPreviewOpen} />
-                    <ProjectForm savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
+                    <ProjectForm onClose={() => setIsEditDraftModalOpen(false)} savedFromDraft={currentDraft} onSubmit={handleSubmitProjectPost} />
                     </FormProvider>
                 )}
             </div>
 
-            <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setCurrentDraft(null)}>Close</AlertDialogCancel>
-            </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
     )

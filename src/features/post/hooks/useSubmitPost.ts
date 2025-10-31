@@ -43,8 +43,8 @@ export function useSubmitPost(
     const {
       title,
       description,
-      sourceCodeUrl,
-      liveDemoUrl,
+      sourceUrl,
+      liveUrl,
       issues
     } = data;
 
@@ -52,8 +52,8 @@ export function useSubmitPost(
       await createProject({
         title,
         description,
-        sourceCodeUrl,
-        liveDemoUrl,
+        sourceUrl,
+        liveUrl,
         issues,
         images: imagesUrl
       });

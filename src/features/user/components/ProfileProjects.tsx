@@ -6,6 +6,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { deleteProject } from '@/features/post/services/projectService';
 import { toast } from 'sonner';
 import Loader from '@/components/screens/Loader';
+import Link from 'next/link';
+import { Github, Link2 } from 'lucide-react';
 
 const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfile: boolean, projects: any, user: any, isLoading: boolean}) => {
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
@@ -52,14 +54,18 @@ const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfi
                 </div>
                 <div className={`flex place-items-start gap-2 overflow-auto mt-3`}>
                     {projects ? projects.map((project: any) => (
-                        <div key={project.id} className={`min-w-64 max-w-64 h-auto p-3 border-2 rounded-md shadow-md`}>
+                        <div key={project.id} className={`w-[300px] h-auto p-3 border-2 rounded-md shadow-md`}>
                             <div className={`flex justify-between w-full items-center`}>
-                                <span>{project.title}</span>    
+                                <div className='w-full flex gap-2'>
+                                    <span className='text-lg font-semibold'>{project.title}</span>    
+                                    <a className='hover:text-primary' href={project.sourceUrl}><Github /></a>
+                                    <a className='hover:text-primary' href={project.liveUrl}><Link2 /></a>
+                                </div>
                                 {isMyProfile && <PostOptions handleDelete={() => handleDeleteProject(project.id)} />}
                             </div>
 
                             <div className="mt-3 w-full font-semibold">
-                                <p className="line-clamp-3">{project.content}</p>
+                                <p className="line-clamp-3 text-gray-400">{project.description}</p>
                             </div>
 
                             {project.images[0] ? (

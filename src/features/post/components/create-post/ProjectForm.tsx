@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedFromDraft }: { isSavingDraft?: boolean, saveDraft?: (projectForm: any) => void, onSubmit: () => void, savedFromDraft?: ProjectDraftType}){
+export default function ProjectForm({ onSubmit, onClose, saveDraft, isSavingDraft, savedFromDraft }: { isSavingDraft?: boolean, onClose?: any, saveDraft?: (projectForm: any) => void, onSubmit: () => void, savedFromDraft?: ProjectDraftType}){
     const {
         register,
         handleSubmit,
@@ -25,8 +25,8 @@ export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedF
             reset({
                 title: savedFromDraft.title,
                 description: savedFromDraft.description,
-                liveDemoUrl: savedFromDraft.liveUrl,
-                sourceCodeUrl: savedFromDraft.sourceUrl,
+                liveUrl: savedFromDraft.liveUrl,
+                sourceUrl: savedFromDraft.sourceUrl,
                 issues: savedFromDraft.issues,
             });
         };
@@ -65,18 +65,21 @@ export default function ProjectForm({ onSubmit, saveDraft, isSavingDraft, savedF
             {errors.description && <ErrorTooltip>{errors.description.message}</ErrorTooltip>}
 
             <Label className="text-primary text-sm" htmlFor="repo-url">*Repository URL</Label>
-            <Input placeholder="Repository URL* (optional)" id="repo-url" {...register("sourceCodeUrl")} />
+            <Input placeholder="Repository URL* (optional)" id="repo-url" {...register("sourceUrl")} />
 
             <Label className="text-primary text-sm" htmlFor="live-url">*Live URL</Label>
-            <Input placeholder="Live URL* (optional)" id="live-url" {...register("liveDemoUrl")} />
+            <Input placeholder="Live URL* (optional)" id="live-url" {...register("liveUrl")} />
 
             <Label className="text-primary text-sm" htmlFor="issues">*Issues</Label>
             <Textarea placeholder="Issues* (optional)" id="issues" {...register("issues")} />
 
             <div className="flex md:justify-end justify-center gap-3 mb-5 w-full ">
                 {!savedFromDraft && (
-                    <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
+                    <>
+                        <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
+                    </>
                 )}
+                {savedFromDraft && <Button type="button" onClick={onClose}>Close</Button>}
                 <Button className="md:w-32 w-1/2" disabled={isFormDisabled} type="submit">{isSubmitting ? <Loader2 className="animate-spin"/> : "Submit"}</Button>
             </div>
         </form>

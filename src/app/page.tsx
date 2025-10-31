@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage(){
     return(
-        <main className={`w-full p-5 flex justify-center items-center h-full animate-gradient bg-gradient-to-r from-stone-900 to-gray-800`}>
+        <main className={`w-full p-5 flex justify-center items-center h-full hero-dark`}>
             <section className="grid w-[1200px] place-items-center">
                 <nav className="flex w-full justify-end fixed top-5 right-5">
                     <div className="flex border-b items-center gap-5">
@@ -37,14 +37,14 @@ export default function LandingPage(){
                         <Link href={'/register'}>Register</Link>
                     </div>
                 </nav>
-                <div className="mt-60 grid gap-80">
+                <div className="mt-80 grid gap-80">
                     <Hero />
                     <Main />
                     <Feautures />
                     <HowItWorks />
                     {/* <Faq /> */}
                     <footer className="w-full flex justify-center">
-                        <span className="text-gray-600">DevConnect 2025 v.0.2.0 </span>
+                        <span className="text-gray-300">DevConnect 2025 v.0.2.0 </span>
                     </footer>
                 </div>
             </section>
