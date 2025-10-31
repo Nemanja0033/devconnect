@@ -1,5 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button';
+import WelcomeModal from '@/features/feed/components/modals/WelcomeModal';
 import Post from '@/features/feed/components/Post';
 import PostSkeleton from '@/features/feed/components/PostSkeleton';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -46,6 +47,7 @@ export default function FeedPage() {
           {isFetchingNextPage ? 'Loading more...' : 'Load more'}
         </Button>
       )}
+      <WelcomeModal />
     </div>
   );
 }
