@@ -1,7 +1,7 @@
 # 🧩 DevConnect v0.2.0 (Beta)
 
 **DevConnect** is a **social network for developers** focused on sharing programming knowledge, educational articles, and personal projects.  
-The platform enables developers to connect, collaborate, and learn — all in one place.
+The platform enables developers to connect, collaborate, and learn, all in one place.
 
 ---
 
@@ -49,4 +49,7 @@ It aims to become a go-to platform for developers to **share insights, showcase 
 🔗 [https://www.devconnect.forum](https://www.devconnect.forum)
 
 ---
+
+© 2025 Nemanja Antonijevic.
+All rights reserved. Unauthorized use, reproduction, or distribution of this project or its code is prohibited.
 
