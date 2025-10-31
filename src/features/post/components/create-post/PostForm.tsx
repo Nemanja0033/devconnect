@@ -10,13 +10,15 @@ import { CreatePostForm } from "../../types";
 
 export default function PostForm({
     onSubmit, 
+    onClose,
     saveDraft, 
     isSavingDraft, 
     savedFromDraft 
     } 
     : 
     { 
-    onSubmit: () => void, 
+    onSubmit: () => void,
+    onClose: any, 
     saveDraft: (postForm: any) => void, 
     isSavingDraft: boolean, 
     savedFromDraft?: PostDraftType | ProjectDraftType 
@@ -50,8 +52,11 @@ export default function PostForm({
                 {errors.content && <span className="text-red-500 text-sm">{errors.content.message}</span>}
                 <div className="flex md:justify-end justify-center gap-3 w-full ">
                   {savedFromDraft ? null : (
-                    <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
+                    <>
+                      <Button className="md:w-32 w-1/2" type="button" onClick={saveDraft} variant={'secondary'} disabled={isFormDisabled || isSavingDraft}>{isSavingDraft ? <Loader2 className="animate-spin" /> : "Save Draft"}</Button>
+                    </>
                   )}
+                  {savedFromDraft && <Button type="button" onClick={onClose}>Close</Button>}
                   <Button className="md:w-32 w-1/2" disabled={isFormDisabled} type="submit">{isSubmitting ? <Loader2 className="animate-spin"/> : "Submit"}</Button>
                 </div>
             </form>

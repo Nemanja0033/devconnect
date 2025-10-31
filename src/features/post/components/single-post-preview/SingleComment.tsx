@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { slugifyUsername } from '@/helpers/helpers';
+import { formatDate, slugifyUsername } from '@/helpers/helpers';
 import Link from 'next/link';
 import React, { useState } from 'react'
 
@@ -11,7 +11,8 @@ const SingleComment = ({ comment, authorId }: any) => {
             <div className='flex gap-2 items-center'>
                 <img className='w-8 rounded-full' src={comment.author.avatar} alt={comment.author.username} />
                 <Link href={`/profile/${slugifyUsername(comment.author.username)}`} className='cursor-pointer hover:underline'>{comment.author.username}</Link>
-                {comment.author.id === authorId && <Badge className='text-purple-500'>Author</Badge>}
+                <span className='text-gray-600 text-sm'>{formatDate(comment.createdAt)}</span>
+                {comment.author.id === authorId && <Badge className='text-white'>Author</Badge>}
             </div>
             <div className='px-10'>
                 <p onClick={() => setIsCommentOpen(!isCommentOpen)} className={`${!isCommentOpen && 'line-clamp-3'} cursor-pointer text-gray-400`}>{comment.content}</p>
