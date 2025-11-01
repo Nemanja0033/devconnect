@@ -43,6 +43,7 @@ export function useUpdateUser(imagesUrl: string[], rawUsername: string){
             const updateData: any = {};
             updateData.avatar = imagesUrl[0];
             await updateUser(updateData);
+            queryClient.invalidateQueries({ queryKey: ['currentUser']});
             queryClient.invalidateQueries({ queryKey: ['user', rawUsername]});
           }
         } catch (error) {
