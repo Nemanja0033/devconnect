@@ -44,7 +44,7 @@ export default function LandingPage(){
                     <HowItWorks />
                     {/* <Faq /> */}
                     <footer className="w-full flex justify-center">
-                        <span className="text-gray-300">DevConnect 2025 v.0.2.0 </span>
+                        <span className="text-gray-300">DevConnect 2025 v.0.2.1 </span>
                     </footer>
                 </div>
             </section>

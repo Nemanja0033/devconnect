@@ -35,7 +35,7 @@ const GroupCard = ({ group }: any) => {
           </span>
         </div>
         <Button
-          disabled={isJoiningGroup}
+          disabled={isJoiningGroup || !isUserInGroup}
           onClick={() => handleJoinGroup(group.id)}
           variant={'secondary'}
           size={'sm'}
