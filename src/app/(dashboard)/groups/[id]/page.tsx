@@ -24,6 +24,10 @@ export default function GroupFeedPage(){
     const { isLoading: isPostCreating, handleCreateGroupPost } = useGroupFeed(params.id);
     const createGroupPostForm = useForm<GroupPostForm>();
 
+    if(isLoading){
+        return <GlobalLoader />
+    }
+
     return(
         <div className="w-full h-full flex justify-center">
             <div className="w-[600px]  flex-col">
@@ -34,7 +38,7 @@ export default function GroupFeedPage(){
 
                 <div className="grid gap-2 place-items-center w-full">
                     {data?.groupData[0].posts.map((p: any) => (
-                        <Post post={p} />
+                        <Post key={p.id} post={p} />
                     ))}
                 </div>
             </div>

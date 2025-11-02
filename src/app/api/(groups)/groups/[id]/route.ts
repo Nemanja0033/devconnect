@@ -5,12 +5,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }: { params: { id: string}}){
     try{
-        const session = await getServerSession(getAuthOptions());
-        
-        if(!session){
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
         const groupData = await db.group.findMany({
             where: { id: params.id },
             include: {
