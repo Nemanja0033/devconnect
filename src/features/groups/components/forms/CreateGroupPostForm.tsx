@@ -14,13 +14,13 @@ const CreateGroupPostForm = ({ onSubmit, onClose }: { onSubmit: () => void, onCl
     
     return (
         <form className='grid gap-2 w-full' onSubmit={handleSubmit(onSubmit)}>
-            <Label className='text-primary' htmlFor='name' >*Group name</Label>
-            <Input {...register("title", { required: "Title is required" })} id='name' className='px-3' placeholder='e.g Frontend React' />
+            <Label className='text-primary' htmlFor='title' >*Title</Label>
+            <Input {...register("title", { required: "Title is required" })} id='title' className='px-3' placeholder='e.g Frontend React' />
             
             {errors.title && <ErrorTooltip>{errors.title.message}</ErrorTooltip>}
             
-            <Label className='text-primary' htmlFor='desc'>*Group name</Label>
-            <Textarea {...register("content", { required: "Content is required"})} id='desc' className='px-3 max-h-32 h-20' placeholder='e.g Articles about React ecosystem. .  .'  />
+            <Label className='text-primary' htmlFor='content'>*Content</Label>
+            <Textarea {...register("content", { required: "Content is required"})} id='content' className='px-3 max-h-32 h-20' placeholder='e.g Articles about React ecosystem. .  .'  />
             
             {errors.content && <ErrorTooltip>{errors.content.message}</ErrorTooltip>}
             
