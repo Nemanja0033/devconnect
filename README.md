@@ -1,11 +1,15 @@
-# 🧩 DevConnect v0.2.0 (Beta)
+# Note for those who may review the code
+
+This isn't yet a fully stable codebase due to time constraints; some features haven't been well-structured, separated, or refactored, so ignore the parts that look ugly or unprofessional.
+
+# 🧩 DevConnect v0.2.2 (Beta)
 
 **DevConnect** is a **social network for developers** focused on sharing programming knowledge, educational articles, and personal projects.  
 The platform enables developers to connect, collaborate, and learn, all in one place.
 
 ---
 
-## 🚀 Features (v0.2.0 Beta)
+## 🚀 Features (v0.2.2 Beta)
 
 - 🔐 **Authentication** – secure login and session handling  
 - 📝 **Posts System** – create, edit, and delete posts (articles or projects)  
@@ -24,7 +28,8 @@ The platform enables developers to connect, collaborate, and learn, all in one p
 - **State & Data:** React Query  
 - **Database:** PostgreSQL (Neon Cloud)  
 - **ORM:** Prisma  
-- **Backend:** Next.js API Routes  
+- **Backend:** Next.js API Routes
+- **UI**:** Shadcn + custom components  
 - **Architecture:** Feature-based modular structure
 
 ---
