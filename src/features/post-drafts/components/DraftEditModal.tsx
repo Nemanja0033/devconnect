@@ -1,4 +1,4 @@
-import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogCancel, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { AlertDialogHeader, AlertDialog, AlertDialogContent, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { FormProvider } from "react-hook-form"
 import { useEditDraftStore } from "@/features/post-drafts/store/useDraftStore"
 import { PostDraftType, ProjectDraftType } from "../types"
@@ -32,7 +32,7 @@ const DraftEditModal = ({
     handleRemoveUploadedImage,
     setImageToPreview,
     setIsPreviewOpen} : DraftEditModal) => {
-    const { isEditDraftModalOpen, setIsEditDraftModalOpen, setCurrentDraft } = useEditDraftStore();
+    const { isEditDraftModalOpen, setIsEditDraftModalOpen } = useEditDraftStore();
     
     return (
          <AlertDialog open={isEditDraftModalOpen} onOpenChange={setIsEditDraftModalOpen}>

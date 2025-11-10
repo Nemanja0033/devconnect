@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { PostType } from '@/types'
 import { ThumbsUp, MessageCircle, Heart } from 'lucide-react'
 import React from 'react'
 
-const PostInteractionsBar = ({ isInteractionsLoading, handleLikePost, likes, isLiked, post }: { post: any, isLiked: boolean, isInteractionsLoading: boolean, handleLikePost: (id: string) => void, likes: number}) => {
+const PostInteractionsBar = ({ isInteractionsLoading, handleLikePost, likes, isLiked, post }: { post: PostType, isLiked: boolean, isInteractionsLoading: boolean, handleLikePost: (id: string) => void, likes: number}) => {
   return (
     <div className='flex justify-start gap-2 items-center'>
         {!isInteractionsLoading ? (

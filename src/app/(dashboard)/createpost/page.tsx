@@ -32,7 +32,7 @@ export default function CreatePost() {
     handleSaveProjectDraft,
   } = useDraft(imagesUrl, resetImages);
 
-  const { handleSubmitPost,handleSubmitProjectPost,} = useSubmitPost(imagesUrl, resetImages, handleDeleteDraft, createPostForm, createProjectForm, createProjectFormDraft, createPostFormDraft);
+  const { handleSubmitPost,handleSubmitProjectPost,} = useSubmitPost(imagesUrl, resetImages, handleDeleteDraft, createPostForm, createProjectForm, createProjectFormDraft);
   const { setIsPreviewOpen, setImageToPreview } = useImagePreviewStore();
 
   return (

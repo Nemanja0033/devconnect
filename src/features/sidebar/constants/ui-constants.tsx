@@ -1,6 +1,6 @@
 "use client"
 import { Variants } from "framer-motion"
-import { ArrowRight, Heart, HeartIcon, Home, MenuIcon, Music2Icon, Pause, Play, Square, StopCircle, Users2Icon } from "lucide-react";
+import { Heart, HeartIcon, Home, Users2Icon } from "lucide-react";
 
 export const navOptions = [
     {

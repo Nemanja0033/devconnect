@@ -6,18 +6,20 @@ import ImagePreview from "../ImagePreveiw";
 import { useImagePreviewStore } from "@/store/useImagePreviewStore";
 import { useLikes } from "../../hooks/useLikes";
 import LikeButton from "./buttons/LikeButton";
-import CommentButton from "./buttons/CommentButton";
 import FavouriteButton from "./buttons/FavouriteButton";
 import CommentSection from "./CommentSection";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { useAddToFavourites } from "../../hooks/useAddToFavourites";
+import { PostType } from "@/types";
 
-const SinglePostPreview = ({ post }: { post: any }) => {
+const SinglePostPreview = ({ post }: { post: PostType }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right" | null>(null);
   const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore()
   const { handleLikePost, isLiked, likes } = useLikes(post);
+  const { handleAddPostToFavourites, isSaved, favourites } = useAddToFavourites(post);
 
   const showNextImage = () => {
     if (imageIndex < post.images.length - 1) {
@@ -79,9 +81,9 @@ const SinglePostPreview = ({ post }: { post: any }) => {
       <div className="w-full flex p-2 bg-accent/50 rounded-md justify-start gap-3"> 
         <LikeButton handleLikePost={() => handleLikePost(post.id)} isLiked={isLiked} likes={likes} />
         <Link href={'#comments'}>
-            <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /> {post._count.Comment}</Button>
+            <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /> {(post as any)._count.Comment}</Button>
         </Link>
-        <FavouriteButton />
+        <FavouriteButton handleAddToSaved={() => handleAddPostToFavourites(post.id)} saves={favourites} isSaved={isSaved} />
       </div>
 
       <CommentSection post={post} />

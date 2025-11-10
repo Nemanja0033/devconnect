@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { useImagePreviewStore } from '@/store/useImagePreviewStore';
 import React from 'react'
 import PostOptions from './PostOptionsMenu';
@@ -6,7 +5,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { deleteProject } from '@/features/post/services/projectService';
 import { toast } from 'sonner';
 import Loader from '@/components/screens/Loader';
-import Link from 'next/link';
 import { Github, Link2 } from 'lucide-react';
 
 const ProfileProjects = ({ isMyProfile, projects, user, isLoading }: { isMyProfile: boolean, projects: any, user: any, isLoading: boolean}) => {

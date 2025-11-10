@@ -10,14 +10,14 @@ import { useImagePreviewStore } from '@/store/useImagePreviewStore'
 import ImagePreview from '@/features/post/components/ImagePreveiw'
 import { useAddToFavourites } from '@/features/post/hooks/useAddToFavourites'
 import { Badge } from '@/components/ui/badge'
+import { PostType } from '@/types'
 
-// THIS IS ONLY FOR DEMO PURPOSES THIS CODE NEEDS TO BE REFACTORED LATTER FOR STABLE RELASE
-const Post = ({ post }: any) => {
+const Post = ({ post }: { post: PostType }) => {
     const { isLiked, isLikesLoading ,likes, handleLikePost} = useLikes(post);
     const { isSaved, isSavedLoading, favourites, handleAddPostToFavourites } = useAddToFavourites(post);
     const { transformedSlug: slug } = useSlugify(post.author.username);
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
-    
+
     const previewImage = () => {
         setImageToPreview(post.images[0].url);
         setIsPreviewOpen(true);
@@ -57,7 +57,7 @@ const Post = ({ post }: any) => {
                         <>
                             <Button onClick={() => handleLikePost(post.id)} className={`hover:text-primary cursor-pointer transition-all ${isLiked ? 'text-primary' : ''}`} variant={'secondary'}><ThumbsUp size={20} strokeWidth={0.75} />{likes}</Button>
                             <Link href={`/post/${post.id}#comments`}>
-                                <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /> {post._count.Comment}</Button>
+                                <Button className={`hover:text-primary cursor-pointer transition-all`} variant={'secondary'}><MessageCircle size={20} strokeWidth={0.75} /> {(post as any)._count.Comment}</Button>
                             </Link>
                             <Button onClick={() => handleAddPostToFavourites(post.id)} className={`hover:text-primary cursor-pointer transition-all ${isSaved ? 'text-red-500' : ""}`} variant={'secondary'}><Heart size={20} strokeWidth={0.75} />{favourites}</Button>
                         </>

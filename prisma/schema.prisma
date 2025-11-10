@@ -179,7 +179,7 @@ enum NotificationType {
 
 model Favourite {
   id      String  @id @default(uuid())
-  postId  String @unique
+  postId  String
   authorId String 
   author    User  @relation("saved-post-user", fields: [authorId], references: [id])
   savedPost Post @relation("saved-post", fields: [postId], references: [id])
