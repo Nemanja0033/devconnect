@@ -1,6 +1,6 @@
 # Note for those who may review the code
 
-This isn't yet a fully stable codebase due to time constraints; some features haven't been well-structured, separated, or refactored, so ignore the parts that look ugly or unprofessional.
+This isn't yet stable release codebase due to time constraints. Some choices were made that wouldn't be made in a production ready application.
 
 # 🧩 DevConnect v0.2.2 (Beta)
 
