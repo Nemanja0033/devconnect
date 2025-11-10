@@ -11,7 +11,6 @@ export function useSubmitPost(
   createPostForm: any,
   createProjectForm: any,
   createPostFormDraft: any,
-  createProjectFromDraft: any
 ) {
   const { currentDraft } = useEditDraftStore();
 
@@ -64,7 +63,7 @@ export function useSubmitPost(
       }
 
       createProjectForm.reset();
-      createProjectForm.reset()
+      createPostFormDraft.reset()
       resetImages();
     } catch (err) {
       toast.error("Error while posting");
