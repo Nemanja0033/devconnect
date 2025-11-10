@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { avatarPlaceholdedr } from "@/constants/constants";
 
-// **TODO fix avatar not display bug
 export function Avatar({ size, avatarUrl }: { size: "lg" | "sm", avatarUrl?: string }){
     return (
         <img src={avatarUrl === '' ? avatarPlaceholdedr : avatarUrl} className={`${size === 'lg' ? 'w-48 h-48' : 'w-14 h-14'} rounded-full`} />
@@ -21,9 +20,7 @@ export default function AvatarUploadForm({ onUpload, onSubmit, avatarPreviewUrl,
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting},
-        reset,
-        watch
+        formState: { errors },
     } = useFormContext<AvatarForm>();
 
     return(
@@ -40,7 +37,7 @@ export default function AvatarUploadForm({ onUpload, onSubmit, avatarPreviewUrl,
                     <span>400x400 max 25MB</span>
                 </Label>
                 <Input {...register('avatarUrl', {
-                    required: '*Avatar is required'
+                    required: avatarPreviewUrl ? false : 'Avatar is required'
                 })} type="file" accept="image/png, image/jpeg" onChange={onUpload} className="w-full relative opacity-0  bottom-40 h-39 cursor-pointer z-20" />
                 
                 <div className="relative w-full bottom-38">

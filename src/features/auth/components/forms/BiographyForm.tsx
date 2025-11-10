@@ -1,7 +1,6 @@
-import { useUserStore } from "@/store/useUserStore";
 import { BiographyFormType } from "@/types";
 import { useFormContext } from "react-hook-form";
-import { use, useState } from "react";
+import { useState } from "react";
 import { Label } from "@radix-ui/react-label";
 import ErrorTooltip from "@/components/reusables/FormErrorTooltip";
 import { Button } from "@/components/ui/button";
@@ -9,18 +8,15 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "./AvatarUploadForm";
+import { avatarPlaceholdedr } from "@/constants/constants";
 
-export default function BiographyForm({ onSubmit }: { onSubmit: () => void}){
+export default function BiographyForm({ onSubmit, avatar }: { onSubmit: () => void, avatar: string}){
     const BIO_MAX_LENGTH = 100;
     const [currentBioLenght, setCurrentBioLenght] = useState(0);
-    const { user } = useUserStore();
-
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting},
-        reset,
-        watch
     } = useFormContext<BiographyFormType>();
 
     return(
@@ -30,7 +26,7 @@ export default function BiographyForm({ onSubmit }: { onSubmit: () => void}){
             </div>
 
             <div>
-                <Avatar avatarUrl={user?.avatar ?? ""} size="lg" />
+                <Avatar avatarUrl={avatar ?? avatarPlaceholdedr} size="lg" />
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="w-full grid gap-3">

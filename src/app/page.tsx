@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 export default function LandingPage(){
     return(
         <main className={`w-full p-5 flex justify-center items-center h-full hero-dark`}>
-            <section className="grid w-[1200px] place-items-center">
+            <section className="grid w-[1200px] p-2 place-items-center">
                 <nav className="flex w-full justify-end fixed top-5 right-5">
                     <div className="flex border-b items-center gap-5">
                         <Link href={'/login'}>Login</Link>

@@ -6,16 +6,22 @@ import ErrorTooltip from "@/components/reusables/FormErrorTooltip";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 
-export default function RegisterForm({ onSubmit }: { onSubmit: () => void}){
+export default function RegisterForm({ onSubmit, step }: { onSubmit: () => void, step: number }){
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting},
         watch
     } = useFormContext<RegisterFormType>();
-
     const password = watch("password");
+    const isUserAlreadyRegistered = step > 0;
+
+    const resetRegistration = () => {
+        sessionStorage.clear();
+        location.reload();
+    }
 
     return(
         <Card className="w-full max-w-md p-6">
@@ -72,7 +78,10 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void}){
 
                         <Link className="text-xs hover:underline" href={'/login'}>Arleady have account?</Link>
 
-                        <Button disabled={isSubmitting} className="w-full mt-5 cursor-pointer" type="submit">{isSubmitting ? "Submited. . ." : "Submit"}</Button>
+                        <Button disabled={isSubmitting || isUserAlreadyRegistered} className="w-full mt-5 cursor-pointer" type="submit">{isSubmitting ? <Loader2 className="animate-spin" /> : "Submit"}</Button>
+                        {isUserAlreadyRegistered && (
+                            <span onClick={resetRegistration}  className="text-sm underline cursor-pointer">Rester Registration</span>
+                        )}
                     </form>
                 </Card>
     )
