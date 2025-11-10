@@ -13,7 +13,6 @@ import { useUploadImages } from "@/hooks/useUploadImages";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import UserNotFound from "../../../../features/user/components/UserNotFound";
-import { ProfileSkeleton } from "@/features/user/components/ProfileSkeleton";
 import EditAboutModal from "@/features/user/components/modals/EditAboutModal";
 import EditHeadingModal from "@/features/user/components/modals/EditHeadingModal";
 import GlobalLoader from "@/components/screens/GlobalLoader";

@@ -1,4 +1,3 @@
-import { Faq } from "@/components/landing/Faq";
 import Feautures from "@/components/landing/Feautures";
 import Hero from "@/components/landing/Hero";
 import HowItWorks from "@/components/landing/HowItWorks";

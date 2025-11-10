@@ -5,8 +5,9 @@ import { Label } from '@radix-ui/react-label'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { EditAboutForm } from '../../types'
+import { User } from '@/types'
 
-const EditAboutModal = ({ isAboutEditOpen, setIsAboutEditOpen, user, handleUpdateUser}: any) => {
+const EditAboutModal = ({ isAboutEditOpen, setIsAboutEditOpen, user, handleUpdateUser}: { isAboutEditOpen: boolean, setIsAboutEditOpen: any, user: User, handleUpdateUser: any}) => {
   const { register, handleSubmit } = useFormContext<EditAboutForm>();
 
   return (

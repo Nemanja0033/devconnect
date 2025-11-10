@@ -12,6 +12,7 @@ import { getSession } from 'next-auth/react';
 import { NotificationType } from '@/features/notifications/types';
 import { sendNotification } from '@/features/notifications/services/notification-service';
 import GlobalLoader from '@/components/screens/GlobalLoader';
+import { PostType } from '@/types';
 
 // ** This component needs to be refactored latter in production . . .
 
@@ -19,7 +20,7 @@ interface CommentForm {
     comment: string
 }
 
-const CommentSection = ({ post }: any) => {
+const CommentSection = ({ post }: { post: PostType }) => {
   const [isCommentSubmiting, setIsCommentSubmiting] = useState(false);
   const { data: comments, isLoading, isError, refetch } = useFetchCommentsQuery(post.id);
   const [isFocused, setIsFocused] = useState(false);

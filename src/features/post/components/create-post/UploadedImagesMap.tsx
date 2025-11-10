@@ -1,6 +1,6 @@
 import { Loader2 } from 'lucide-react';
 import React from 'react';
-import { UploadedImagesMapProps } from '../types';
+import { UploadedImagesMapProps } from '../../types';
 
 const UploadedImagesMap: React.FC<UploadedImagesMapProps> = ({
   isLoading,

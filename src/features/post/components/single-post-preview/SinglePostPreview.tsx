@@ -6,7 +6,6 @@ import ImagePreview from "../ImagePreveiw";
 import { useImagePreviewStore } from "@/store/useImagePreviewStore";
 import { useLikes } from "../../hooks/useLikes";
 import LikeButton from "./buttons/LikeButton";
-import CommentButton from "./buttons/CommentButton";
 import FavouriteButton from "./buttons/FavouriteButton";
 import CommentSection from "./CommentSection";
 import { Button } from "@/components/ui/button";

@@ -35,7 +35,7 @@ export default function FeedPage() {
     <div className="w-full p-3 h-screen grid gap-2 place-items-center overflow-y-auto">
       {isLoading
         ? Array.from({ length: 5 }).map((_, i) => <PostSkeleton key={i} />)
-        : allPosts.map((p) => <Post key={p.id} post={p} />)}
+        : allPosts.map((p) => <Post key={p.id} post={p as any} />)}
 
       {hasNextPage && (
         <Button

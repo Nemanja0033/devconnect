@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { signOut } from "next-auth/react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Settings, SunMoon } from "lucide-react";
+import { LogOut, SunMoon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";

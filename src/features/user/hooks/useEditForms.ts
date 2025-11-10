@@ -1,9 +1,8 @@
-import { EditAboutForm, EditHeadingForm } from "@/app/(dashboard)/profile/[username]/page";
 import { useForm } from "react-hook-form";
 
 export function useEditForms(){
-    const editHeadingForm = useForm<EditHeadingForm>({ mode: 'onSubmit' });
-    const editAboutForm = useForm<EditAboutForm>({ mode: "onSubmit" });
+    const editHeadingForm = useForm<any>({ mode: 'onSubmit' });
+    const editAboutForm = useForm<any>({ mode: "onSubmit" });
 
     return{
         editAboutForm,

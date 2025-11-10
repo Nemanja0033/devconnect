@@ -6,8 +6,9 @@ import Link from 'next/link'
 import React from 'react'
 import { useJoinGroup } from '../hooks/useJoinGroup'
 import { useIsUserInGroup } from '../hooks/useIsUserInGroup'
+import { Group } from '@/types'
 
-const GroupCard = ({ group }: any) => {
+const GroupCard = ({ group }: { group: Group }) => {
   const { isLoading: isJoiningGroup, handleJoinGroup } = useJoinGroup();
   const { isUserInGroup } = useIsUserInGroup(group.members);
 
@@ -35,7 +36,7 @@ const GroupCard = ({ group }: any) => {
           </span>
         </div>
         <Button
-          disabled={isJoiningGroup || !isUserInGroup}
+          disabled={isJoiningGroup}
           onClick={() => handleJoinGroup(group.id)}
           variant={'secondary'}
           size={'sm'}

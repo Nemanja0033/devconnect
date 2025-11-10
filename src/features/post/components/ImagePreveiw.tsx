@@ -1,6 +1,5 @@
 import { useImagePreviewStore } from '@/store/useImagePreviewStore';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
 
 const ImagePreview = () => {
   const { isPreviewOpen, setIsPreviewOpen, imageToPreview } = useImagePreviewStore();
