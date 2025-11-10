@@ -1,7 +1,6 @@
 import { AVATAR_MAX_SIZE_MB } from "@/constants/constants";
 import { uploadToCloud } from "@/lib/uploadImage";
-import { RegisterFormType, BiographyFormType, RegistrationSteps } from "@/types";
-import router from "next/router";
+import { RegisterFormType, BiographyFormType } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -78,7 +77,7 @@ export function useRegister(registerForm: any, biographyForm: any, setStep: any,
     
           toast.success('User successfully created');
           sessionStorage.clear();
-          router.push('/login');
+          location.href = 'login';
         } catch (err) {
           toast.error('Error while updating user');
           console.log(err);
