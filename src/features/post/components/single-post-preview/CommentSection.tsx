@@ -1,61 +1,29 @@
 import ErrorTooltip from '@/components/reusables/FormErrorTooltip';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea'
-import { postComment } from '@/features/post/services/post-interactions-service';
-import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { useFetchCommentsQuery } from '../../hooks/useFetchCommentsQuery';
 import { Loader2 } from 'lucide-react';
 import Loader from '@/components/screens/Loader';
 import SingleComment from './SingleComment';
-import { getSession } from 'next-auth/react';
-import { NotificationType } from '@/features/notifications/types';
-import { sendNotification } from '@/features/notifications/services/notification-service';
 import GlobalLoader from '@/components/screens/GlobalLoader';
 import { PostType } from '@/types';
+import { useHandleComments } from '../../hooks/useHandleComments';
 
-// ** This component needs to be refactored latter in production . . .
-
-interface CommentForm {
+export interface CommentForm {
     comment: string
 }
 
 const CommentSection = ({ post }: { post: PostType }) => {
-  const [isCommentSubmiting, setIsCommentSubmiting] = useState(false);
-  const { data: comments, isLoading, isError, refetch } = useFetchCommentsQuery(post.id);
-  const [isFocused, setIsFocused] = useState(false);
   const commentForm = useForm<CommentForm>();
   const { handleSubmit, formState: { errors, isSubmitting }, reset, register} = commentForm;
+  const { comments, isPending, isCommentSubmiting, handlePostComment, handleDeleteComment, setIsFocused, isFocused } = useHandleComments(post, reset);
 
-  const handlePostComment = async (data: CommentForm) => {
-    if(!data) return;
-    setIsCommentSubmiting(true);
-    const { comment } = data;
-    const session: any = await getSession();
-    const url = `/post/${post.id}#comment`;
-    try{        
-        await postComment(post.id, comment);
-        setIsFocused(false);
-        reset();
-        refetch();
-        
-        if(session.user.id !== post.authorId){
-            await sendNotification(session.user.id, session.user.name, post.authorId, url, NotificationType.COMMENT);
-        }
-    }
-    catch(err){
-        console.error("Error while commenting", err)
-    }
-    finally{
-        setIsCommentSubmiting(false);
-    }
-  }
 
   return (
     <div id='comments' className='w-full grid gap-3'>
         {isCommentSubmiting && <GlobalLoader />}
         <div className='w-full flex justify-start'>
-            <span className='text-lg font-semibold'>Comments {!isLoading && `(${comments?.data.length})`}</span>
+            <span className='text-lg font-semibold'>Comments {!isPending && `(${comments?.data.length})`}</span>
         </div>
         <hr />
         <form onSubmit={handleSubmit(handlePostComment)} className='w-full relative'>
@@ -79,10 +47,10 @@ const CommentSection = ({ post }: { post: PostType }) => {
         </form>
 
         <div className='w-full grid place-items-center gap-2 mt-5'>
-           {isLoading ? (
+           {isPending ? (
             <Loader />
-           ) : comments?.data.map((com: any) => (
-                <SingleComment comment={com} authorId={post.authorId} />
+           ) : comments?.data.map((com: Comment) => (
+                <SingleComment key={com.id} deleteComment={() => handleDeleteComment(com.id)} comment={com} authorId={post.authorId} />
             ))}
         </div>
     </div>

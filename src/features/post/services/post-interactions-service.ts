@@ -18,6 +18,15 @@ export async function postComment(postId: string, content: string){
     }
 }
 
+export async function deleteComment(commentId: string){
+    try{
+        return axios.delete(`/api/comments/${commentId}`);
+    }
+    catch(err){
+        throw new Error("Error while deleting a comment");
+    }
+}
+
 export async function fetchComments(postId: string){
     try{
         return axios.get(`/api/comments/${postId}`)

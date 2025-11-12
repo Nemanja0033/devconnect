@@ -48,7 +48,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string}})
             where: { id: params.id },
         });
 
-        return NextResponse.json({ message: "Comment Deleted Succesfully!"});
+        return NextResponse.json({ success: true }, { status: 200 });
     }
     catch(err){
         return NextResponse.json({error: err}, {status: 500});
