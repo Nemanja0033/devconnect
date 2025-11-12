@@ -123,9 +123,9 @@ export type Comment = {
     content: string,
     postId: string,
     authorId: string,
-    cretedAt: any,
-    post?: Post,
-    author?: User,
+    createdAt: any,
+    post: Post,
+    author: User,
 }
 
 export type Like = {
