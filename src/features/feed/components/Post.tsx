@@ -10,13 +10,19 @@ import { useImagePreviewStore } from '@/store/useImagePreviewStore'
 import ImagePreview from '@/features/post/components/ImagePreveiw'
 import { useAddToFavourites } from '@/features/post/hooks/useAddToFavourites'
 import { Badge } from '@/components/ui/badge'
-import { PostType } from '@/types'
+import { useEffect, useState } from 'react'
+import { MAX_POST_CHARS_VISIBILITY } from '@/constants/constants'
+import { PostProps } from '../types'
+import PostOptions from '@/features/user/components/PostOptionsMenu'
+import { useDeletePost } from '@/features/post/hooks/useDeletePost'
 
-const Post = ({ post }: { post: PostType }) => {
+const Post = ({ post, withImage = true, isMyProfile }: PostProps) => {
     const { isLiked, isLikesLoading ,likes, handleLikePost} = useLikes(post);
     const { isSaved, isSavedLoading, favourites, handleAddPostToFavourites } = useAddToFavourites(post);
+    const { handleDeletePost } = useDeletePost();
     const { transformedSlug: slug } = useSlugify(post.author.username);
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
+    const [isReadMoreOpen, setIsReadMoreOpen] = useState(false);
 
     const previewImage = () => {
         setImageToPreview(post.images[0].url);
@@ -26,31 +32,40 @@ const Post = ({ post }: { post: PostType }) => {
     return (
             <div className="md:w-[600px] w-full grid gap-2 h-auto bg-accent/50 hover:bg-accent/80 transition-all rounded-md p-3">
                 <div className="grid gap-1">
-                    <div className="flex gap-2 w-full items-center">
-                        {post.groupid ? (
+                    <div className="flex gap-2 w-full items-center justify-between">
+                       <div className='flex gap-2 items-center'>
+                         {post.groupid ? (
                             <Link
                             href={`/groups/${slugifyUsername(post.group.id)}`}
-                            className={`w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center ${getRandomTextColor(post.group.name[0])}`}
-                          >
-                            {post.group.name[0].toUpperCase()}
-                          </Link>
-                        ) : (
-                            <img className="h-8 w-8 rounded-full cursor-pointer" src={post.author.avatar as string | undefined} alt={post.author.username + ' ' + 'avatar'} />
-                        )}
-                        <Link href={`${ post.group ? `/groups/${post.group.id}` : `/profile/${slug}`}`} className="text-sm hover:underline cursor-pointer flex gap-2 text-gray-400">{post.group ? post.group.name : post.author.username} {post.group && <Badge className='text-white'>Group</Badge>}</Link>
-                        <span className='text-xs text-gray-400'>{formatDate(post.createdAt)}</span>
+                                className={`w-5 h-5 p-4 rounded-full bg-accent flex justify-center items-center ${getRandomTextColor(post.group.name[0])}`}
+                            >
+                                {post.group.name[0].toUpperCase()}
+                            </Link>
+                            ) : (
+                                <img className="h-8 w-8 rounded-full cursor-pointer" src={post.author.avatar as string | undefined} alt={post.author.username + ' ' + 'avatar'} />
+                            )}
+                            <Link href={`${ post.group ? `/groups/${post.group.id}` : `/profile/${slug}`}`} className="text-sm hover:underline cursor-pointer flex gap-2 text-gray-400">{post.group ? post.group.name : post.author.username} {post.group && <Badge className='text-white'>Group</Badge>}</Link>
+                            <span className='text-xs text-gray-400'>{formatDate(post.createdAt)}</span>
+                       </div>
+                        {isMyProfile && <PostOptions handleDelete={() => handleDeletePost(post.id)} />}
                     </div>
-                </div>
-                <div className='w-full'>
-                    <Link href={`/post/${post.id}`} className='font-bold hover:underline cursor-pointer transition-all'>{post.title}</Link>
-                    <p className="line-clamp-4">{post.content}</p>
                 </div>
 
                 <div className='w-full'>
-                    {post.images.length > 0  && (
-                        <img onClick={previewImage} className='w-full rounded-md' src={post.images[0].url} alt={post.title} />
+                    <Link href={`/post/${post.id}`} className='font-bold hover:underline cursor-pointer transition-all'>{post.title}</Link>
+                    <p className={`${!isReadMoreOpen ? 'line-clamp-4' : ''} break-words w-[550px]`}>{post.content}</p>
+                    {post.content.length >= MAX_POST_CHARS_VISIBILITY && (
+                        <button onClick={() => setIsReadMoreOpen(!isReadMoreOpen)} className='text-primary text-sm hover:underline cursor-pointer'>{!isReadMoreOpen ? "Show more" : "Show less"}</button>
                     )}
                 </div>
+
+                {withImage && (
+                    <div className='w-full'>
+                        {post.images.length > 0  && (
+                            <img onClick={previewImage} className='w-full rounded-md' src={post.images[0].url} alt={post.title} />
+                        )}
+                    </div>
+                )}
 
                 <div className='flex justify-start gap-2 items-center'>
                     {!isLikesLoading ? (
