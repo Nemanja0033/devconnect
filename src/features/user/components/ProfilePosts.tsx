@@ -4,32 +4,19 @@ import { useImagePreviewStore } from '@/store/useImagePreviewStore'
 import { GalleryHorizontalEnd, LayoutGrid } from 'lucide-react'
 import React, { useState } from 'react'
 import PostOptions from './PostOptionsMenu'
-import { deletePost } from '@/features/post/services/postService'
-import { toast } from 'sonner'
-import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
+import { useDeletePost } from '@/features/post/hooks/useDeletePost'
+import { PostType, User } from '@/types'
+import { ProfilePostsProps } from '../types'
 
-const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: boolean, posts: any, user: any, isLoading: boolean}) => {
+const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: ProfilePostsProps) => {
     const { setImageToPreview, setIsPreviewOpen } = useImagePreviewStore();
     const [postsLayout, setPostsLayout] = useState<"inline" | "grid">("inline");
-    const queryClient = useQueryClient();
+    const { isPending: isDeletingPost, handleDeletePost } = useDeletePost();
 
-    const handleDeletePost = async (id: string) => {
-        if(!id) return;
-
-        try{
-            await deletePost({ id });
-            queryClient.invalidateQueries({ queryKey: ["user"]});
-            toast.success("Post succesfully deleted");
-        }
-        catch(err){
-            toast.error("Error while deleting post");
-        }
-    }
-
-    if(isLoading){
+    if(isLoading || isDeletingPost){
         return (
-            <section className='md:w-[1000px] flex justify-center items-center h-auto mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent'>
+            <section className='md:w-[1000px] h-[438px] flex justify-center items-center mt-3 overflow-auto border-2 px-5 py-5 rounded-md shadow-md dark:bg-accent'>
                 <Loader />
             </section>
         )
@@ -57,7 +44,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                     </div>
                 </div>
                 <div className={`${postsLayout === 'inline' ? 'flex' : 'grid place-items-center gap-2'} gap-3 overflow-auto mt-3`}>
-                    {posts ? posts.map((post: any) => (
+                    {posts.map((post: any) => (
                         <div className={`${postsLayout === 'inline' ? 'min-w-[300px] max-w-[300px]' : 'w-full'} h-auto p-3 border-2 rounded-md shadow-md`}>
                             <div className={`flex justify-between w-full items-center`}>
                                 <div className='flex gap-2 items-center'>
@@ -84,11 +71,7 @@ const ProfilePosts = ({ isMyProfile, posts, user, isLoading }: { isMyProfile: bo
                                 </div>
                             ) : null}
                         </div>
-                    )) : (
-                        <div className='w-full justify-center'>
-                            {/* <p className='text-primary'>*No posts for show</p> */}
-                        </div>
-                    )}
+                    ))}
                 </div>
         </section>
   )

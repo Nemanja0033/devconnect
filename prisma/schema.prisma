@@ -100,7 +100,7 @@ model Image {
   projectId      String?
   projectDraftId String?
   projectDraft   ProjectDraft? @relation(fields: [projectDraftId], references: [id], map: "Image_ProjectDraft_fkey")
-  post           Post?       @relation(fields: [postId], references: [id], map: "Image_Post_fkey")
+  post           Post?       @relation(fields: [postId], references: [id], map: "Image_Post_fkey", onDelete: Cascade)
   project        Project?    @relation(fields: [projectId], references: [id], map: "Image_Project_fkey")
   postDraft      PostDraft?  @relation(fields: [postDraftId], references: [id], map: "Image_PostDraft_fkey")
 }
@@ -113,7 +113,7 @@ model Comment {
   postId    String
   authorId  String
   createdAt DateTime @default(now())
-  post      Post     @relation("Post-Comment-Relation",fields: [postId], references: [id])
+  post      Post     @relation("Post-Comment-Relation",fields: [postId], references: [id], onDelete: Cascade)
   author    User     @relation(fields: [authorId], references: [id])
 }
 
@@ -124,8 +124,8 @@ model Like {
   postId    String
   authorId  String
   createdAt DateTime @default(now())
-  post      Post     @relation("Post-Like-Relation", fields: [postId], references: [id])
-  author    User     @relation(fields: [authorId], references: [id])
+  post      Post     @relation("Post-Like-Relation", fields: [postId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
 }
 
@@ -182,5 +182,5 @@ model Favourite {
   postId  String
   authorId String 
   author    User  @relation("saved-post-user", fields: [authorId], references: [id])
-  savedPost Post @relation("saved-post", fields: [postId], references: [id])
+  savedPost Post @relation("saved-post", fields: [postId], references: [id], onDelete: Cascade)
 }

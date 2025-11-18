@@ -18,14 +18,23 @@ export async function GET(req: Request, { params }: { params: {username: string}
           title: true,
           posts: {
                     include: {
+                        _count: {
+                            select: {
+                                Comment: true,
+                            }
+                        },
+                        author: true,
                         images: true,
+                        Like: true,
+                        favourite: true
                     }
                 },
-         Project: {
+        Project: {
                     include: {
                         images: true
                     }
-                }
+                },
+            
         },
       });
 

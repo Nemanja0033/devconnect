@@ -50,3 +50,5 @@ export const devConnectSteps = [
 export const coverPlaceholder = 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
 
 export const avatarPlaceholdedr = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541';
+
+export const MAX_POST_CHARS_VISIBILITY = 283;
